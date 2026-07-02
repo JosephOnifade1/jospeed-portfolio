@@ -34,15 +34,12 @@ export default function StatsBar() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--surface)' }} className="stats-grid">
         {STATS.map((s, i) => (
           <div key={s.label} style={{ padding: '32px 20px', textAlign: 'center', borderLeft: i !== 0 ? '1px solid var(--border)' : 'none', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.06), transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'var(--border)' }} />
             <div style={{
               fontFamily: 'var(--display)',
               fontSize: 'clamp(30px,3.2vw,44px)',
               fontWeight: 700,
-              background: 'linear-gradient(135deg, var(--text), var(--indigo-bright))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: 'var(--text)',
               lineHeight: 1,
               marginBottom: 8,
             }}>

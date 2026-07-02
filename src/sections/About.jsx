@@ -1,5 +1,5 @@
 import { Check, MapPin, Clock, Zap } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal.js';
+import { useReveal } from '../hooks/useReveal.js';                                                                                                                                                                                                                                                                                                                     A
 import profileImg from '../assets/profile.jpg';
 
 const HIGHLIGHTS = [
@@ -49,23 +49,22 @@ export default function About() {
                 position: 'relative',
                 overflow: 'hidden',
               }}>
-                {/* Glow rings */}
-                <div style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', border: '1px solid rgba(99,102,241,0.15)', animation: 'ringPulse 3s ease-in-out infinite' }} />
-                <div style={{ position: 'absolute', width: 150, height: 150, borderRadius: '50%', border: '1px solid rgba(34,211,238,0.15)', animation: 'ringPulse 3s ease-in-out infinite 1s' }} />
+                {/* Grid pattern background instead of glow */}
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, var(--border) 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: 0.4 }} />
                 {/* Avatar circle */}
                 <div style={{
                   width: 100,
                   height: 100,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, var(--indigo), var(--cyan))',
+                  background: '#1a1b2e',
+                  border: '2px solid var(--border-strong)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontFamily: 'var(--display)',
                   fontSize: 34,
                   fontWeight: 700,
-                  color: '#fff',
-                  boxShadow: '0 0 40px rgba(99,102,241,0.5)',
+                  color: 'var(--indigo-bright)',
                   zIndex: 1,
                 }}>
                   <img
@@ -84,7 +83,7 @@ export default function About() {
               {/* Info */}
               <div style={{ padding: '22px 24px' }}>
                 <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 19, marginBottom: 4 }}>Joseph Onifade</div>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: 12.5, color: 'var(--cyan)', marginBottom: 18 }}>@buildwithjospeed</div>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 12.5, color: 'var(--cyan)', marginBottom: 18 }}>@Jospeed7</div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {BADGES.map(({ icon: Icon, label, sub }) => (
@@ -139,7 +138,7 @@ export default function About() {
               ))}
             </div>
 
-            <div style={{ padding: '20px 24px', background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(34,211,238,0.05))', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, borderLeft: '3px solid var(--indigo)' }}>
+            <div style={{ padding: '20px 24px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 12, borderLeft: '3px solid var(--indigo)' }}>
               <p style={{ fontFamily: 'var(--display)', fontSize: 17, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.5 }}>
                 "Ship clean, ship fast, never ship what you can't explain."
               </p>

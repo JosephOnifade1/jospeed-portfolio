@@ -103,8 +103,8 @@ export default function Scene3D() {
     const W = mount.clientWidth, H = mount.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100);
-    camera.position.set(0, 0, 8.5);
+    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+    camera.position.set(0, 0, 11);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(W, H);
@@ -150,14 +150,14 @@ export default function Scene3D() {
     group.add(lineGroup);
     const N = STACK.length;
     const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-    const RADIUS = 2.62;
+    const RADIUS = 2.2;
 
     STACK.forEach((item, i) => {
-      const yFrac = 1 - (i / (N - 1)) * 1.3 + 0.15;
+      const yFrac = 1 - (i / (N - 1)) * 1.6 + 0.3;
       const rAtY = Math.sqrt(Math.max(0, 1 - yFrac * yFrac));
       const theta = goldenAngle * i;
       const x = Math.cos(theta) * rAtY * RADIUS;
-      const y = yFrac * RADIUS * 0.78;
+      const y = yFrac * RADIUS * 0.6;
       const z = Math.sin(theta) * rAtY * RADIUS;
 
       const tex = makePanelTexture(item.label, item.color);

@@ -102,7 +102,7 @@ function SkillBar({ name, level, inView, delay, color }) {
         <div style={{
           height: '100%',
           width: inView ? `${level}%` : 0,
-          background: `linear-gradient(90deg, ${color || 'var(--indigo)'}, var(--cyan))`,
+          background: color || 'var(--indigo)',
           borderRadius: 4,
           transition: `width 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
         }} />

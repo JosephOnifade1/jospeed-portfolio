@@ -3,13 +3,11 @@ import { ArrowUpRight, ExternalLink } from 'lucide-react';
 import { GithubIcon } from '../components/BrandIcons.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { PROJECTS, FILTERS } from '../data/projects.js';
-import { useNavigate } from 'react-router-dom';
+
 
 function ProjectCard({ p, i }) {
   const [hover, setHover] = useState(false);
   const [ref, inView] = useReveal(0.08);
-  const navigate = useNavigate();
-
   return (
     <div
       ref={ref}
@@ -35,7 +33,7 @@ function ProjectCard({ p, i }) {
         {/* Gradient preview band */}
         <div style={{
           height: 140,
-          background: p.gradient || 'linear-gradient(135deg, var(--indigo), var(--cyan))',
+          background: p.gradient || 'linear-gradient(160deg, #1a1b2e 0%, #11121c 100%)',
           position: 'relative',
           overflow: 'hidden',
           display: 'flex',
@@ -100,7 +98,7 @@ function ProjectCard({ p, i }) {
 
           <div style={{ display: 'flex', gap: 10, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
             <button
-              onClick={() => navigate(`/case-study/${p.id}`)}
+              onClick={() => window.location.href = `/case-study/${p.id}`}
               style={{
                 flex: 1,
                 padding: '9px 0',
