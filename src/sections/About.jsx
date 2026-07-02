@@ -1,5 +1,6 @@
 import { Check, MapPin, Clock, Zap } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal.js';
+import profileImg from '../assets/profile.jpg';
 
 const HIGHLIGHTS = [
   'Async-first — no calls, full clarity over text & Loom',
@@ -67,7 +68,16 @@ export default function About() {
                   boxShadow: '0 0 40px rgba(99,102,241,0.5)',
                   zIndex: 1,
                 }}>
-                  JO
+                  <img
+                    src={profileImg}
+                    alt="Profile"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                    }}
+                  />
                 </div>
               </div>
 
