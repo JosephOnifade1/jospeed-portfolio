@@ -1,5 +1,5 @@
 import { Check, MapPin, Clock, Zap } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal.js';                                                                                                                                                                                                                                                                                                                     A
+import { useReveal } from '../hooks/useReveal.js';
 import profileImg from '../assets/profile.jpg';
 
 const HIGHLIGHTS = [
