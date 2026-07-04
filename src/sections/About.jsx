@@ -1,6 +1,5 @@
 import { Check, MapPin, Clock, Zap } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal.js';
-import profileImg from '../assets/profile.jpg';
 
 const HIGHLIGHTS = [
   'Async-first — no calls, full clarity over text & Loom',
@@ -51,32 +50,27 @@ export default function About() {
               }}>
                 {/* Grid pattern background instead of glow */}
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, var(--border) 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: 0.4 }} />
-                {/* Avatar circle */}
-                <div style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: '50%',
-                  background: '#1a1b2e',
-                  border: '2px solid var(--border-strong)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'var(--display)',
-                  fontSize: 34,
-                  fontWeight: 700,
-                  color: 'var(--indigo-bright)',
-                  zIndex: 1,
-                }}>
+                {/* Avatar circle — swap /profile.jpg with your real photo */}
+                <div style={{ position: 'relative', zIndex: 1 }}>
                   <img
-                    src={profileImg}
-                    alt="Profile"
+                    src="/profile.jpg"
+                    alt="Joseph Onifade"
+                    onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '50%',
+                      width: 110, height: 110, borderRadius: '50%',
+                      objectFit: 'cover', objectPosition: 'center top',
+                      border: '2px solid var(--border-strong)',
+                      display: 'block',
                     }}
                   />
+                  {/* Fallback shown if image missing */}
+                  <div style={{
+                    width: 110, height: 110, borderRadius: '50%',
+                    background: '#1a1b2e', border: '2px solid var(--border-strong)',
+                    display: 'none', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--display)', fontSize: 34, fontWeight: 700,
+                    color: 'var(--indigo-bright)',
+                  }}>JO</div>
                 </div>
               </div>
 
