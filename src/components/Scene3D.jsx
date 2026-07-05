@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 const STACK = [
-  { label: 'React',      color: '#22d3ee', glow: '#22d3ee' },
-  { label: 'TypeScript', color: '#818cf8', glow: '#6366f1' },
-  { label: 'Supabase',   color: '#3b82f6', glow: '#3b82f6' },
-  { label: 'Node.js',    color: '#4ade80', glow: '#4ade80' },
-  { label: 'n8n',        color: '#fb923c', glow: '#fb923c' },
-  { label: 'AI Agents',  color: '#a3e635', glow: '#a3e635' },
-  { label: 'Voiceflow',  color: '#818cf8', glow: '#6366f1' },
-  { label: 'Blender',    color: '#22d3ee', glow: '#22d3ee' },
+  { label: 'React',      color: '#c9922a', glow: '#c9922a' },
+  { label: 'TypeScript', color: '#f0e8d5', glow: '#f0e8d5' },
+  { label: 'Supabase',   color: '#c0392b', glow: '#c0392b' },
+  { label: 'Node.js',    color: '#c9922a', glow: '#c9922a' },
+  { label: 'n8n',        color: '#f0e8d5', glow: '#f0e8d5' },
+  { label: 'AI Agents',  color: '#c0392b', glow: '#c0392b' },
+  { label: 'Voiceflow',  color: '#c9922a', glow: '#c9922a' },
+  { label: 'Blender',    color: '#f0e8d5', glow: '#f0e8d5' },
 ];
 
 // Manual positions — evenly distributed on a sphere, no clustering
@@ -127,19 +127,19 @@ export default function Scene3D() {
     // Core: nested icosahedra
     const core1 = new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.72, 1),
-      new THREE.MeshBasicMaterial({ color: 0x6366f1, wireframe: true, transparent: true, opacity: 0.9 })
+      new THREE.MeshBasicMaterial({ color: 0x8b1a1a, wireframe: true, transparent: true, opacity: 0.9 })
     );
     group.add(core1);
 
     const core2 = new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.48, 1),
-      new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.6 })
+      new THREE.MeshBasicMaterial({ color: 0xc9922a, wireframe: true, transparent: true, opacity: 0.6 })
     );
     group.add(core2);
 
     const glowSphere = new THREE.Mesh(
       new THREE.SphereGeometry(0.55, 32, 32),
-      new THREE.MeshBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.08 })
+      new THREE.MeshBasicMaterial({ color: 0x8b1a1a, transparent: true, opacity: 0.08 })
     );
     group.add(glowSphere);
 
@@ -153,9 +153,9 @@ export default function Scene3D() {
       group.add(mesh);
       return mesh;
     };
-    const ring1 = makeRing(3.0, 0x6366f1, 0.3,  Math.PI/2.2, 0);
-    const ring2 = makeRing(3.0, 0x22d3ee, 0.2,  Math.PI/1.55, Math.PI/5);
-    const ring3 = makeRing(2.2, 0x818cf8, 0.15, Math.PI/3,    Math.PI/3);
+    const ring1 = makeRing(3.0, 0x8b1a1a, 0.3,  Math.PI/2.2, 0);
+    const ring2 = makeRing(3.0, 0xc9922a, 0.2,  Math.PI/1.55, Math.PI/5);
+    const ring3 = makeRing(2.2, 0xc0392b, 0.15, Math.PI/3,    Math.PI/3);
 
     // Tech panels — manually positioned so nothing clusters at t=0
     const panels = [];
@@ -218,7 +218,7 @@ export default function Scene3D() {
     const PC = 300;
     const pPos    = new Float32Array(PC * 3);
     const pColors = new Float32Array(PC * 3);
-    const palette = [[0.388,0.400,0.945],[0.133,0.827,0.933],[0.639,0.549,0.984]];
+    const palette = [[0.545,0.102,0.102],[0.788,0.573,0.165],[0.941,0.910,0.835]];
     for (let i = 0; i < PC; i++) {
       pPos[i*3]   = (Math.random()-.5)*18;
       pPos[i*3+1] = (Math.random()-.5)*18;
