@@ -14,11 +14,11 @@ function ProjectCard({ p, i }) {
       style={{ transitionDelay: `${(i % 6) * 0.08}s` }}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <div style={{
-        background: 'var(--surface)',
-        border: `1px solid ${hover ? 'rgba(99,102,241,0.45)' : 'var(--border)'}`,
+        background: '#fff',
+        border: `1px solid ${hover ? 'rgba(77,38,34,0.4)' : 'rgba(77,38,34,0.15)'}`,
         borderRadius: 16, overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column',
         transform: hover ? 'translateY(-6px)' : 'translateY(0)',
-        boxShadow: hover ? '0 20px 48px -16px rgba(99,102,241,0.25)' : 'none',
+        boxShadow: hover ? '0 16px 40px -12px rgba(77,38,34,0.2)' : 'none',
         transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease, border-color 0.35s ease',
       }}>
         <div style={{
@@ -39,9 +39,9 @@ function ProjectCard({ p, i }) {
           <div style={{ display: 'flex', gap: 8, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
             <button onClick={() => window.location.href = `/case-study/${p.id}`} style={{
               flex: 1, padding: '8px 0', borderRadius: 7,
-              background: hover ? 'var(--indigo)' : 'rgba(99,102,241,0.1)',
-              border: '1px solid rgba(99,102,241,0.25)',
-              color: hover ? '#fff' : 'var(--indigo-bright)',
+              background: hover ? '#4D2622' : 'rgba(77,38,34,0.08)',
+              border: '1px solid rgba(77,38,34,0.2)',
+              color: hover ? '#fff' : '#4D2622',
               fontSize: 12.5, fontWeight: 600,
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
               transition: 'background 0.22s, color 0.22s', cursor: 'pointer',
@@ -83,7 +83,7 @@ export default function Projects() {
             </h2>
 
             {/* View toggle */}
-            <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: 4, gap: 4 }}>
+            <div style={{ display: 'flex', background: '#fff', border: '1px solid var(--border)', borderRadius: 10, padding: 4, gap: 4 }}>
               {[
                 { key: '3d', Icon: Layers, label: '3D View' },
                 { key: 'grid', Icon: LayoutGrid, label: 'Grid' },
@@ -124,9 +124,9 @@ export default function Projects() {
               {FILTERS.map(f => (
                 <button key={f} onClick={() => setFilter(f)} style={{
                   padding: '7px 15px', borderRadius: 999, fontSize: 12.5, fontWeight: 600,
-                  border: `1px solid ${filter === f ? 'transparent' : 'var(--border-strong)'}`,
-                  background: filter === f ? 'var(--indigo)' : 'transparent',
-                  color: filter === f ? '#fff' : 'var(--text-dim)',
+                  border: `1px solid ${filter === f ? 'transparent' : 'rgba(77,38,34,0.25)'}`,
+                  background: filter === f ? '#4D2622' : 'transparent',
+                  color: filter === f ? '#F2ECD1' : 'rgba(77,38,34,0.6)',
                   transition: 'all 0.22s ease', cursor: 'pointer',
                 }}>{f}</button>
               ))}

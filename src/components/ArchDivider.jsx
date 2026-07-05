@@ -1,39 +1,45 @@
-// Arch divider between sections
-// direction: 'down' = arch curves down (dark → light)
-//            'up'   = arch curves up   (light → dark)
-// fromColor / toColor: CSS color values
+// Matches the reference site exactly:
+// The CREAM section pushes a large dome UP into the DARK section
+// "fromColor" is the section above, "toColor" is the section below
+// type "dome-up"   — cream dome rises from cream into dark above it
+// type "dome-down" — dark dome falls from dark into cream below it
 
-export default function ArchDivider({
-  fromColor = 'var(--bg)',
-  toColor   = 'var(--surface)',
-  direction = 'down',
-  height    = 80,
-}) {
-  const id = `arch-${direction}-${Math.random().toString(36).slice(2,6)}`;
-
-  if (direction === 'down') {
-    // Bottom of prev section curves down, next section starts below
+export default function ArchDivider({ type = 'dome-up', height = 120 }) {
+  // dome-up: we're transitioning from DARK (above) to CREAM (below)
+  // The cream section starts with a big dome that eats into the dark
+  if (type === 'dome-up') {
     return (
-      <div style={{ background: fromColor, marginBottom: -1, lineHeight: 0 }}>
-        <svg viewBox="0 0 1440 80" preserveAspectRatio="none"
-          style={{ display: 'block', width: '100%', height }}>
+      <div style={{ background: '#4D2622', lineHeight: 0, display: 'block', marginBottom: -1 }}>
+        <svg
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          style={{ display: 'block', width: '100%', height }}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Cream dome rising UP into the dark section */}
           <path
-            d="M0,0 L1440,0 L1440,20 Q720,80 0,20 Z"
-            fill={toColor}
+            d="M0,120 L0,80 Q360,0 720,0 Q1080,0 1440,80 L1440,120 Z"
+            fill="#F2ECD1"
           />
         </svg>
       </div>
     );
   }
 
-  // direction === 'up'
+  // dome-down: we're transitioning from CREAM (above) to DARK (below)
+  // The dark section starts with a dome that eats into the cream
   return (
-    <div style={{ background: toColor, marginTop: -1, lineHeight: 0 }}>
-      <svg viewBox="0 0 1440 80" preserveAspectRatio="none"
-        style={{ display: 'block', width: '100%', height }}>
+    <div style={{ background: '#F2ECD1', lineHeight: 0, display: 'block', marginBottom: -1 }}>
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        style={{ display: 'block', width: '100%', height }}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Dark dome rising UP into the cream section */}
         <path
-          d="M0,80 L1440,80 L1440,60 Q720,0 0,60 Z"
-          fill={fromColor}
+          d="M0,120 L0,80 Q360,0 720,0 Q1080,0 1440,80 L1440,120 Z"
+          fill="#4D2622"
         />
       </svg>
     </div>

@@ -23,10 +23,10 @@ export default function Contact() {
   const inputStyle = {
     width: '100%',
     padding: '13px 16px',
-    background: 'var(--surface-2)',
-    border: '1px solid var(--border)',
+    background: '#fff',
+    border: '1px solid rgba(77,38,34,0.15)',
     borderRadius: 8,
-    color: 'var(--text)',
+    color: '#4D2622',
     fontSize: 14.5,
     fontFamily: 'var(--body)',
     outline: 'none',
@@ -50,7 +50,7 @@ export default function Contact() {
               <input style={inputStyle} placeholder="Your name" required onFocus={(e) => (e.target.style.borderColor = 'var(--indigo)')} onBlur={(e) => (e.target.style.borderColor = 'var(--border)')} />
               <input style={inputStyle} type="email" placeholder="Your email" required onFocus={(e) => (e.target.style.borderColor = 'var(--indigo)')} onBlur={(e) => (e.target.style.borderColor = 'var(--border)')} />
             </div>
-            <select style={{ ...inputStyle, color: 'var(--text-dim)' }} onFocus={(e) => (e.target.style.borderColor = 'var(--indigo)')} onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}>
+            <select style={{ ...inputStyle, color: 'rgba(77,38,34,0.6)' }} onFocus={(e) => (e.target.style.borderColor = 'var(--indigo)')} onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}>
               <option>Budget: under $500</option>
               <option>Budget: $500 – $1,500</option>
               <option>Budget: $1,500+</option>
@@ -63,21 +63,21 @@ export default function Contact() {
 
           <div>
             <div style={{ marginBottom: 28 }}>
-              <p style={{ fontSize: 13, color: 'var(--text-faint)', marginBottom: 6, fontFamily: 'var(--mono)' }}>EMAIL</p>
-              <a href="mailto:hello@jospeed.dev" style={{ fontSize: 17, color: 'var(--cyan)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <p style={{ fontSize: 13, color: 'rgba(77,38,34,0.4)', marginBottom: 6, fontFamily: 'var(--mono)' }}>EMAIL</p>
+              <a href="mailto:hello@jospeed.dev" style={{ fontSize: 17, color: '#4D2622', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Mail size={16} /> hello@jospeed.dev
               </a>
             </div>
             <div style={{ marginBottom: 28 }}>
-              <p style={{ fontSize: 13, color: 'var(--text-faint)', marginBottom: 6, fontFamily: 'var(--mono)' }}>RESPONSE TIME</p>
-              <p style={{ fontSize: 15, color: 'var(--text-dim)' }}>Usually replies within 2 hours</p>
+              <p style={{ fontSize: 13, color: 'rgba(77,38,34,0.4)', marginBottom: 6, fontFamily: 'var(--mono)' }}>RESPONSE TIME</p>
+              <p style={{ fontSize: 15, color: 'rgba(77,38,34,0.6)' }}>Usually replies within 2 hours</p>
             </div>
             <div>
-              <p style={{ fontSize: 13, color: 'var(--text-faint)', marginBottom: 10, fontFamily: 'var(--mono)' }}>ELSEWHERE</p>
+              <p style={{ fontSize: 13, color: 'rgba(77,38,34,0.4)', marginBottom: 10, fontFamily: 'var(--mono)' }}>ELSEWHERE</p>
               <div style={{ display: 'flex', gap: 18 }}>
                 {SOCIALS.map(({ Icon, href }, i) => (
                   <a key={i} href={href} target="_blank" rel="noreferrer"
-                    style={{ color: 'var(--text-dim)', transition: 'color 0.2s ease' }}
+                    style={{ color: 'rgba(77,38,34,0.6)', transition: 'color 0.2s ease' }}
                     onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
                     onMouseLeave={e => e.currentTarget.style.color = 'var(--text-dim)'}>
                     <Icon size={20} color="currentColor" />
@@ -91,10 +91,10 @@ export default function Contact() {
 
       <footer style={{ borderTop: '1px solid var(--border)', marginTop: 100, padding: '28px 0' }}>
         <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <span style={{ fontSize: 13.5, color: 'var(--text-faint)' }}>© 2026 Jospeed · Built with React & Three.js</span>
+          <span style={{ fontSize: 13.5, color: 'rgba(77,38,34,0.4)' }}>© 2026 Jospeed · Built with React & Three.js</span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['About', 'Projects', 'Skills', 'Contact'].map((l) => (
-              <a key={l} href={`#${l.toLowerCase()}`} style={{ fontSize: 13.5, color: 'var(--text-faint)' }}>{l}</a>
+              <a key={l} href={`#${l.toLowerCase()}`} style={{ fontSize: 13.5, color: 'rgba(77,38,34,0.4)' }}>{l}</a>
             ))}
           </div>
         </div>

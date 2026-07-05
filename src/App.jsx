@@ -10,75 +10,78 @@ import Skills from './sections/Skills.jsx';
 import Services from './sections/Services.jsx';
 import Testimonials from './sections/Testimonials.jsx';
 
+// Pattern from reference site:
+// Dark section → cream dome arches UP → cream section → dark dome arches UP → dark section → repeat
+
 export default function App() {
   return (
     <>
-      {/* Grain texture overlay */}
       <div className="grain" />
       <CustomCursor />
       <Navbar />
-
       <main>
-        {/* Hero — dark bg */}
-        <div style={{ background: 'var(--bg)' }}>
+
+        {/* ── DARK: Hero ── */}
+        <div style={{ background: '#4D2622' }}>
           <Hero />
         </div>
 
-        {/* Dark → dark-surface arch */}
-        <ArchDivider fromColor="var(--bg)" toColor="var(--surface)" direction="down" height={72} />
+        {/* Dark → Cream: cream dome rises up into dark */}
+        <ArchDivider type="dome-up" height={130} />
 
-        {/* Stats — surface */}
-        <div style={{ background: 'var(--surface)', paddingBottom: 0 }}>
+        {/* ── CREAM: Stats ── */}
+        <div style={{ background: '#F2ECD1' }} className="on-cream">
           <StatsBar />
         </div>
 
-        {/* Surface → bg arch */}
-        <ArchDivider fromColor="var(--surface)" toColor="var(--bg)" direction="up" height={72} />
+        {/* Cream → Dark: dark dome rises up into cream */}
+        <ArchDivider type="dome-down" height={130} />
 
-        {/* About — dark */}
-        <div style={{ background: 'var(--bg)' }}>
+        {/* ── DARK: About ── */}
+        <div style={{ background: '#4D2622' }}>
           <About />
         </div>
 
-        {/* Dark → surface-2 arch */}
-        <ArchDivider fromColor="var(--bg)" toColor="var(--surface-2)" direction="down" height={72} />
+        {/* Dark → Cream */}
+        <ArchDivider type="dome-up" height={130} />
 
-        {/* Projects — surface-2 */}
-        <div style={{ background: 'var(--surface-2)' }}>
+        {/* ── CREAM: Projects ── */}
+        <div style={{ background: '#F2ECD1' }} className="on-cream">
           <Projects />
         </div>
 
-        {/* Surface-2 → bg arch */}
-        <ArchDivider fromColor="var(--surface-2)" toColor="var(--bg)" direction="up" height={72} />
+        {/* Cream → Dark */}
+        <ArchDivider type="dome-down" height={130} />
 
-        {/* Skills — dark */}
-        <div style={{ background: 'var(--bg)' }}>
+        {/* ── DARK: Skills ── */}
+        <div style={{ background: '#4D2622' }}>
           <Skills />
         </div>
 
-        {/* Dark → surface arch */}
-        <ArchDivider fromColor="var(--bg)" toColor="var(--surface)" direction="down" height={72} />
+        {/* Dark → Cream */}
+        <ArchDivider type="dome-up" height={130} />
 
-        {/* Services — surface */}
-        <div style={{ background: 'var(--surface)' }}>
+        {/* ── CREAM: Services ── */}
+        <div style={{ background: '#F2ECD1' }} className="on-cream">
           <Services />
         </div>
 
-        {/* Surface → bg arch */}
-        <ArchDivider fromColor="var(--surface)" toColor="var(--bg)" direction="up" height={72} />
+        {/* Cream → Dark */}
+        <ArchDivider type="dome-down" height={130} />
 
-        {/* Testimonials — dark */}
-        <div style={{ background: 'var(--bg)' }}>
+        {/* ── DARK: Testimonials ── */}
+        <div style={{ background: '#4D2622' }}>
           <Testimonials />
         </div>
 
-        {/* Dark → surface-2 arch */}
-        <ArchDivider fromColor="var(--bg)" toColor="var(--surface-2)" direction="down" height={72} />
+        {/* Dark → Cream */}
+        <ArchDivider type="dome-up" height={130} />
 
-        {/* Contact — surface-2 */}
-        <div style={{ background: 'var(--surface-2)' }}>
+        {/* ── CREAM: Contact ── */}
+        <div style={{ background: '#F2ECD1' }} className="on-cream">
           <Contact />
         </div>
+
       </main>
     </>
   );
