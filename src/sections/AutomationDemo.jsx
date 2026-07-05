@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReveal } from '../hooks/useReveal.js';
-import { Play, CheckCircle, Loader, ArrowRight, Zap } from 'lucide-react';
+import {
+  Play, CheckCircle, Loader, ArrowRight, Zap,
+  Phone, MessageSquare, Bot, ClipboardList, Calendar,
+  ShoppingCart, Mail, Tag, BarChart2, Home, Users,
+  FileSignature, FolderOpen, Target, Receipt,
+  TrendingDown, Gift, Activity,
+} from 'lucide-react';
 
 const BUSINESS_TYPES = [
   { label: 'Dental Clinic', value: 'dental' },
@@ -14,12 +20,12 @@ const AUTOMATION_FLOWS = {
   dental: {
     title: 'Missed-Call Recovery System',
     steps: [
-      { icon: '📞', label: 'Missed call detected', detail: 'Twilio webhook fires in real-time', delay: 0 },
-      { icon: '⚡', label: 'n8n workflow triggers', detail: 'Decision node checks business hours', delay: 700 },
-      { icon: '💬', label: 'SMS sent in 60 seconds', detail: '"Hi, we missed your call! How can we help?"', delay: 1400 },
-      { icon: '🤖', label: 'AI qualifies the patient', detail: 'Detects urgency: emergency vs routine', delay: 2100 },
-      { icon: '📋', label: 'Lead logged to CRM', detail: 'GoHighLevel pipeline updated automatically', delay: 2800 },
-      { icon: '📅', label: 'Appointment link sent', detail: 'Calendly link delivered if patient is ready', delay: 3500 },
+      { icon: Phone,         label: 'Missed call detected',    detail: 'Twilio webhook fires in real-time',                         delay: 0 },
+      { icon: Zap,           label: 'n8n workflow triggers',   detail: 'Decision node checks business hours',                       delay: 700 },
+      { icon: MessageSquare, label: 'SMS sent in 60 seconds',  detail: '"Hi, we missed your call! How can we help?"',               delay: 1400 },
+      { icon: Bot,           label: 'AI qualifies the patient',detail: 'Detects urgency: emergency vs routine',                     delay: 2100 },
+      { icon: ClipboardList, label: 'Lead logged to CRM',      detail: 'GoHighLevel pipeline updated automatically',                delay: 2800 },
+      { icon: Calendar,      label: 'Appointment link sent',   detail: 'Calendly link delivered if patient is ready',               delay: 3500 },
     ],
     outcome: '~32% of missed calls recovered as booked appointments',
     tools: ['n8n', 'Twilio', 'GoHighLevel', 'Calendly'],
@@ -27,12 +33,12 @@ const AUTOMATION_FLOWS = {
   ecommerce: {
     title: 'Abandoned Cart Recovery Pipeline',
     steps: [
-      { icon: '🛒', label: 'Cart abandoned detected', detail: 'Shopify webhook triggers after 30 min', delay: 0 },
-      { icon: '⚡', label: 'n8n flow activates', detail: 'Customer data pulled from Shopify', delay: 700 },
-      { icon: '📧', label: 'Recovery email #1 sent', detail: '"You left something behind..." — 1hr later', delay: 1400 },
-      { icon: '🤖', label: 'AI personalizes copy', detail: 'Product-specific message using Groq API', delay: 2100 },
-      { icon: '💸', label: 'Discount code triggered', detail: '10% code if no purchase after 24hrs', delay: 2800 },
-      { icon: '📊', label: 'Revenue logged to sheet', detail: 'Recovery rate tracked in Google Sheets', delay: 3500 },
+      { icon: ShoppingCart,  label: 'Cart abandoned detected', detail: 'Shopify webhook triggers after 30 min',                     delay: 0 },
+      { icon: Zap,           label: 'n8n flow activates',      detail: 'Customer data pulled from Shopify',                        delay: 700 },
+      { icon: Mail,          label: 'Recovery email #1 sent',  detail: '"You left something behind..." — 1hr later',               delay: 1400 },
+      { icon: Bot,           label: 'AI personalizes copy',    detail: 'Product-specific message using Groq API',                  delay: 2100 },
+      { icon: Tag,           label: 'Discount code triggered', detail: '10% code if no purchase after 24hrs',                      delay: 2800 },
+      { icon: BarChart2,     label: 'Revenue logged to sheet', detail: 'Recovery rate tracked in Google Sheets',                   delay: 3500 },
     ],
     outcome: '~18% average cart recovery rate on automated sequences',
     tools: ['n8n', 'Shopify', 'Groq', 'Gmail', 'Google Sheets'],
@@ -40,12 +46,12 @@ const AUTOMATION_FLOWS = {
   realestate: {
     title: 'Lead Nurturing Automation',
     steps: [
-      { icon: '🏠', label: 'New lead form submitted', detail: 'Website form captured via webhook', delay: 0 },
-      { icon: '⚡', label: 'n8n scores the lead', detail: 'Budget + timeline signals assessed', delay: 700 },
-      { icon: '💬', label: 'WhatsApp message sent', detail: '"Thanks for reaching out! Here\'s what matches..."', delay: 1400 },
-      { icon: '🤖', label: 'AI matches properties', detail: 'Claude API filters listings by preference', delay: 2100 },
-      { icon: '📅', label: 'Viewing auto-scheduled', detail: 'Calendly link with agent pre-assigned', delay: 2800 },
-      { icon: '📋', label: 'CRM pipeline updated', detail: 'Lead stage moved to "Viewing Booked"', delay: 3500 },
+      { icon: Home,          label: 'New lead form submitted', detail: 'Website form captured via webhook',                        delay: 0 },
+      { icon: Zap,           label: 'n8n scores the lead',     detail: 'Budget + timeline signals assessed',                      delay: 700 },
+      { icon: MessageSquare, label: 'WhatsApp message sent',   detail: '"Thanks for reaching out! Here\'s what matches..."',      delay: 1400 },
+      { icon: Bot,           label: 'AI matches properties',   detail: 'Claude API filters listings by preference',               delay: 2100 },
+      { icon: Calendar,      label: 'Viewing auto-scheduled',  detail: 'Calendly link with agent pre-assigned',                   delay: 2800 },
+      { icon: ClipboardList, label: 'CRM pipeline updated',    detail: 'Lead stage moved to "Viewing Booked"',                   delay: 3500 },
     ],
     outcome: '3x faster response time vs manual follow-up',
     tools: ['n8n', 'WhatsApp API', 'Claude API', 'Calendly', 'HubSpot'],
@@ -53,12 +59,12 @@ const AUTOMATION_FLOWS = {
   agency: {
     title: 'Client Onboarding Automation',
     steps: [
-      { icon: '🤝', label: 'Contract signed', detail: 'DocuSign webhook fires on completion', delay: 0 },
-      { icon: '⚡', label: 'n8n onboarding starts', detail: 'Client data extracted from contract', delay: 700 },
-      { icon: '📁', label: 'Workspace auto-created', detail: 'Notion + Slack channel + Drive folder', delay: 1400 },
-      { icon: '📧', label: 'Welcome sequence sent', detail: '5-email drip over 7 days via Gmail', delay: 2100 },
-      { icon: '🎯', label: 'Kickoff call scheduled', detail: 'Calendly invite with briefing doc attached', delay: 2800 },
-      { icon: '✅', label: 'Invoice generated', detail: 'Stripe payment link + receipt auto-sent', delay: 3500 },
+      { icon: FileSignature, label: 'Contract signed',         detail: 'DocuSign webhook fires on completion',                    delay: 0 },
+      { icon: Zap,           label: 'n8n onboarding starts',   detail: 'Client data extracted from contract',                    delay: 700 },
+      { icon: FolderOpen,    label: 'Workspace auto-created',  detail: 'Notion + Slack channel + Drive folder',                  delay: 1400 },
+      { icon: Mail,          label: 'Welcome sequence sent',   detail: '5-email drip over 7 days via Gmail',                     delay: 2100 },
+      { icon: Target,        label: 'Kickoff call scheduled',  detail: 'Calendly invite with briefing doc attached',             delay: 2800 },
+      { icon: Receipt,       label: 'Invoice generated',       detail: 'Stripe payment link + receipt auto-sent',                delay: 3500 },
     ],
     outcome: 'Saves 4+ hours per client onboarding. Zero manual steps.',
     tools: ['n8n', 'Notion', 'Slack', 'Stripe', 'Gmail'],
@@ -66,12 +72,12 @@ const AUTOMATION_FLOWS = {
   saas: {
     title: 'Churn Prevention Workflow',
     steps: [
-      { icon: '📉', label: 'Usage drop detected', detail: 'User inactive for 7 days — Supabase trigger', delay: 0 },
-      { icon: '⚡', label: 'n8n risk assessment', detail: 'Plan type + feature adoption scored', delay: 700 },
-      { icon: '🤖', label: 'AI drafts re-engagement', detail: 'Personalized email based on unused features', delay: 1400 },
-      { icon: '📧', label: 'Re-engagement email sent', detail: '"Here\'s what you haven\'t tried yet..."', delay: 2100 },
-      { icon: '💬', label: 'In-app nudge triggered', detail: 'Intercom message on next login', delay: 2800 },
-      { icon: '🎁', label: 'Loyalty offer sent', detail: '30% off if still inactive after 14 days', delay: 3500 },
+      { icon: TrendingDown,  label: 'Usage drop detected',     detail: 'User inactive for 7 days — Supabase trigger',            delay: 0 },
+      { icon: Zap,           label: 'n8n risk assessment',     detail: 'Plan type + feature adoption scored',                    delay: 700 },
+      { icon: Bot,           label: 'AI drafts re-engagement', detail: 'Personalized email based on unused features',            delay: 1400 },
+      { icon: Mail,          label: 'Re-engagement email sent',detail: '"Here\'s what you haven\'t tried yet..."',               delay: 2100 },
+      { icon: Activity,      label: 'In-app nudge triggered',  detail: 'Intercom message on next login',                        delay: 2800 },
+      { icon: Gift,          label: 'Loyalty offer sent',      detail: '30% off if still inactive after 14 days',               delay: 3500 },
     ],
     outcome: '~22% of at-risk users reactivated before churning',
     tools: ['n8n', 'Supabase', 'Groq', 'Intercom', 'SendGrid'],
@@ -212,7 +218,10 @@ export default function AutomationDemo() {
                       boxShadow: isCurrent ? '0 0 16px rgba(99,102,241,0.5)' : 'none',
                       zIndex: 1,
                     }}>
-                      {isActive && activeStep > i ? <CheckCircle size={16} color="var(--signal)" /> : step.icon}
+                      {isActive && activeStep > i
+                        ? <CheckCircle size={16} color="var(--signal)" />
+                        : (() => { const Icon = step.icon; return <Icon size={16} color={isActive ? 'var(--cyan)' : 'var(--text-faint)'} />; })()
+                      }
                     </div>
 
                     <div style={{ paddingBottom: 28, opacity: isActive ? 1 : 0.35, transition: 'opacity 0.4s ease' }}>

@@ -3,11 +3,26 @@ import * as THREE from 'three';
 
 const STACK = [
   { label: 'React',      color: '#22d3ee', glow: '#22d3ee' },
-  { label: 'Supabase',   color: '#818cf8', glow: '#6366f1' },
-  { label: 'n8n',        color: '#22d3ee', glow: '#22d3ee' },
   { label: 'TypeScript', color: '#818cf8', glow: '#6366f1' },
-  { label: 'Node.js',    color: '#a3e635', glow: '#a3e635' },
+  { label: 'Supabase',   color: '#3b82f6', glow: '#3b82f6' },
+  { label: 'Node.js',    color: '#4ade80', glow: '#4ade80' },
+  { label: 'n8n',        color: '#fb923c', glow: '#fb923c' },
   { label: 'AI Agents',  color: '#a3e635', glow: '#a3e635' },
+  { label: 'Voiceflow',  color: '#818cf8', glow: '#6366f1' },
+  { label: 'Blender',    color: '#22d3ee', glow: '#22d3ee' },
+];
+
+// Manual positions — evenly distributed on a sphere, no clustering
+// Each point is hand-placed so nothing overlaps at t=0
+const POSITIONS = [
+  { x:  2.0,  y:  1.1,  z:  0.4 },
+  { x: -2.1,  y:  0.9,  z: -0.3 },
+  { x:  0.5,  y:  1.8,  z: -1.6 },
+  { x: -0.4,  y: -1.8,  z:  1.5 },
+  { x:  1.8,  y: -1.0,  z: -1.2 },
+  { x: -1.7,  y: -1.1,  z:  1.1 },
+  { x:  0.3,  y:  0.8,  z:  2.2 },
+  { x: -0.2,  y: -0.7,  z: -2.3 },
 ];
 
 function makePanelTexture(label, color) {
@@ -142,21 +157,13 @@ export default function Scene3D() {
     const ring2 = makeRing(3.0, 0x22d3ee, 0.2,  Math.PI/1.55, Math.PI/5);
     const ring3 = makeRing(2.2, 0x818cf8, 0.15, Math.PI/3,    Math.PI/3);
 
-    // Tech panels
+    // Tech panels — manually positioned so nothing clusters at t=0
     const panels = [];
     const lineGroup = new THREE.Group();
     group.add(lineGroup);
-    const N = STACK.length;
-    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-    const RADIUS = 2.2;
 
     STACK.forEach((item, i) => {
-      const yFrac = 1 - (i / (N - 1)) * 1.6 + 0.3;
-      const rAtY  = Math.sqrt(Math.max(0, 1 - yFrac * yFrac));
-      const theta  = goldenAngle * i;
-      const x = Math.cos(theta) * rAtY * RADIUS;
-      const y = yFrac * RADIUS * 0.6;
-      const z = Math.sin(theta) * rAtY * RADIUS;
+      const { x, y, z } = POSITIONS[i];
 
       const tex    = makePanelTexture(item.label, item.color);
       const aspect = 260 / 80;
