@@ -4,7 +4,7 @@ import GitHubStats from '../components/GitHubStats.jsx';
 const GROUPS = [
   {
     title: 'Frontend',
-    color: 'var(--cyan)',
+    color: '#4D2622',
     skills: [
       { name: 'React', level: 95 },
       { name: 'TypeScript', level: 88 },
@@ -25,7 +25,7 @@ const GROUPS = [
   },
   {
     title: 'Database & Cloud',
-    color: 'var(--cyan)',
+    color: '#4D2622',
     skills: [
       { name: 'Supabase', level: 93 },
       { name: 'PostgreSQL', level: 84 },
@@ -60,7 +60,7 @@ const GROUPS = [
   },
   {
     title: 'Hosting & DevOps',
-    color: 'var(--cyan)',
+    color: '#4D2622',
     skills: [
       { name: 'Vercel', level: 92 },
       { name: 'Netlify', level: 88 },
@@ -95,14 +95,14 @@ function SkillBar({ name, level, inView, delay, color }) {
   return (
     <div style={{ marginBottom: 13 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-        <span style={{ fontSize: 13, color: 'var(--text)' }}>{name}</span>
-        <span style={{ fontSize: 11, fontFamily: 'var(--mono)', color: 'var(--text-faint)' }}>{level}%</span>
+        <span style={{ fontSize: 13, color: '#4D2622' }}>{name}</span>
+        <span style={{ fontSize: 11, fontFamily: 'var(--mono)', color: 'rgba(77,38,34,0.4)' }}>{level}%</span>
       </div>
-      <div style={{ height: 4, background: 'rgba(255,255,255,0.04)', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ height: 4, background: 'rgba(77,38,34,0.07)', borderRadius: 4, overflow: 'hidden' }}>
         <div style={{
           height: '100%',
           width: inView ? `${level}%` : 0,
-          background: color || 'var(--indigo)',
+          background: '#4D2622' || 'var(--indigo)',
           borderRadius: 4,
           transition: `width 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
         }} />
@@ -116,8 +116,8 @@ function SkillGroup({ group, i }) {
   return (
     <div ref={ref} className={`reveal ${inView ? 'in-view' : ''}`} style={{ transitionDelay: `${i * 0.06}s` }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: '#fff',
+        border: '1px solid rgba(77,38,34,0.12)',
         borderRadius: 12,
         padding: '18px 16px',
         height: '100%',
@@ -125,7 +125,7 @@ function SkillGroup({ group, i }) {
         overflow: 'hidden',
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${group.color}, transparent)` }} />
-        <h4 style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: group.color, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        <h4 style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: '#4D2622', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           {group.title}
         </h4>
         {group.skills.map((s, idx) => (
@@ -147,7 +147,7 @@ export default function Skills() {
             The full stack, and then some.
             <span className="rule" />
           </h2>
-          <p style={{ color: 'var(--text-dim)', fontSize: 16, maxWidth: 540, marginTop: 12 }}>
+          <p style={{ color: 'rgba(77,38,34,0.65)', fontSize: 16, maxWidth: 540, marginTop: 12 }}>
             Frontend to automation, no-code to 3D, hosting to AI agents — every layer of modern product delivery.
           </p>
         </div>

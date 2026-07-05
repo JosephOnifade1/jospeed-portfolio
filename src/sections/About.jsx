@@ -33,8 +33,8 @@ export default function About() {
           {/* Left — avatar card */}
           <div ref={leftRef} className={`reveal ${leftIn ? 'in-view' : ''}`}>
             <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
+              background: 'rgba(242,236,209,0.06)',
+              border: '1px solid rgba(242,236,209,0.1)',
               borderRadius: 18,
               overflow: 'hidden',
             }}>
@@ -69,7 +69,7 @@ export default function About() {
                     background: '#1a1b2e', border: '2px solid var(--border-strong)',
                     display: 'none', alignItems: 'center', justifyContent: 'center',
                     fontFamily: 'var(--display)', fontSize: 34, fontWeight: 700,
-                    color: 'var(--indigo-bright)',
+                    color: '#F2ECD1',
                   }}>JO</div>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function About() {
                 </div>
 
                 <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px solid var(--border)', display: 'flex', gap: 8 }}>
-                  <a href="https://fiverr.com" target="_blank" rel="noreferrer" style={{ flex: 1, textAlign: 'center', padding: '9px 0', borderRadius: 8, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', fontSize: 12.5, fontWeight: 600, color: 'var(--indigo-bright)' }}>
+                  <a href="https://fiverr.com" target="_blank" rel="noreferrer" style={{ flex: 1, textAlign: 'center', padding: '9px 0', borderRadius: 8, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', fontSize: 12.5, fontWeight: 600, color: '#F2ECD1' }}>
                     Fiverr
                   </a>
                   <a href="https://upwork.com" target="_blank" rel="noreferrer" style={{ flex: 1, textAlign: 'center', padding: '9px 0', borderRadius: 8, background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', fontSize: 12.5, fontWeight: 600, color: 'var(--cyan)' }}>
@@ -123,8 +123,8 @@ export default function About() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
               {HIGHLIGHTS.map((h) => (
-                <div key={h} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10 }}>
-                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(163,230,53,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div key={h} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 16px', background: 'rgba(242,236,209,0.06)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 10 }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(201,146,42,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Check size={13} color="var(--signal)" />
                   </span>
                   <span style={{ color: 'var(--text)', fontSize: 14.5 }}>{h}</span>
@@ -132,7 +132,7 @@ export default function About() {
               ))}
             </div>
 
-            <div style={{ padding: '20px 24px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 12, borderLeft: '3px solid var(--indigo)' }}>
+            <div style={{ padding: '20px 24px', background: 'rgba(242,236,209,0.06)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 12, borderLeft: '3px solid var(--indigo)' }}>
               <p style={{ fontFamily: 'var(--display)', fontSize: 17, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.5 }}>
                 "Ship clean, ship fast, never ship what you can't explain."
               </p>

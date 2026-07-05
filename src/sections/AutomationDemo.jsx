@@ -127,7 +127,7 @@ export default function AutomationDemo() {
   useEffect(() => () => clearTimers(), []);
 
   return (
-    <section id="automation-demo" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+    <section id="automation-demo" style={{ background: 'rgba(242,236,209,0.06)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="wrap">
         <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 40 }}>
           <div className="eyebrow">// Live Demo</div>
@@ -135,7 +135,7 @@ export default function AutomationDemo() {
             Watch automation in action.
             <span className="rule" />
           </h2>
-          <p style={{ color: 'var(--text-dim)', fontSize: 16, maxWidth: 560, marginTop: 12 }}>
+          <p style={{ color: 'rgba(242,236,209,0.6)', fontSize: 16, maxWidth: 560, marginTop: 12 }}>
             Pick a business type and run a real simulation of the automation I'd build for it.
           </p>
         </div>
@@ -165,11 +165,11 @@ export default function AutomationDemo() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28, alignItems: 'start' }} className="demo-grid">
           {/* Flow visualiser */}
-          <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 14, overflow: 'hidden' }}>
             {/* Top bar */}
             <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-faint)', textTransform: 'uppercase' }}>workflow</span>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase' }}>workflow</span>
                 <div style={{ fontFamily: 'var(--display)', fontWeight: 600, fontSize: 16, marginTop: 2 }}>{flow.title}</div>
               </div>
               <button
@@ -225,8 +225,8 @@ export default function AutomationDemo() {
                     </div>
 
                     <div style={{ paddingBottom: 28, opacity: isActive ? 1 : 0.35, transition: 'opacity 0.4s ease' }}>
-                      <div style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--text)', marginBottom: 3 }}>{step.label}</div>
-                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-faint)' }}>{step.detail}</div>
+                      <div style={{ fontWeight: 600, fontSize: 14.5, color: '#F2ECD1', marginBottom: 3 }}>{step.label}</div>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)' }}>{step.detail}</div>
                     </div>
                   </div>
                 );
@@ -246,7 +246,7 @@ export default function AutomationDemo() {
                   animation: 'fadeUp 0.4s ease',
                 }}>
                   <Zap size={16} color="var(--signal)" />
-                  <span style={{ fontSize: 13.5, color: 'var(--signal)', fontWeight: 600 }}>{flow.outcome}</span>
+                  <span style={{ fontSize: 13.5, color: '#c9922a', fontWeight: 600 }}>{flow.outcome}</span>
                 </div>
               )}
             </div>
@@ -254,19 +254,19 @@ export default function AutomationDemo() {
 
           {/* Sidebar info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>Tools used</div>
+            <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>Tools used</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
                 {flow.tools.map(t => <span key={t} className="tag">{t}</span>)}
               </div>
             </div>
 
-            <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>What you get</div>
+            <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>What you get</div>
               {['Fully automated — no manual steps', 'Runs 24/7 including weekends', 'Setup in 3–5 days', 'Easy to modify as you scale'].map(f => (
                 <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
                   <CheckCircle size={13} color="var(--signal)" />
-                  <span style={{ fontSize: 13.5, color: 'var(--text-dim)' }}>{f}</span>
+                  <span style={{ fontSize: 13.5, color: 'rgba(242,236,209,0.6)' }}>{f}</span>
                 </div>
               ))}
             </div>

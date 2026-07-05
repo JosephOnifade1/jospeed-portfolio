@@ -11,15 +11,15 @@ function TestimonialCard({ t, i }) {
   const [ref, inView] = useReveal(0.15);
   return (
     <div ref={ref} className={`reveal ${inView?'in-view':''}`} style={{ transitionDelay:`${i*0.1}s` }}>
-      <div style={{ background:'var(--bg)', border:'1px solid var(--border)', borderRadius:12, padding:28, height:'100%', position:'relative' }}>
+      <div style={{ background:'#fff', border:'1px solid rgba(77,38,34,0.15)', borderRadius:12, padding:28, height:'100%', position:'relative' }}>
         <Quote size={26} color="var(--accent)" style={{ opacity:0.3, marginBottom:14 }} />
         <div style={{ display:'flex', gap:3, marginBottom:14 }}>
-          {Array.from({length:5}).map((_,idx) => <Star key={idx} size={14} fill="var(--accent-gold)" color="var(--accent-gold)" />)}
+          {Array.from({length:5}).map((_,idx) => <Star key={idx} size={14} fill='#c9922a' color='#c9922a' />)}
         </div>
-        <p style={{ fontSize:15, color:'var(--text)', lineHeight:1.65, marginBottom:22 }}>"{t.quote}"</p>
+        <p style={{ fontSize:15, color:'#4D2622', lineHeight:1.65, marginBottom:22 }}>"{t.quote}"</p>
         <div>
           <div style={{ fontWeight:600, fontSize:14.5 }}>{t.name}</div>
-          <div style={{ fontSize:13, color:'var(--text-faint)' }}>{t.place} · {t.platform}</div>
+          <div style={{ fontSize:13, color:'rgba(77,38,34,0.45)' }}>{t.place} · {t.platform}</div>
         </div>
       </div>
     </div>

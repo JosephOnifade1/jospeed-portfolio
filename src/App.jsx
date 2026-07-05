@@ -9,9 +9,7 @@ import Projects from './sections/Projects.jsx';
 import Skills from './sections/Skills.jsx';
 import Services from './sections/Services.jsx';
 import Testimonials from './sections/Testimonials.jsx';
-
-// Pattern from reference site:
-// Dark section → cream dome arches UP → cream section → dark dome arches UP → dark section → repeat
+import AutomationDemo from './sections/AutomationDemo.jsx';
 
 export default function App() {
   return (
@@ -21,64 +19,64 @@ export default function App() {
       <Navbar />
       <main>
 
-        {/* ── DARK: Hero ── */}
+        {/* DARK: Hero */}
         <div style={{ background: '#4D2622' }}>
           <Hero />
         </div>
 
-        {/* Dark → Cream: cream dome rises up into dark */}
         <ArchDivider type="dome-up" height={130} />
 
-        {/* ── CREAM: Stats ── */}
-        <div style={{ background: '#F2ECD1' }} className="on-cream">
+        {/* CREAM: Stats */}
+        <div style={{ background: '#F2ECD1' }}>
           <StatsBar />
         </div>
 
-        {/* Cream → Dark: dark dome rises up into cream */}
         <ArchDivider type="dome-down" height={130} />
 
-        {/* ── DARK: About ── */}
+        {/* DARK: About */}
         <div style={{ background: '#4D2622' }}>
           <About />
         </div>
 
-        {/* Dark → Cream */}
         <ArchDivider type="dome-up" height={130} />
 
-        {/* ── CREAM: Projects ── */}
-        <div style={{ background: '#F2ECD1' }} className="on-cream">
+        {/* CREAM: Projects */}
+        <div style={{ background: '#F2ECD1' }}>
           <Projects />
         </div>
 
-        {/* Cream → Dark */}
         <ArchDivider type="dome-down" height={130} />
 
-        {/* ── DARK: Skills ── */}
+        {/* DARK: Automation Demo */}
         <div style={{ background: '#4D2622' }}>
+          <AutomationDemo />
+        </div>
+
+        <ArchDivider type="dome-up" height={130} />
+
+        {/* CREAM: Skills */}
+        <div style={{ background: '#F2ECD1' }}>
           <Skills />
         </div>
 
-        {/* Dark → Cream */}
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-down" height={130} />
 
-        {/* ── CREAM: Services ── */}
-        <div style={{ background: '#F2ECD1' }} className="on-cream">
+        {/* DARK: Services */}
+        <div style={{ background: '#4D2622' }}>
           <Services />
         </div>
 
-        {/* Cream → Dark */}
-        <ArchDivider type="dome-down" height={130} />
+        <ArchDivider type="dome-up" height={130} />
 
-        {/* ── DARK: Testimonials ── */}
-        <div style={{ background: '#4D2622' }}>
+        {/* CREAM: Testimonials */}
+        <div style={{ background: '#F2ECD1' }}>
           <Testimonials />
         </div>
 
-        {/* Dark → Cream */}
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-down" height={130} />
 
-        {/* ── CREAM: Contact ── */}
-        <div style={{ background: '#F2ECD1' }} className="on-cream">
+        {/* DARK: Contact */}
+        <div style={{ background: '#4D2622' }}>
           <Contact />
         </div>
 
