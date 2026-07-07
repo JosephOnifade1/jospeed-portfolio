@@ -34,12 +34,17 @@ export default function Navbar() {
             >{l}</a>
           ))}
           <a href="#contact" style={{
-            padding: '9px 20px', borderRadius: 6, background: 'var(--accent)', color: 'var(--bg-warm)',
-            fontSize: 14, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6,
-            transition: 'background 0.2s',
+            padding: '9px 20px', borderRadius: 6,
+            background: '#F2ECD1',
+            color: '#4D2622',
+            fontSize: 14, fontWeight: 700,
+            fontFamily: "'DM Sans', sans-serif",
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            transition: 'background 0.2s, transform 0.2s',
+            border: 'none',
           }}
-            onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-bright)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'var(--accent)'}
+            onMouseEnter={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#F2ECD1'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             Hire me <ArrowUpRight size={14} />
           </a>

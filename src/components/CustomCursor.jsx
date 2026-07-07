@@ -25,7 +25,7 @@ export default function CustomCursor() {
       dot.style.transform = isClickable
         ? 'translate(-50%,-50%) scale(2.2)'
         : 'translate(-50%,-50%) scale(1)';
-      dot.style.background = isClickable ? 'var(--accent-gold)' : 'var(--accent)';
+      dot.style.background = isClickable ? '#c9922a' : '#F2ECD1';
     };
     window.addEventListener('mousemove', onMove, { passive: true });
 
@@ -84,12 +84,12 @@ export default function CustomCursor() {
           top: 0, left: 0,
           width: 8, height: 8,
           borderRadius: '50%',
-          background: 'var(--accent)',
+          background: '#F2ECD1',
           pointerEvents: 'none',
           zIndex: 9999,
           transform: 'translate(-50%,-50%)',
           transition: 'transform 0.2s cubic-bezier(.22,1,.36,1), background 0.2s ease',
-          mixBlendMode: 'screen',
+          
         }}
       />
 
@@ -104,7 +104,7 @@ export default function CustomCursor() {
             borderRadius: '50%',
             pointerEvents: 'none',
             zIndex: 9997,
-            mixBlendMode: 'screen',
+            
             willChange: 'transform, opacity, width, height',
           }}
         />

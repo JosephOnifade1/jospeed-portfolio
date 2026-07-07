@@ -24,9 +24,9 @@
   --indigo-bright: var(--gold);
   --cyan:          var(--gold);
 
-  --display: 'Space Grotesk', sans-serif;
+  --display: 'Playfair Display', Georgia, serif;
   --mono:    'JetBrains Mono', monospace;
-  --body:    'Inter', sans-serif;
+  --body:    'DM Sans', sans-serif;
 }
 
 /* ── Reset ──────────────────────────────────────────────── */
