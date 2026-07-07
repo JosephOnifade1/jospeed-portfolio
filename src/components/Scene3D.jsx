@@ -2,84 +2,126 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 const STACK = [
-  { label: 'React',      color: '#c9922a', glow: '#c9922a' },
-  { label: 'TypeScript', color: '#f0e8d5', glow: '#f0e8d5' },
-  { label: 'Supabase',   color: '#c0392b', glow: '#c0392b' },
-  { label: 'Node.js',    color: '#c9922a', glow: '#c9922a' },
-  { label: 'n8n',        color: '#f0e8d5', glow: '#f0e8d5' },
-  { label: 'AI Agents',  color: '#c0392b', glow: '#c0392b' },
-  { label: 'Voiceflow',  color: '#c9922a', glow: '#c9922a' },
-  { label: 'Blender',    color: '#f0e8d5', glow: '#f0e8d5' },
+  { label: 'React',      color: '#c9922a', accent: '#e8b84b' },
+  { label: 'TypeScript', color: '#F2ECD1', accent: '#ffffff' },
+  { label: 'Supabase',   color: '#c0392b', accent: '#e05444' },
+  { label: 'Node.js',    color: '#8fba6a', accent: '#a8d47f' },
+  { label: 'n8n',        color: '#F2ECD1', accent: '#ffffff' },
+  { label: 'AI Agents',  color: '#c9922a', accent: '#e8b84b' },
+  { label: 'Voiceflow',  color: '#9b6dcc', accent: '#b88de0' },
+  { label: 'Blender',    color: '#e07b39', accent: '#f09555' },
 ];
 
-// Manual positions — evenly distributed on a sphere, no clustering
-// Each point is hand-placed so nothing overlaps at t=0
-const POSITIONS = [
-  { x:  2.0,  y:  1.1,  z:  0.4 },
-  { x: -2.1,  y:  0.9,  z: -0.3 },
-  { x:  0.5,  y:  1.8,  z: -1.6 },
-  { x: -0.4,  y: -1.8,  z:  1.5 },
-  { x:  1.8,  y: -1.0,  z: -1.2 },
-  { x: -1.7,  y: -1.1,  z:  1.1 },
-  { x:  0.3,  y:  0.8,  z:  2.2 },
-  { x: -0.2,  y: -0.7,  z: -2.3 },
-];
+// Saff-Kuijlaars algorithm — guaranteed equal angular spacing, zero overlap
+// R = sphere radius for panel placement
+const R = 2.35;
+const POSITIONS = (() => {
+  const n = STACK.length;
+  const pts = [];
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < n; i++) {
+    const y = 1 - (i / (n - 1)) * 2;
+    const r = Math.sqrt(1 - y * y);
+    const theta = golden * i;
+    pts.push({
+      x: Math.cos(theta) * r * R,
+      y: y * R * 0.85,          // compress Y slightly so top/bottom don't clip hero
+      z: Math.sin(theta) * r * R,
+    });
+  }
+  return pts;
+})();
 
-function makePanelTexture(label, color) {
-  const S = 3;
-  const W = 260, H = 80;
+function makePanelTexture(label, color, accent) {
+  const S = 4;
+  const W = 280, H = 88;
   const c = document.createElement('canvas');
   c.width = W * S; c.height = H * S;
   const ctx = c.getContext('2d');
   ctx.scale(S, S);
 
-  const r = 12;
-  const bigint = parseInt(color.replace('#',''), 16);
-  const cr = (bigint >> 16) & 255;
-  const cg = (bigint >> 8) & 255;
-  const cb = bigint & 255;
+  const hex = parseInt(color.replace('#',''), 16);
+  const cr = (hex >> 16) & 255;
+  const cg = (hex >> 8)  & 255;
+  const cb =  hex        & 255;
+  const hexA = parseInt((accent || color).replace('#',''), 16);
+  const ar = (hexA >> 16) & 255;
+  const ag = (hexA >> 8)  & 255;
+  const ab =  hexA        & 255;
+  const r = 14;
 
-  // Glass background
-  const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, `rgba(${cr},${cg},${cb},0.12)`);
-  bg.addColorStop(1, `rgba(12,13,22,0.88)`);
+  // Deep glass base — dark burgundy tinted by tool color
+  const bg = ctx.createLinearGradient(0, 0, W * 0.7, H);
+  bg.addColorStop(0, `rgba(${Math.min(cr+18,255)},${Math.min(cg+8,100)},${Math.min(cb+8,80)},0.22)`);
+  bg.addColorStop(0.5, `rgba(58,18,16,0.82)`);
+  bg.addColorStop(1,   `rgba(36,10,10,0.90)`);
   roundRect(ctx, 0, 0, W, H, r);
   ctx.fillStyle = bg;
   ctx.fill();
 
-  // Border
+  // Primary border — colored
   roundRect(ctx, 0, 0, W, H, r);
-  ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.7)`;
+  ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.75)`;
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  // Shimmer line at top
-  const shimmer = ctx.createLinearGradient(0, 0, W, 0);
-  shimmer.addColorStop(0, 'transparent');
-  shimmer.addColorStop(0.4, `rgba(${cr},${cg},${cb},0.4)`);
-  shimmer.addColorStop(0.6, `rgba(255,255,255,0.3)`);
-  shimmer.addColorStop(1, 'transparent');
+  // Inner inset border — very faint white for depth
+  roundRect(ctx, 1, 1, W-2, H-2, r-1);
+  ctx.strokeStyle = `rgba(255,255,255,0.06)`;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Top shimmer — light refraction line
+  const shimmer = ctx.createLinearGradient(r, 0, W - r, 0);
+  shimmer.addColorStop(0,    'rgba(255,255,255,0)');
+  shimmer.addColorStop(0.25, `rgba(${ar},${ag},${ab},0.55)`);
+  shimmer.addColorStop(0.5,  'rgba(255,255,255,0.45)');
+  shimmer.addColorStop(0.75, `rgba(${ar},${ag},${ab},0.35)`);
+  shimmer.addColorStop(1,    'rgba(255,255,255,0)');
   ctx.fillStyle = shimmer;
-  ctx.fillRect(r, 0, W - r*2, 1.5);
+  ctx.fillRect(r, 0, W - r*2, 1.8);
 
-  // Dot
+  // Bottom subtle reflection
+  const botShimmer = ctx.createLinearGradient(r, H, W - r, H);
+  botShimmer.addColorStop(0,   'rgba(255,255,255,0)');
+  botShimmer.addColorStop(0.5, `rgba(${cr},${cg},${cb},0.12)`);
+  botShimmer.addColorStop(1,   'rgba(255,255,255,0)');
+  ctx.fillStyle = botShimmer;
+  ctx.fillRect(r, H - 1.5, W - r*2, 1.5);
+
+  // Left accent stripe
+  const stripe = ctx.createLinearGradient(0, 0, 0, H);
+  stripe.addColorStop(0,   `rgba(${cr},${cg},${cb},0.9)`);
+  stripe.addColorStop(0.5, `rgba(${ar},${ag},${ab},0.6)`);
+  stripe.addColorStop(1,   `rgba(${cr},${cg},${cb},0.2)`);
+  ctx.fillStyle = stripe;
+  roundRect(ctx, 0, 0, 3.5, H, r);
+  ctx.fill();
+
+  // Dot — glowing
   ctx.fillStyle = `rgba(${cr},${cg},${cb},1)`;
+  ctx.shadowColor = `rgba(${cr},${cg},${cb},0.9)`;
+  ctx.shadowBlur = 8;
   ctx.beginPath();
-  ctx.arc(22, H/2, 5, 0, Math.PI*2);
+  ctx.arc(26, H/2, 5.5, 0, Math.PI*2);
   ctx.fill();
-  ctx.fillStyle = `rgba(${cr},${cg},${cb},0.2)`;
-  ctx.beginPath();
-  ctx.arc(22, H/2, 10, 0, Math.PI*2);
-  ctx.fill();
+  ctx.shadowBlur = 0;
 
-  // Label
-  ctx.font = `600 ${H * 0.38}px "Space Grotesk", "Inter", sans-serif`;
+  // Dot outer ring
+  ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.3)`;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(26, H/2, 10, 0, Math.PI*2);
+  ctx.stroke();
+
+  // Label — main text with subtle shadow
+  ctx.font = `700 ${H * 0.39}px "Space Grotesk", "Inter", sans-serif`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#f1f5f9';
-  ctx.shadowColor = `rgba(${cr},${cg},${cb},0.6)`;
-  ctx.shadowBlur = 8;
-  ctx.fillText(label, 40, H/2 + 1);
+  ctx.shadowColor = `rgba(${cr},${cg},${cb},0.4)`;
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = '#F2ECD1';
+  ctx.fillText(label, 48, H/2 + 1);
   ctx.shadowBlur = 0;
 
   const tex = new THREE.CanvasTexture(c);
@@ -113,8 +155,8 @@ export default function Scene3D() {
     const W = mount.clientWidth, H = mount.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
-    camera.position.set(0, 0, 11);
+    const camera = new THREE.PerspectiveCamera(36, W / H, 0.1, 100);
+    camera.position.set(0, 0, 12);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(W, H);
@@ -165,9 +207,9 @@ export default function Scene3D() {
     STACK.forEach((item, i) => {
       const { x, y, z } = POSITIONS[i];
 
-      const tex    = makePanelTexture(item.label, item.color);
-      const aspect = 260 / 80;
-      const ph     = 0.72;
+      const tex    = makePanelTexture(item.label, item.color, item.accent);
+      const aspect = 280 / 88;
+      const ph     = 0.82;
       const sprite = new THREE.Sprite(
         new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false })
       );
@@ -278,7 +320,7 @@ export default function Scene3D() {
 
         panels.forEach(p => {
           const { basePos, floatOff, floatSpeed } = p.userData;
-          p.position.set(basePos.x, basePos.y + Math.sin(t * floatSpeed + floatOff) * 0.1, basePos.z);
+          p.position.set(basePos.x, basePos.y + Math.sin(t * floatSpeed + floatOff) * 0.06, basePos.z);
         });
 
         lineGroup.children.forEach((line, i) => {
