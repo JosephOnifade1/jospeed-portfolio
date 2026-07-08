@@ -116,7 +116,7 @@ h1,h2,h3,h4 { font-family: var(--display); color: var(--text); font-weight: 700;
 .cs3d-tag { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; color:var(--gold); background:rgba(201,146,42,0.12); border:1px solid rgba(201,146,42,0.2); padding:3px 9px; border-radius:999px; margin-bottom:10px; }
 .cs3d-title { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.1; }
 .cs3d-body { padding:16px 18px; display:flex; flex-direction:column; flex:1; gap:10px; }
-.cs3d-desc { font-family:'Inter',sans-serif; font-size:13px; color:var(--text-dim); line-height:1.6; margin:0; flex:1; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+.cs3d-desc { font-family:'Inter',sans-serif; font-size:13px; color:var(--text-dim); line-height:1.6; margin:0; flex:1; display:-webkit-box; /* standard property for compatibility */ line-clamp:4; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
 .cs3d-stack { display:flex; flex-wrap:wrap; gap:5px; }
 .cs3d-chip { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--gold); background:rgba(201,146,42,0.08); border:1px solid rgba(201,146,42,0.2); padding:2px 7px; border-radius:4px; }
 .cs3d-actions { display:flex; gap:8px; padding-top:10px; border-top:1px solid var(--border); }
