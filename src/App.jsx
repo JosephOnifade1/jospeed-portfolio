@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import CustomCursor from './components/CustomCursor.jsx';
 import Navbar from './components/Navbar.jsx';
 import Contact from './components/Contact.jsx';
@@ -81,6 +82,7 @@ export default function App() {
         </div>
 
       </main>
+      <Analytics />
     </>
   );
 }
