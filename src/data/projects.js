@@ -8,7 +8,8 @@ export const PROJECTS = [
     stack: ['React', 'Supabase', 'TypeScript'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #6366f1 0%, #22d3ee 100%)',
+    // Warm dark burgundy → slightly lighter — editorial, confident
+    gradient: 'linear-gradient(145deg, #3a1410 0%, #6b2d28 60%, #8b4a3a 100%)',
     caseStudy: {
       problem: 'Freelancers had no dedicated space to share real business insights — Fiverr forums were noise, Reddit was too broad, and Twitter had no structure.',
       approach: 'Built a Reddit-style upvoting system on Supabase with Row-Level Security so each community stayed independent. Used React Query for real-time feed updates without websocket complexity.',
@@ -30,7 +31,8 @@ export const PROJECTS = [
     stack: ['React', 'Gemini', 'Supabase'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #a3e635 0%, #22d3ee 100%)',
+    // Deep olive-brown — intelligence, terminal energy
+    gradient: 'linear-gradient(145deg, #1a1a0e 0%, #3d3518 60%, #5a4a22 100%)',
     caseStudy: {
       problem: 'Freelancers waste weeks creating gigs in saturated niches. No tool showed the actual demand-to-supply ratio — only vanity metrics like search volume.',
       approach: 'Built a scraper pipeline that pulled competition density, review velocity and order queue depth, then fed raw signals to Gemini API to compute an opportunity score 0–100.',
@@ -52,7 +54,8 @@ export const PROJECTS = [
     stack: ['n8n', 'Twilio', 'GoHighLevel'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #f59e0b 0%, #6366f1 100%)',
+    // Warm amber-brown — urgency, healthcare
+    gradient: 'linear-gradient(145deg, #2a1800 0%, #5c3010 60%, #8a5020 100%)',
     caseStudy: {
       problem: 'Dental clinics lose 30–40% of new patient leads to missed calls. Receptionists can\'t always pick up, and callers rarely leave voicemails.',
       approach: 'Built an n8n workflow: Twilio catches the missed call signal, fires an SMS within 60 seconds, qualifies the patient\'s need via a 2-message flow, then logs to GoHighLevel CRM with the lead score.',
@@ -74,7 +77,8 @@ export const PROJECTS = [
     stack: ['n8n', 'Groq', 'Supabase'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #22d3ee 0%, #a3e635 100%)',
+    // Dark slate-brown — automation, precision
+    gradient: 'linear-gradient(145deg, #0e1a18 0%, #1e3530 60%, #2e4a42 100%)',
     caseStudy: {
       problem: 'Freelancers spend 1–2 hours daily hunting for leads across Reddit, Facebook groups and job boards. Most leads found are already stale by the time they\'re seen.',
       approach: 'n8n scrapes 8 sources every 4 hours, Groq (llama-3.3-70b) scores each lead for fit and urgency, Supabase stores results and enforces plan limits, Telegram bot delivers a daily digest.',
@@ -96,7 +100,8 @@ export const PROJECTS = [
     stack: ['React', 'Supabase', 'Paystack'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #f59e0b 0%, #22d3ee 100%)',
+    // Warm terracotta-brown — food, warmth, Africa
+    gradient: 'linear-gradient(145deg, #2a0e0a 0%, #5a2a18 60%, #7a4028 100%)',
     caseStudy: {
       problem: 'Home cooks in Nigeria and Ghana had no trusted platform to sell meals — WhatsApp-based selling had no payments, discovery, or trust signals.',
       approach: 'Built a two-sided marketplace: cook profiles with menu management on one side, buyer discovery and ordering on the other. Paystack for NGN/GHS payments, Supabase for real-time order status.',
@@ -118,7 +123,8 @@ export const PROJECTS = [
     stack: ['Lovable', 'Claude API', 'React'],
     github: '#',
     live: null,
-    gradient: 'linear-gradient(135deg, #6366f1 0%, #a3e635 100%)',
+    // Dark charcoal-brown — strategy, depth, clarity
+    gradient: 'linear-gradient(145deg, #0e0e14 0%, #2a2438 60%, #3a3048 100%)',
     caseStudy: {
       problem: 'Small business owners can\'t afford $300/hr business coaches but need strategic advice beyond what generic AI chatbots provide.',
       approach: 'Used Lovable to ship the frontend in 2 days, then wired Claude API with a carefully engineered system prompt that frames the AI as a business coach with a structured session format.',

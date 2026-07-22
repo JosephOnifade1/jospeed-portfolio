@@ -24,56 +24,56 @@ export default function App() {
           <Hero />
         </div>
 
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-up" height={90} />
 
         {/* CREAM: Stats */}
         <div style={{ background: '#F2ECD1' }}>
           <StatsBar />
         </div>
 
-        <ArchDivider type="dome-down" height={130} />
+        <ArchDivider type="dome-down" height={90} />
 
         {/* DARK: About */}
         <div style={{ background: '#4D2622' }}>
           <About />
         </div>
 
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-up" height={90} />
 
         {/* CREAM: Projects */}
         <div style={{ background: '#F2ECD1' }}>
           <Projects />
         </div>
 
-        <ArchDivider type="dome-down" height={130} />
+        <ArchDivider type="dome-down" height={90} />
 
         {/* DARK: Automation Demo */}
         <div style={{ background: '#4D2622' }}>
           <AutomationDemo />
         </div>
 
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-up" height={90} />
 
         {/* CREAM: Skills */}
         <div style={{ background: '#F2ECD1' }}>
           <Skills />
         </div>
 
-        <ArchDivider type="dome-down" height={130} />
+        <ArchDivider type="dome-down" height={90} />
 
         {/* DARK: Services */}
         <div style={{ background: '#4D2622' }}>
           <Services />
         </div>
 
-        <ArchDivider type="dome-up" height={130} />
+        <ArchDivider type="dome-up" height={90} />
 
         {/* CREAM: Testimonials */}
         <div style={{ background: '#F2ECD1' }}>
           <Testimonials />
         </div>
 
-        <ArchDivider type="dome-down" height={130} />
+        <ArchDivider type="dome-down" height={90} />
 
         {/* DARK: Contact */}
         <div style={{ background: '#4D2622' }}>

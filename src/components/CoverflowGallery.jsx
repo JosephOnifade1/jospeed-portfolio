@@ -26,7 +26,7 @@ function CardFace({ p, isActive }) {
         background: p.gradient,
         position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.25)' }} />
+        <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.1)' }} />
         {/* Tag */}
         <div style={{
           position:'absolute', top:14, left:16,
