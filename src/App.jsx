@@ -1,4 +1,5 @@
 import CustomCursor from './components/CustomCursor.jsx';
+import FormCursor from './components/FormCursor.jsx';
 import Navbar from './components/Navbar.jsx';
 import Contact from './components/Contact.jsx';
 import ArchDivider from './components/ArchDivider.jsx';
@@ -16,6 +17,7 @@ export default function App() {
     <>
       <div className="grain" />
       <CustomCursor />
+      <FormCursor />
       <Navbar />
       <main>
 

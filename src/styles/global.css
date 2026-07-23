@@ -139,3 +139,11 @@ h1,h2,h3,h4 { font-family: var(--display); color: var(--text); font-weight: 700;
 .sc-card::before { content:''; position:absolute; inset:0; border-radius:10px; background:linear-gradient(135deg,rgba(242,236,209,0.06) 0%,transparent 60%); pointer-events:none; }
 .sc-hover { border-color:rgba(242,236,209,0.22) !important; box-shadow:0 1px 0 rgba(242,236,209,0.1) inset, 0 0 24px -6px var(--glow), 0 18px 50px rgba(0,0,0,0.6) !important; transform:translate(calc(var(--base-tx,0px) + var(--tx)),calc(var(--base-ty,0px) + var(--ty))) scale(var(--base-s,1)) perspective(500px) rotateX(var(--rx)) rotateY(var(--ry)) !important; transition:border-color 0.3s ease, box-shadow 0.3s ease, transform 0.35s cubic-bezier(.22,1,.36,1) !important; }
 .sc-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+/* Hide native cursor over form elements — FormCursor takes over */
+@media (hover: hover) {
+  form, form input, form textarea, form select, form button,
+  [data-form-cursor], [data-form-cursor] * {
+    cursor: none !important;
+  }
+}
