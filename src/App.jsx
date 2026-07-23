@@ -19,7 +19,7 @@ export default function App() {
       <CustomCursor />
       <FormCursor />
       <Navbar />
-      <main>
+      <main role="main" aria-label="Joseph Onifade Portfolio">
 
         {/* DARK: Hero */}
         <div style={{ background: '#4D2622' }}>
