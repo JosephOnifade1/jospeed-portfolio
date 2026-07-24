@@ -67,11 +67,11 @@ export default function Hero() {
             <a href="#projects" style={{
               display:'inline-flex', alignItems:'center', gap:7,
               padding:'13px 24px', borderRadius:6,
-              background:'var(--accent)', color:'var(--bg-warm)',
+              background:'#F2ECD1', color:'#4D2622',
               fontSize:14.5, fontWeight:700, transition:'background 0.2s, transform 0.2s',
             }}
-              onMouseEnter={e => { e.currentTarget.style.background='var(--accent-bright)'; e.currentTarget.style.transform='translateY(-1px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background='var(--accent)'; e.currentTarget.style.transform='translateY(0)'; }}
+              onMouseEnter={e => { e.currentTarget.style.background='#fff'; e.currentTarget.style.transform='translateY(-1px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background='#F2ECD1'; e.currentTarget.style.transform='translateY(0)'; }}
             >View my work <ArrowUpRight size={15} /></a>
 
             <a href="/resume.pdf" style={{
