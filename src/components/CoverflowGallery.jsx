@@ -76,20 +76,38 @@ function CardFace({ p, isActive }) {
               transition:'background 0.3s, color 0.3s',
             }}
           >Case study <ArrowUpRight size={13} /></button>
-          <a
-            href={isActive ? (p.live || p.github || '#') : '#'}
-            onClick={e => { if (!isActive) e.preventDefault(); }}
-            style={{
-              padding:'10px 14px', borderRadius:8,
-              background:'transparent',
-              border:`1px solid ${isActive ? 'rgba(242,236,209,0.25)' : 'rgba(242,236,209,0.08)'}`,
-              color: isActive ? 'rgba(242,236,209,0.7)' : 'rgba(242,236,209,0.2)',
-              fontFamily:'var(--body)', fontSize:13, fontWeight:500,
-              cursor: isActive ? 'pointer' : 'default',
-              textDecoration:'none', display:'flex', alignItems:'center',
-              transition:'all 0.3s',
-            }}
-          >{p.live ? 'Live ↗' : 'Code ↗'}</a>
+          {p.github && p.github !== '#' && (
+            <a
+              href={isActive ? p.github : '#'}
+              onClick={e => { if (!isActive) e.preventDefault(); }}
+              style={{
+                padding:'10px 14px', borderRadius:8,
+                background:'transparent',
+                border:`1px solid ${isActive ? 'rgba(242,236,209,0.25)' : 'rgba(242,236,209,0.08)'}`,
+                color: isActive ? 'rgba(242,236,209,0.7)' : 'rgba(242,236,209,0.2)',
+                fontFamily:'var(--body)', fontSize:13, fontWeight:500,
+                cursor: isActive ? 'pointer' : 'default',
+                textDecoration:'none', display:'flex', alignItems:'center',
+                transition:'all 0.3s',
+              }}
+            >Code ↗</a>
+          )}
+          {p.live && (
+            <a
+              href={isActive ? p.live : '#'}
+              onClick={e => { if (!isActive) e.preventDefault(); }}
+              style={{
+                padding:'10px 14px', borderRadius:8,
+                background:'transparent',
+                border:`1px solid ${isActive ? 'rgba(242,236,209,0.25)' : 'rgba(242,236,209,0.08)'}`,
+                color: isActive ? 'rgba(242,236,209,0.7)' : 'rgba(242,236,209,0.2)',
+                fontFamily:'var(--body)', fontSize:13, fontWeight:500,
+                cursor: isActive ? 'pointer' : 'default',
+                textDecoration:'none', display:'flex', alignItems:'center',
+                transition:'all 0.3s',
+              }}
+            >Live ↗</a>
+          )}
         </div>
       </div>
     </div>

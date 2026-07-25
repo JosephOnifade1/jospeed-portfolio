@@ -37,9 +37,16 @@ function ProjectCard({ p, i }) {
           </div>
           <div style={{ display:'flex', gap:8, paddingTop:12, borderTop:`1px solid ${hover ? 'rgba(242,236,209,0.12)' : 'rgba(77,38,34,0.1)'}` }}>
             <button onClick={() => window.location.href = `/case-study/${p.id}`} style={{ flex:1, padding:'9px 0', borderRadius:7, background: hover ? CREAM : DARK, border:'none', color: hover ? DARK : CREAM, fontSize:12.5, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', gap:5, cursor:'pointer', transition:'all 0.25s', fontFamily:'var(--body)' }}>Case study <ArrowUpRight size={13} /></button>
-            <a href={p.live || p.github || '#'} target="_blank" rel="noreferrer" style={{ width:36, height:36, borderRadius:7, flexShrink:0, background: hover ? 'rgba(242,236,209,0.12)' : 'rgba(77,38,34,0.08)', border:`1px solid ${hover ? 'rgba(242,236,209,0.25)' : 'rgba(77,38,34,0.2)'}`, display:'flex', alignItems:'center', justifyContent:'center', color: hover ? CREAM : DARK, transition:'all 0.25s' }}>
-              {p.live ? <ExternalLink size={14} /> : <GithubIcon size={14} color="currentColor" />}
-            </a>
+            {p.github && p.github !== '#' && (
+              <a href={p.github} target="_blank" rel="noreferrer" title="Source Code" style={{ width:36, height:36, borderRadius:7, flexShrink:0, background: hover ? 'rgba(242,236,209,0.12)' : 'rgba(77,38,34,0.08)', border:`1px solid ${hover ? 'rgba(242,236,209,0.25)' : 'rgba(77,38,34,0.2)'}`, display:'flex', alignItems:'center', justifyContent:'center', color: hover ? CREAM : DARK, transition:'all 0.25s' }}>
+                <GithubIcon size={14} color="currentColor" />
+              </a>
+            )}
+            {p.live && (
+              <a href={p.live} target="_blank" rel="noreferrer" title="Live Demo" style={{ width:36, height:36, borderRadius:7, flexShrink:0, background: hover ? 'rgba(242,236,209,0.12)' : 'rgba(77,38,34,0.08)', border:`1px solid ${hover ? 'rgba(242,236,209,0.25)' : 'rgba(77,38,34,0.2)'}`, display:'flex', alignItems:'center', justifyContent:'center', color: hover ? CREAM : DARK, transition:'all 0.25s' }}>
+                <ExternalLink size={14} />
+              </a>
+            )}
           </div>
         </div>
       </div>

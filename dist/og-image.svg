@@ -1,0 +1,28 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#4D2622"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#grain)" opacity="0.05"/>
+
+  <!-- Background texture dots -->
+  <circle cx="900" cy="100" r="200" fill="#6b2d28" opacity="0.4"/>
+  <circle cx="1100" cy="500" r="150" fill="#3a1410" opacity="0.5"/>
+
+  <!-- Logo / Name -->
+  <text x="80" y="160" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#F2ECD1" letter-spacing="-2">Joseph Onifade</text>
+  <text x="80" y="230" font-family="Georgia, serif" font-size="42" font-weight="normal" fill="#c9922a" letter-spacing="-1">aka Jospeed</text>
+
+  <!-- Divider -->
+  <rect x="80" y="260" width="80" height="3" fill="#c9922a" rx="2"/>
+
+  <!-- Role -->
+  <text x="80" y="330" font-family="Georgia, serif" font-size="32" fill="#F2ECD1" opacity="0.9">Full-Stack Developer &amp; AI Automation Specialist</text>
+
+  <!-- Services -->
+  <text x="80" y="400" font-family="Georgia, serif" font-size="22" fill="#F2ECD1" opacity="0.55">React · Supabase · n8n · Voiceflow · Blender</text>
+
+  <!-- URL -->
+  <text x="80" y="560" font-family="Georgia, serif" font-size="24" fill="#F2ECD1" opacity="0.4">jospeed.dev</text>
+
+  <!-- Right side badge -->
+  <rect x="880" y="260" width="240" height="60" rx="30" fill="#F2ECD1"/>
+  <text x="960" y="299" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#4D2622" text-anchor="middle">Build With Jospeed</text>
+</svg>

@@ -6,7 +6,7 @@ export const PROJECTS = [
     tag: 'WEB APPS',
     description: 'A high-signal freelancer community to share insights, track trends and grow a solo business — built for serious freelancers, not race-to-the-bottom bidding.',
     stack: ['React', 'Supabase', 'TypeScript'],
-    github: '#',
+    github: 'https://github.com/JosephOnifade1/freelancer-s-hub',
     live: null,
     // Warm dark burgundy → slightly lighter — editorial, confident
     gradient: 'linear-gradient(145deg, #3a1410 0%, #6b2d28 60%, #8b4a3a 100%)',
@@ -29,7 +29,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'A niche arbitrage terminal that deep-scrapes Fiverr competition density, order queue depth and review velocity — scoring every niche 0–100 to surface 5:1 demand gaps.',
     stack: ['React', 'Gemini', 'Supabase'],
-    github: '#',
+    github: 'https://github.com/JosephOnifade1/fiverr-scout',
     live: null,
     // Deep olive-brown — intelligence, terminal energy
     gradient: 'linear-gradient(145deg, #1a1a0e 0%, #3d3518 60%, #5a4a22 100%)',
@@ -52,7 +52,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Auto-SMS follow-up system for dental clinics that captures every missed lead and logs it to CRM in under 60 seconds.',
     stack: ['n8n', 'Twilio', 'GoHighLevel'],
-    github: '#',
+    github: 'https://github.com/JosephOnifade1',
     live: null,
     // Warm amber-brown — urgency, healthcare
     gradient: 'linear-gradient(145deg, #2a1800 0%, #5c3010 60%, #8a5020 100%)',
@@ -75,7 +75,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Telegram bot that finds freelance leads daily using AI, with full free / paid / VIP plan tier enforcement.',
     stack: ['n8n', 'Groq', 'Supabase'],
-    github: '#',
+    github: 'https://github.com/JosephOnifade1',
     live: null,
     // Dark slate-brown — automation, precision
     gradient: 'linear-gradient(145deg, #0e1a18 0%, #1e3530 60%, #2e4a42 100%)',
@@ -98,7 +98,7 @@ export const PROJECTS = [
     tag: 'WEB APPS',
     description: 'Marketplace connecting home cooks to buyers, with multi-gateway African payment routing.',
     stack: ['React', 'Supabase', 'Paystack'],
-    github: '#',
+    github: 'https://github.com/JosephOnifade1',
     live: null,
     // Warm terracotta-brown — food, warmth, Africa
     gradient: 'linear-gradient(145deg, #2a0e0a 0%, #5a2a18 60%, #7a4028 100%)',
@@ -121,8 +121,8 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Lovable-built coaching app integrated with Claude API for personalized business strategy sessions.',
     stack: ['Lovable', 'Claude API', 'React'],
-    github: '#',
-    live: null,
+    github: 'https://github.com/JosephOnifade1',
+    live: 'https://boldcaster.com/',
     // Dark charcoal-brown — strategy, depth, clarity
     gradient: 'linear-gradient(145deg, #0e0e14 0%, #2a2438 60%, #3a3048 100%)',
     caseStudy: {

@@ -147,16 +147,30 @@ export default function ProjectCarousel3D() {
                         onMouseEnter={e => e.currentTarget.style.background = '#4f52d9'}
                         onMouseLeave={e => e.currentTarget.style.background = 'var(--indigo)'}
                       >Case study →</button>
-                      <a href={p.live || p.github || '#'} target="_blank" rel="noreferrer" style={{
-                        padding: '8px 12px', borderRadius: 7,
-                        background: 'transparent', color: 'var(--text-dim)',
-                        border: '1px solid var(--border-strong)',
-                        fontSize: 12, fontWeight: 500, cursor: 'pointer',
-                        fontFamily: 'var(--body)', textDecoration: 'none',
-                        display: 'flex', alignItems: 'center',
-                      }}>
-                        {p.live ? 'Live ↗' : 'Code ↗'}
-                      </a>
+                      {p.github && p.github !== '#' && (
+                        <a href={p.github} target="_blank" rel="noreferrer" style={{
+                          padding: '8px 12px', borderRadius: 7,
+                          background: 'transparent', color: 'var(--text-dim)',
+                          border: '1px solid var(--border-strong)',
+                          fontSize: 12, fontWeight: 500, cursor: 'pointer',
+                          fontFamily: 'var(--body)', textDecoration: 'none',
+                          display: 'flex', alignItems: 'center',
+                        }}>
+                          Code ↗
+                        </a>
+                      )}
+                      {p.live && (
+                        <a href={p.live} target="_blank" rel="noreferrer" style={{
+                          padding: '8px 12px', borderRadius: 7,
+                          background: 'transparent', color: 'var(--text-dim)',
+                          border: '1px solid var(--border-strong)',
+                          fontSize: 12, fontWeight: 500, cursor: 'pointer',
+                          fontFamily: 'var(--body)', textDecoration: 'none',
+                          display: 'flex', alignItems: 'center',
+                        }}>
+                          Live ↗
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>
