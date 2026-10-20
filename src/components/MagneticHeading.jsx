@@ -93,6 +93,7 @@ const LINES = [
 export default function MagneticHeading({ inView, style }) {
   return (
     <h1
+      id="hero-headline"
       style={{
         fontFamily: 'var(--display)',
         fontWeight: 700,

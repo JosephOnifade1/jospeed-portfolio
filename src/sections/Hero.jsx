@@ -58,7 +58,7 @@ export default function Hero() {
             {typed}<span style={{ borderRight:'2px solid var(--accent-gold)', marginLeft:1, animation:'blink 1s step-end infinite' }} />
           </div>
 
-          <p style={{ ...stagger(3), fontSize:16, color:'var(--text-dim)', maxWidth:440, marginBottom:36, lineHeight:1.75 }}>
+          <p id="hero-sub" style={{ ...stagger(3), fontSize:16, color:'var(--text-dim)', maxWidth:440, marginBottom:36, lineHeight:1.75 }}>
             Full-stack developer specializing in React, Supabase and AI automation.
             Helping startups and businesses ship faster with clean, scalable code.
           </p>
