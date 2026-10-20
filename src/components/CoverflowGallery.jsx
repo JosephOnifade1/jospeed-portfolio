@@ -2,18 +2,20 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Cpu } from 'lucide-react';
 import { PROJECTS } from '../data/projects.js';
 import ProjectArchitecture from './ProjectArchitecture.jsx';
+import { playTactileClick } from '../utils/audioHaptics.js';
 
 const DARK  = '#4D2622';
 const CREAM = '#F2ECD1';
 
 // Per-project card face with dual mode (Product View & Architecture X-Ray)
-function CardFace({ p, isActive, isXray, onToggleXray }) {
+function CardFace({ p, isActive, isXray, onToggleXray, onOpenDeepDive }) {
   if (isXray) {
     return (
       <ProjectArchitecture
         project={p}
         isActive={isActive}
         onFlipBack={onToggleXray}
+        onOpenDeepDive={onOpenDeepDive}
       />
     );
   }
@@ -120,7 +122,11 @@ function CardFace({ p, isActive, isXray, onToggleXray }) {
         {/* CTA — only fully interactive on active card */}
         <div style={{ display:'flex', gap:8 }}>
           <button
-            onClick={e => { e.stopPropagation(); if (isActive) window.location.href = `/case-study/${p.id}`; }}
+            onClick={e => {
+              e.stopPropagation();
+              if (isActive && onOpenDeepDive) onOpenDeepDive(p);
+              else if (isActive) window.location.href = `/case-study/${p.id}`;
+            }}
             style={{
               flex:1, padding:'10px 0', borderRadius:8,
               background: isActive ? CREAM : 'rgba(242,236,209,0.08)',
@@ -169,14 +175,17 @@ function CardFace({ p, isActive, isXray, onToggleXray }) {
   );
 }
 
-export default function CoverflowGallery({ xrayMode = false }) {
+export default function CoverflowGallery({ xrayMode = false, onOpenDeepDive }) {
   const [active, setActive] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [overrides, setOverrides] = useState({});
   const startX = useRef(0);
   const n = PROJECTS.length;
 
-  const goTo = useCallback(i => setActive(((i % n) + n) % n), [n]);
+  const goTo = useCallback(i => {
+    playTactileClick('light');
+    setActive(((i % n) + n) % n);
+  }, [n]);
   const prev = () => goTo(active - 1);
   const next = () => goTo(active + 1);
 
@@ -264,6 +273,7 @@ export default function CoverflowGallery({ xrayMode = false }) {
                   isActive={i === active}
                   isXray={isXray}
                   onToggleXray={() => toggleXray(p.id)}
+                  onOpenDeepDive={onOpenDeepDive}
                 />
               </div>
             );

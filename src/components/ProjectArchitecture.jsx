@@ -4,7 +4,7 @@ const DARK = '#4D2622';
 const CREAM = '#F2ECD1';
 const GOLD = '#c9922a';
 
-export default function ProjectArchitecture({ project, onFlipBack, isActive = true }) {
+export default function ProjectArchitecture({ project, onFlipBack, onOpenDeepDive, isActive = true }) {
   const { architecture, name, id } = project;
   if (!architecture) return null;
 
@@ -334,7 +334,11 @@ export default function ProjectArchitecture({ project, onFlipBack, isActive = tr
         <button
           onClick={(e) => {
             e.stopPropagation();
-            if (isActive) window.location.href = `/case-study/${id}`;
+            if (onOpenDeepDive) {
+              onOpenDeepDive(project);
+            } else if (isActive) {
+              window.location.href = `/case-study/${id}`;
+            }
           }}
           style={{
             width: '100%',

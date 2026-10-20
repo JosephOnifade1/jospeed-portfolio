@@ -1,18 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ArrowUpRight, ExternalLink, Layers, LayoutGrid, Cpu } from 'lucide-react';
 import { GithubIcon } from '../components/BrandIcons.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { PROJECTS, FILTERS } from '../data/projects.js';
 import CoverflowGallery from '../components/CoverflowGallery.jsx';
 import ProjectArchitecture from '../components/ProjectArchitecture.jsx';
+import ProjectDeepDiveDeck from '../components/ProjectDeepDiveDeck.jsx';
+import { useTactileTilt } from '../hooks/useTactileTilt.js';
+import { playTactileClick } from '../utils/audioHaptics.js';
 
 const DARK  = '#4D2622';
 const CREAM = '#F2ECD1';
+const GOLD  = '#c9922a';
 
-function ProjectCard({ p, i, globalXray }) {
+function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
   const [hover, setHover] = useState(false);
   const [localXray, setLocalXray] = useState(null);
   const [ref, inView] = useReveal(0.08);
+  const { cardRef, onMouseMove, onMouseLeave } = useTactileTilt({ maxTilt: 6, scale: 1.018 });
 
   const isXray = localXray !== null ? localXray : globalXray;
 
@@ -26,7 +31,11 @@ function ProjectCard({ p, i, globalXray }) {
         <ProjectArchitecture
           project={p}
           isActive={true}
-          onFlipBack={() => setLocalXray(false)}
+          onFlipBack={() => {
+            playTactileClick('light');
+            setLocalXray(false);
+          }}
+          onOpenDeepDive={onOpenDeepDive}
         />
       </div>
     );
@@ -34,29 +43,58 @@ function ProjectCard({ p, i, globalXray }) {
 
   return (
     <div
-      ref={ref}
+      ref={(el) => {
+        ref.current = el;
+        cardRef.current = el;
+      }}
       className={`reveal ${inView ? 'in-view' : ''}`}
-      style={{ transitionDelay: `${(i % 6) * 0.08}s`, height: '100%' }}
+      style={{
+        transitionDelay: `${(i % 6) * 0.08}s`,
+        height: '100%',
+        cursor: 'pointer',
+        transformStyle: 'preserve-3d',
+      }}
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseLeave={(e) => {
+        setHover(false);
+        onMouseLeave(e);
+      }}
+      onMouseMove={onMouseMove}
+      onClick={() => {
+        playTactileClick('pop');
+        onOpenDeepDive(p);
+      }}
     >
       <div
         style={{
           background: hover ? DARK : '#fff',
-          border: `1px solid ${hover ? DARK : 'rgba(77,38,34,0.18)'}`,
+          border: `1px solid ${hover ? 'rgba(201, 146, 42, 0.4)' : 'rgba(77,38,34,0.18)'}`,
           borderRadius: 14,
           overflow: 'hidden',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          transform: hover ? 'translateY(-5px)' : 'translateY(0)',
           boxShadow: hover
-            ? '0 20px 48px -12px rgba(77,38,34,0.35)'
+            ? '0 24px 50px -12px rgba(77,38,34,0.4), 0 0 25px rgba(201, 146, 42, 0.15)'
             : '0 2px 10px rgba(77,38,34,0.08)',
           transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
           position: 'relative',
         }}
       >
+        {/* Dynamic Specular Sheen (follows cursor) */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(circle 240px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201, 146, 42, 0.18), transparent 75%)',
+            pointerEvents: 'none',
+            opacity: hover ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+            zIndex: 4,
+          }}
+        />
+
         {/* Card Header & Gradient Banner */}
         <div
           style={{
@@ -70,7 +108,7 @@ function ProjectCard({ p, i, globalXray }) {
           }}
         >
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)' }} />
-          
+
           <div
             style={{
               position: 'absolute',
@@ -94,6 +132,7 @@ function ProjectCard({ p, i, globalXray }) {
           <button
             onClick={(e) => {
               e.stopPropagation();
+              playTactileClick('xray');
               setLocalXray(true);
             }}
             title="Inspect Architecture Blueprint"
@@ -101,7 +140,7 @@ function ProjectCard({ p, i, globalXray }) {
               position: 'absolute',
               top: 10,
               right: 12,
-              zIndex: 3,
+              zIndex: 5,
               background: 'rgba(36, 16, 14, 0.7)',
               border: '1px solid rgba(201, 146, 42, 0.45)',
               borderRadius: 999,
@@ -118,7 +157,7 @@ function ProjectCard({ p, i, globalXray }) {
               transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(201, 146, 42, 0.2)';
+              e.currentTarget.style.background = 'rgba(201, 146, 42, 0.25)';
               e.currentTarget.style.borderColor = '#c9922a';
             }}
             onMouseLeave={(e) => {
@@ -188,7 +227,11 @@ function ProjectCard({ p, i, globalXray }) {
             }}
           >
             <button
-              onClick={() => (window.location.href = `/case-study/${p.id}`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                playTactileClick('pop');
+                onOpenDeepDive(p);
+              }}
               style={{
                 flex: 1,
                 padding: '9px 0',
@@ -215,6 +258,7 @@ function ProjectCard({ p, i, globalXray }) {
                 target="_blank"
                 rel="noreferrer"
                 title="Source Code"
+                onClick={(e) => e.stopPropagation()}
                 style={{
                   width: 36,
                   height: 36,
@@ -238,6 +282,7 @@ function ProjectCard({ p, i, globalXray }) {
                 target="_blank"
                 rel="noreferrer"
                 title="Live Demo"
+                onClick={(e) => e.stopPropagation()}
                 style={{
                   width: 36,
                   height: 36,
@@ -266,6 +311,7 @@ export default function Projects() {
   const [filter, setFilter] = useState('All');
   const [view, setView] = useState('coverflow');
   const [xrayMode, setXrayMode] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [headRef, headIn] = useReveal();
   const filtered = filter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
@@ -325,7 +371,10 @@ export default function Projects() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               {/* Architecture X-Ray Master Switch */}
               <button
-                onClick={() => setXrayMode(!xrayMode)}
+                onClick={() => {
+                  playTactileClick('xray');
+                  setXrayMode(!xrayMode);
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -377,7 +426,10 @@ export default function Projects() {
                 ].map(({ key, Icon, label }) => (
                   <button
                     key={key}
-                    onClick={() => setView(key)}
+                    onClick={() => {
+                      playTactileClick('light');
+                      setView(key);
+                    }}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -404,7 +456,15 @@ export default function Projects() {
         </div>
 
         {/* Coverflow View */}
-        {view === 'coverflow' && <CoverflowGallery xrayMode={xrayMode} />}
+        {view === 'coverflow' && (
+          <CoverflowGallery
+            xrayMode={xrayMode}
+            onOpenDeepDive={(p) => {
+              playTactileClick('pop');
+              setSelectedProject(p);
+            }}
+          />
+        )}
 
         {/* Grid View */}
         {view === 'grid' && (
@@ -413,7 +473,10 @@ export default function Projects() {
               {FILTERS.map((f) => (
                 <button
                   key={f}
-                  onClick={() => setFilter(f)}
+                  onClick={() => {
+                    playTactileClick('light');
+                    setFilter(f);
+                  }}
                   style={{
                     padding: '7px 15px',
                     borderRadius: 999,
@@ -436,12 +499,35 @@ export default function Projects() {
               className="projects-grid"
             >
               {filtered.map((p, i) => (
-                <ProjectCard key={p.id} p={p} i={i} globalXray={xrayMode} />
+                <ProjectCard
+                  key={p.id}
+                  p={p}
+                  i={i}
+                  globalXray={xrayMode}
+                  onOpenDeepDive={(proj) => {
+                    playTactileClick('pop');
+                    setSelectedProject(proj);
+                  }}
+                />
               ))}
             </div>
           </div>
         )}
       </div>
+
+      {/* Slide-Over Deep Dive Deck Drawer */}
+      <ProjectDeepDiveDeck
+        project={selectedProject}
+        onClose={() => {
+          playTactileClick('light');
+          setSelectedProject(null);
+        }}
+        onSelectProject={(proj) => {
+          playTactileClick('light');
+          setSelectedProject(proj);
+        }}
+        allProjects={PROJECTS}
+      />
 
       <style>{`
         @keyframes pulse {
