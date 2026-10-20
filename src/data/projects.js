@@ -178,6 +178,7 @@ export const PROJECTS = [
     stack: ['Lovable', 'Claude API', 'React'],
     github: 'https://github.com/JosephOnifade1',
     live: 'https://boldcaster.com/',
+    image: '/projects/boldcaster.png',
     // Dark charcoal-brown — strategy, depth, clarity
     gradient: 'linear-gradient(145deg, #0e0e14 0%, #2a2438 60%, #3a3048 100%)',
     architecture: {

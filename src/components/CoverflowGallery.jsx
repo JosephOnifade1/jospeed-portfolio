@@ -9,6 +9,9 @@ const CREAM = '#F2ECD1';
 
 // Per-project card face with dual mode (Product View & Architecture X-Ray)
 function CardFace({ p, isActive, isXray, onToggleXray, onOpenDeepDive }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const imgSrc = p.image || `/projects/${p.id}.png`;
+
   if (isXray) {
     return (
       <ProjectArchitecture
@@ -34,13 +37,38 @@ function CardFace({ p, isActive, isXray, onToggleXray, onOpenDeepDive }) {
       transition: 'box-shadow 0.4s ease, border-color 0.4s ease',
       position: 'relative',
     }}>
-      {/* Gradient band */}
+      {/* Gradient band or Screenshot Image */}
       <div style={{
         height: 200, flexShrink: 0,
         background: p.gradient,
         position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.1)' }} />
+        <img
+          src={imgSrc}
+          alt={p.name}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgLoaded(false)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            opacity: imgLoaded ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: imgLoaded
+              ? 'linear-gradient(to bottom, rgba(20,8,7,0.2) 0%, rgba(20,8,7,0.85) 100%)'
+              : 'rgba(0,0,0,0.1)',
+            transition: 'background 0.4s ease',
+          }}
+        />
         
         {/* Tag */}
         <div style={{

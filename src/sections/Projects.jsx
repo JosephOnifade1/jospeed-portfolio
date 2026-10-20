@@ -16,10 +16,12 @@ const GOLD  = '#c9922a';
 function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
   const [hover, setHover] = useState(false);
   const [localXray, setLocalXray] = useState(null);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [ref, inView] = useReveal(0.08);
   const { cardRef, onMouseMove, onMouseLeave } = useTactileTilt({ maxTilt: 6, scale: 1.018 });
 
   const isXray = localXray !== null ? localXray : globalXray;
+  const imgSrc = p.image || `/projects/${p.id}.png`;
 
   if (isXray) {
     return (
@@ -95,7 +97,7 @@ function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
           }}
         />
 
-        {/* Card Header & Gradient Banner */}
+        {/* Card Header & Gradient / Image Banner */}
         <div
           style={{
             height: 140,
@@ -107,7 +109,32 @@ function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
             padding: '14px 18px',
           }}
         >
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)' }} />
+          <img
+            src={imgSrc}
+            alt={p.name}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgLoaded(false)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'top center',
+              opacity: imgLoaded ? 1 : 0,
+              transition: 'opacity 0.4s ease',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: imgLoaded
+                ? 'linear-gradient(to bottom, rgba(20,8,7,0.2) 0%, rgba(20,8,7,0.85) 100%)'
+                : 'rgba(0,0,0,0.3)',
+              transition: 'background 0.4s ease',
+            }}
+          />
 
           <div
             style={{

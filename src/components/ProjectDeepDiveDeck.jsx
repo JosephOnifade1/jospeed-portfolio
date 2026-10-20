@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   X,
   ArrowUpRight,
@@ -19,6 +19,55 @@ import { GithubIcon } from './BrandIcons.jsx';
 const DARK = '#4D2622';
 const CREAM = '#F2ECD1';
 const GOLD = '#c9922a';
+
+function ProjectDeckBanner({ project }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgSrc = project.image || `/projects/${project.id}.png`;
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: 220,
+        borderRadius: 12,
+        overflow: 'hidden',
+        border: '1px solid rgba(242, 236, 209, 0.2)',
+        marginBottom: 22,
+        position: 'relative',
+        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.55)',
+        background: project.gradient || 'linear-gradient(135deg, #4D2622, #7a3a34)',
+      }}
+    >
+      <img
+        key={imgSrc}
+        src={imgSrc}
+        alt={project.name}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(false)}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'top center',
+          opacity: loaded ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: loaded
+            ? 'linear-gradient(to bottom, rgba(20, 8, 7, 0.15) 0%, rgba(20, 8, 7, 0.8) 100%)'
+            : 'rgba(0, 0, 0, 0.25)',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
+  );
+}
 
 export default function ProjectDeepDiveDeck({
   project,
@@ -274,6 +323,8 @@ export default function ProjectDeepDiveDeck({
                 </span>
               ))}
             </div>
+
+            <ProjectDeckBanner project={project} />
 
             <h1
               style={{

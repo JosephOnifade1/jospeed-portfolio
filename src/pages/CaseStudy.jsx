@@ -9,6 +9,35 @@ import FormCursor from '../components/FormCursor.jsx';
 const DARK  = '#4D2622';
 const CREAM = '#F2ECD1';
 
+function CaseStudyHeroImage({ project, name, stagger }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgSrc = project.image || `/projects/${project.id}.png`;
+
+  return (
+    <div
+      style={{
+        ...stagger(2.5),
+        width: '100%',
+        maxWidth: 820,
+        borderRadius: 14,
+        overflow: 'hidden',
+        border: loaded ? '1px solid rgba(242,236,209,0.2)' : 'none',
+        boxShadow: loaded ? '0 24px 60px rgba(0,0,0,0.6)' : 'none',
+        marginBottom: loaded ? 36 : 0,
+        display: loaded ? 'block' : 'none',
+      }}
+    >
+      <img
+        src={imgSrc}
+        alt={name}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(false)}
+        style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+      />
+    </div>
+  );
+}
+
 // Scroll reveal hook
 function useReveal(threshold = 0.12) {
   const ref = useRef(null);
@@ -249,8 +278,10 @@ export default function CaseStudy() {
           <p style={{
             ...stagger(2),
             fontSize: 18, color: 'rgba(242,236,209,0.65)',
-            maxWidth: 600, lineHeight: 1.75, marginBottom: 40,
+            maxWidth: 600, lineHeight: 1.75, marginBottom: 28,
           }}>{description}</p>
+
+          <CaseStudyHeroImage project={project} name={name} stagger={stagger} />
 
           {/* CTAs */}
           <div style={{ ...stagger(3), display: 'flex', gap: 12, flexWrap: 'wrap' }}>
