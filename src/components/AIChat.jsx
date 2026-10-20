@@ -35,7 +35,7 @@ PROJECTS:
 WHERE TO HIRE:
 - Fiverr: search "Jospeed" 
 - Contact form on this site
-- Email: hello@jospeed.dev
+- Email: josephonifade21@gmail.com
 
 PERSONALITY: Be helpful, direct, and confident. Keep answers short — 2-4 sentences max unless the person asks for detail. Don't oversell. If asked something you don't know about Joseph, say "I'm not sure — message him directly and he'll respond within 2 hours."`;
 
@@ -80,10 +80,10 @@ export default function AIChat() {
         }),
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || "I'm having trouble connecting. Message Jospeed directly at hello@jospeed.dev";
+      const reply = data.content?.[0]?.text || "I'm having trouble connecting. Message Jospeed directly at josephonifade21@gmail.com";
       setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
     } catch {
-      setMessages((prev) => [...prev, { role: 'assistant', content: "Connection issue. Reach Jospeed directly at hello@jospeed.dev — he replies within 2 hours." }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: "Connection issue. Reach Jospeed directly at josephonifade21@gmail.com — he replies within 2 hours." }]);
     }
     setLoading(false);
   };

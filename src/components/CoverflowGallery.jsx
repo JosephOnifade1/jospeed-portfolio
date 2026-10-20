@@ -1,12 +1,23 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Cpu } from 'lucide-react';
 import { PROJECTS } from '../data/projects.js';
+import ProjectArchitecture from './ProjectArchitecture.jsx';
 
 const DARK  = '#4D2622';
 const CREAM = '#F2ECD1';
 
-// Per-project background images (abstract gradient art, no placeholder)
-function CardFace({ p, isActive }) {
+// Per-project card face with dual mode (Product View & Architecture X-Ray)
+function CardFace({ p, isActive, isXray, onToggleXray }) {
+  if (isXray) {
+    return (
+      <ProjectArchitecture
+        project={p}
+        isActive={isActive}
+        onFlipBack={onToggleXray}
+      />
+    );
+  }
+
   return (
     <div style={{
       width: '100%', height: '100%',
@@ -19,6 +30,7 @@ function CardFace({ p, isActive }) {
         ? '0 40px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(242,236,209,0.15)'
         : '0 12px 30px rgba(0,0,0,0.5)',
       transition: 'box-shadow 0.4s ease, border-color 0.4s ease',
+      position: 'relative',
     }}>
       {/* Gradient band */}
       <div style={{
@@ -27,13 +39,56 @@ function CardFace({ p, isActive }) {
         position: 'relative', overflow: 'hidden',
       }}>
         <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.1)' }} />
+        
         {/* Tag */}
         <div style={{
           position:'absolute', top:14, left:16,
           fontFamily:'var(--mono)', fontSize:10, letterSpacing:'0.07em',
           color:'rgba(255,255,255,0.85)', background:'rgba(0,0,0,0.4)',
           border:'1px solid rgba(255,255,255,0.2)', padding:'3px 10px', borderRadius:999,
+          zIndex: 2,
         }}>{p.tag}</div>
+
+        {/* X-Ray Quick Toggle Pill */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleXray();
+          }}
+          title="Inspect Architecture Blueprint"
+          style={{
+            position: 'absolute', top: 12, right: 14, zIndex: 3,
+            background: 'rgba(36, 16, 14, 0.75)',
+            border: '1px solid rgba(201, 146, 42, 0.45)',
+            borderRadius: 999,
+            padding: '4px 10px',
+            color: '#e8b84b',
+            fontFamily: 'var(--mono)',
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            backdropFilter: 'blur(6px)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(201, 146, 42, 0.25)';
+            e.currentTarget.style.borderColor = '#c9922a';
+            e.currentTarget.style.transform = 'scale(1.04)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(36, 16, 14, 0.75)';
+            e.currentTarget.style.borderColor = 'rgba(201, 146, 42, 0.45)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#c9922a', boxShadow: '0 0 6px #c9922a', display: 'inline-block' }} />
+          X-RAY
+        </button>
+
         {/* Project name */}
         <div style={{
           position:'absolute', bottom:18, left:20,
@@ -114,9 +169,10 @@ function CardFace({ p, isActive }) {
   );
 }
 
-export default function CoverflowGallery() {
+export default function CoverflowGallery({ xrayMode = false }) {
   const [active, setActive] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [overrides, setOverrides] = useState({});
   const startX = useRef(0);
   const n = PROJECTS.length;
 
@@ -141,6 +197,13 @@ export default function CoverflowGallery() {
     const endX = e.clientX ?? e.changedTouches?.[0]?.clientX;
     const diff = startX.current - endX;
     if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
+  };
+
+  const toggleXray = (projectId) => {
+    setOverrides(prev => ({
+      ...prev,
+      [projectId]: !(prev[projectId] !== undefined ? prev[projectId] : xrayMode)
+    }));
   };
 
   // Compute transform for each card
@@ -192,11 +255,19 @@ export default function CoverflowGallery() {
         onTouchStart={onDragStart} onTouchEnd={onDragEnd}
       >
         <div style={{ position:'absolute', inset:0, transformStyle:'preserve-3d' }}>
-          {PROJECTS.map((p, i) => (
-            <div key={p.id} style={getStyle(i)} onClick={() => { const o = (() => { let d = i - active; if (d > n/2) d -= n; if (d < -n/2) d += n; return d; })(); if (o !== 0) goTo(i); }}>
-              <CardFace p={p} isActive={i === active} />
-            </div>
-          ))}
+          {PROJECTS.map((p, i) => {
+            const isXray = overrides[p.id] !== undefined ? overrides[p.id] : xrayMode;
+            return (
+              <div key={p.id} style={getStyle(i)} onClick={() => { const o = (() => { let d = i - active; if (d > n/2) d -= n; if (d < -n/2) d += n; return d; })(); if (o !== 0) goTo(i); }}>
+                <CardFace
+                  p={p}
+                  isActive={i === active}
+                  isXray={isXray}
+                  onToggleXray={() => toggleXray(p.id)}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Reflection / ground shadow */}
