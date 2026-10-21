@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SmoothScroll from './components/SmoothScroll.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import FormCursor from './components/FormCursor.jsx';
 import Navbar from './components/Navbar.jsx';
@@ -16,7 +17,7 @@ import CaseStudy from './pages/CaseStudy.jsx';
 
 function Portfolio() {
   return (
-    <>
+    <SmoothScroll>
       <div className="grain" />
       <CustomCursor />
       <FormCursor />
@@ -49,7 +50,7 @@ function Portfolio() {
 
         <div style={{ background: '#4D2622' }}><Contact /></div>
       </main>
-    </>
+    </SmoothScroll>
   );
 }
 

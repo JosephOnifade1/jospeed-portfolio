@@ -3,23 +3,14 @@ import { ArrowUpRight, Download } from 'lucide-react';
 import Scene3D from '../components/Scene3D.jsx';
 import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from '../components/BrandIcons.jsx';
 import MagneticHeading from '../components/MagneticHeading.jsx';
+import MechanicalRolodex from '../components/MechanicalRolodex.jsx';
 
-const ROLES = ['Full-Stack Developer','AI Automation Specialist','React & Supabase Expert','n8n Workflow Builder'];
-
-function useTypewriter(words, typeSpeed=60, deleteSpeed=35, pause=1800) {
-  const [text, setText] = useState('');
-  const [wordIndex, setWordIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  useEffect(() => {
-    const current = words[wordIndex];
-    let timeout;
-    if (!deleting && text === current) timeout = setTimeout(() => setDeleting(true), pause);
-    else if (deleting && text === '') { setDeleting(false); setWordIndex(i => (i+1)%words.length); }
-    else timeout = setTimeout(() => setText(t => deleting ? current.slice(0,t.length-1) : current.slice(0,t.length+1)), deleting ? deleteSpeed : typeSpeed);
-    return () => clearTimeout(timeout);
-  }, [text, deleting, wordIndex, words, typeSpeed, deleteSpeed, pause]);
-  return text;
-}
+const ROLES = [
+  'Full-Stack Developer',
+  'AI Automation Specialist',
+  'React & Supabase Architect',
+  'n8n Workflow Specialist',
+];
 
 const SOCIALS = [
   { Icon: GithubIcon,   href: 'https://github.com/JosephOnifade1',              label: 'GitHub'   },
@@ -29,7 +20,6 @@ const SOCIALS = [
 ];
 
 export default function Hero() {
-  const typed = useTypewriter(ROLES);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => { const t = setTimeout(() => setLoaded(true), 80); return () => clearTimeout(t); }, []);
 
@@ -53,9 +43,9 @@ export default function Hero() {
 
           <MagneticHeading inView={loaded} style={stagger(1)} />
 
-          {/* Typewriter */}
-          <div style={{ ...stagger(2), fontFamily:'var(--mono)', fontSize:'clamp(13px,1.4vw,16px)', color:'var(--accent-gold)', marginBottom:18, minHeight:22 }}>
-            {typed}<span style={{ borderRight:'2px solid var(--accent-gold)', marginLeft:1, animation:'blink 1s step-end infinite' }} />
+          {/* Mechanical Rolodex */}
+          <div style={stagger(2)}>
+            <MechanicalRolodex roles={ROLES} />
           </div>
 
           <p id="hero-sub" style={{ ...stagger(3), fontSize:16, color:'var(--text-dim)', maxWidth:440, marginBottom:36, lineHeight:1.75 }}>
@@ -107,7 +97,6 @@ export default function Hero() {
         </div>
       </div>
       <style>{`
-        @keyframes blink { 50% { border-color: transparent; } }
         @media (max-width: 860px) {
           #hero-grid { grid-template-columns: 1fr !important; }
           #hero-grid > div:last-child { height: clamp(360px,80vw,500px) !important; }

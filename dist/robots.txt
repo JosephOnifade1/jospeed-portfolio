@@ -1,8 +1,83 @@
-# Allow all crawlers
+# robots.txt — buildwithjospeed.vercel.app
+# Full indexing enabled for all search engines and AI crawlers
+
+# ── Standard Search Engines ──────────────────────────────────────
 User-agent: *
 Allow: /
+Crawl-delay: 0
 
-# Sitemap location
+# ── Google ────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+# ── Bing / Microsoft ──────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+
+User-agent: msnbot
+Allow: /
+
+# ── AI Crawlers (GEO — Generative Engine Optimization) ───────────
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google Gemini / Bard
+User-agent: Google-Extended
+Allow: /
+
+# Meta AI (Llama)
+User-agent: FacebookBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (used to train many LLMs)
+User-agent: CCBot
+Allow: /
+
+# Diffbot (used by many AI knowledge graphs)
+User-agent: Diffbot
+Allow: /
+
+# ── Sitemap & llms.txt ───────────────────────────────────────────
 Sitemap: https://buildwithjospeed.vercel.app/sitemap.xml
-
-# Block nothing — we want full indexing
+Sitemap: https://buildwithjospeed.vercel.app/llms.txt
