@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReveal } from '../hooks/useReveal.js';
+import LanternLotus from '../components/originkit/ui/lantern-lotus';
 import {
   Play, CheckCircle, Loader, ArrowRight, Zap,
   Phone, MessageSquare, Bot, ClipboardList, Calendar,
@@ -129,39 +130,69 @@ export default function AutomationDemo() {
   return (
     <section id="automation-demo" style={{ background: 'rgba(242,236,209,0.06)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="wrap">
-        <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 40 }}>
-          <div className="eyebrow">// Live Demo</div>
-          <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
-            Watch automation in action.
-            <span className="rule" />
-          </h2>
-          <p style={{ color: 'rgba(242,236,209,0.6)', fontSize: 16, maxWidth: 560, marginTop: 12 }}>
-            Pick a business type and run a real simulation of the automation I'd build for it.
-          </p>
+      {/* Two-column header: text+pills left, Lantern Lotus right */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 0, alignItems: 'stretch', marginBottom: 32 }} className="automation-header-grid">
+
+          {/* Left: eyebrow + heading + description + pills */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: 32 }}>
+            <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 28 }}>
+              <div className="eyebrow">// Live Demo</div>
+              <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
+                Watch automation in action.
+                <span className="rule" />
+              </h2>
+              <p style={{ color: 'rgba(242,236,209,0.6)', fontSize: 16, maxWidth: 520, marginTop: 12 }}>
+                Pick a business type and run a real simulation of the automation I'd build for it.
+              </p>
+            </div>
+
+            {/* Business type selector */}
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              {BUSINESS_TYPES.map((b) => (
+                <button
+                  key={b.value}
+                  onClick={() => setSelected(b.value)}
+                  style={{
+                    padding: '9px 18px',
+                    borderRadius: 999,
+                    fontSize: 13.5,
+                    fontWeight: 600,
+                    border: `1px solid ${selected === b.value ? '#c9922a' : 'rgba(242,236,209,0.2)'}`,
+                    background: selected === b.value ? '#c9922a' : 'transparent',
+                    color: selected === b.value ? '#24100e' : 'rgba(242,236,209,0.7)',
+                    transition: 'all 0.22s ease',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {b.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Lantern Lotus — fills the empty space */}
+          <div style={{ position: 'relative', height: 300, borderRadius: 14, overflow: 'hidden', flexShrink: 0 }}>
+            <LanternLotus
+              background="transparent"
+              petals={12}
+              layers={4}
+              flowerSize={170}
+              glow={6}
+              unfurl
+              spin={0.7}
+              float={3}
+              speed={4}
+              colors={{
+                petal: '#8b1a1a',
+                light: '#c9922a',
+                sheen: '#F2ECD1',
+              }}
+              pointer={{ follow: true, tilt: 6, hoverGlow: 6, smoothing: 5 }}
+              style={{ background: 'transparent' }}
+            />
+          </div>
         </div>
 
-        {/* Business type selector */}
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 32 }}>
-          {BUSINESS_TYPES.map((b) => (
-            <button
-              key={b.value}
-              onClick={() => setSelected(b.value)}
-              style={{
-                padding: '9px 18px',
-                borderRadius: 999,
-                fontSize: 13.5,
-                fontWeight: 600,
-                border: `1px solid ${selected === b.value ? '#c9922a' : 'rgba(242,236,209,0.2)'}`,
-                background: selected === b.value ? '#c9922a' : 'transparent',
-                color: selected === b.value ? '#24100e' : 'rgba(242,236,209,0.7)',
-                transition: 'all 0.22s ease',
-                cursor: 'pointer',
-              }}
-            >
-              {b.label}
-            </button>
-          ))}
-        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28, alignItems: 'start' }} className="demo-grid">
           {/* Flow visualiser */}
@@ -329,6 +360,8 @@ export default function AutomationDemo() {
         @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 860px) {
           .demo-grid { grid-template-columns: 1fr !important; }
+          .automation-header-grid { grid-template-columns: 1fr !important; }
+          .automation-header-grid > div:last-child { display: none; }
         }
       `}</style>
     </section>

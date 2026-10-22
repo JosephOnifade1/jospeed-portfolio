@@ -160,7 +160,7 @@ export default function Scene3D() {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(W, H);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     mount.appendChild(renderer.domElement);
 
     const group = new THREE.Group();
@@ -341,9 +341,22 @@ export default function Scene3D() {
         });
       }
       renderer.render(scene, camera);
-      frameId = requestAnimationFrame(animate);
+      if (isVisible) frameId = requestAnimationFrame(animate);
+      else frameId = null;
     };
-    animate();
+
+    // Only render when Hero section is visible
+    let isVisible = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !frameId) {
+          frameId = requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(mount);
 
     const onResize = () => {
       const nW = mount.clientWidth, nH = mount.clientHeight;
@@ -354,6 +367,7 @@ export default function Scene3D() {
     window.addEventListener('resize', onResize);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', onMove);

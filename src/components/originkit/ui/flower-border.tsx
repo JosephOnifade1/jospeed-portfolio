@@ -272,12 +272,13 @@ class BorderScene {
     private frameId = 0
     private lastT = 0
     private disposed = false
+    private running = false
 
     constructor(container: HTMLElement, cfg: Config) {
         this.container = container
 
         this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true })
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
         this.renderer.outputColorSpace = THREE.SRGBColorSpace
         this.renderer.setClearColor(0x000000, 0)
         const el = this.renderer.domElement
@@ -318,12 +319,24 @@ class BorderScene {
     }
 
     start() {
+        if (this.running) return
+        this.running = true
         this.lastT = performance.now()
         const loop = () => {
+            if (!this.running) return
             this.frameId = requestAnimationFrame(loop)
             this.step()
         }
         loop()
+    }
+
+    pause() {
+        this.running = false
+        cancelAnimationFrame(this.frameId)
+    }
+
+    resume() {
+        this.start()
     }
 
     setSize(width: number, height: number) {
@@ -434,13 +447,26 @@ export default function FlowerBorder(props: FlowerBorderProps) {
         }
         sceneRef.current = scene
         scene.setSize(container.clientWidth, container.clientHeight)
-        scene.start()
+
+        // Only render when visible — avoids burning GPU while scrolled out of view
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    scene.resume()
+                } else {
+                    scene.pause()
+                }
+            },
+            { threshold: 0.01 }
+        )
+        io.observe(container)
 
         const ro = new ResizeObserver(() => {
             scene.setSize(container.clientWidth, container.clientHeight)
         })
         ro.observe(container)
         return () => {
+            io.disconnect()
             ro.disconnect()
             scene.dispose()
             sceneRef.current = null
