@@ -508,27 +508,27 @@ export default function About() {
 
   return (
     <section id="about" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 80 }}>
-      {/* Flower Border Background Layer */}
+      {/* Lightweight Flower Border (optimized: 3 flowers, 28fps cap, scroll-paused) */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           pointerEvents: 'none',
           zIndex: 0,
-          opacity: 0.45,
+          opacity: 0.38,
         }}
         aria-hidden="true"
       >
         <FlowerBorder
           sides={{ top: false, bottom: false, left: true, right: true }}
-          petal="#632f2b"
-          line="#2a100e"
+          petal="#5c2622"
+          line="#260e0c"
           heart="#c9922a"
-          flowers={7}
-          petals={6}
-          size={11}
-          spread={92}
-          sway={10}
+          flowers={3}
+          petals={5}
+          size={9}
+          spread={80}
+          sway={4}
           style={{
             position: 'absolute',
             inset: 0,

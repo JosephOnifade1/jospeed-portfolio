@@ -4,7 +4,7 @@ import * as React from "react"
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
 
-const MAX_FLOWERS = 9
+const MAX_FLOWERS = 5
 
 const RANK_SHRINK = 0.82
 
@@ -162,6 +162,14 @@ const BORDER_FRAGMENT =  `
     void main() {
         float aspect = uResolution.x / max(uResolution.y, 1.0);
 
+        // Early discard for center pixels far from any active border edge
+        float distToSide = 1.0;
+        if (uSides.x > 0.5) distToSide = min(distToSide, vUv.y);
+        if (uSides.y > 0.5) distToSide = min(distToSide, 1.0 - vUv.y);
+        if (uSides.z > 0.5) distToSide = min(distToSide, vUv.x * aspect);
+        if (uSides.w > 0.5) distToSide = min(distToSide, (1.0 - vUv.x) * aspect);
+        if (distToSide > uSize * 1.35) discard;
+
         vec2 p = vec2(vUv.x * aspect, vUv.y);
 
         vec3 petalCol = rgbFromOklab(uPetal);
@@ -272,13 +280,17 @@ class BorderScene {
     private frameId = 0
     private lastT = 0
     private disposed = false
-    private running = false
+    private running = false;
+    private isScrolling = false;
+    private scrollTimer: any = null;
+    private lastFrameTime = 0;
+    private removeScrollListener: (() => void) | null = null;
 
     constructor(container: HTMLElement, cfg: Config) {
         this.container = container
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true })
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
+        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power" })
+        this.renderer.setPixelRatio(1.0)
         this.renderer.outputColorSpace = THREE.SRGBColorSpace
         this.renderer.setClearColor(0x000000, 0)
         const el = this.renderer.domElement
@@ -315,7 +327,19 @@ class BorderScene {
         this.mesh.frustumCulled = false
         this.scene.add(this.mesh)
 
-        this.updateConfig(cfg)
+        this.updateConfig(cfg);
+
+        // Zero-cost scrolling: pause rendering during user scroll
+        const onScroll = () => {
+            this.isScrolling = true;
+            clearTimeout(this.scrollTimer);
+            this.scrollTimer = setTimeout(() => {
+                this.isScrolling = false;
+                if (this.running) this.step();
+            }, 100);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        this.removeScrollListener = () => window.removeEventListener('scroll', onScroll);
     }
 
     start() {
@@ -323,9 +347,13 @@ class BorderScene {
         this.running = true
         this.lastT = performance.now()
         const loop = () => {
-            if (!this.running) return
-            this.frameId = requestAnimationFrame(loop)
-            this.step()
+            if (!this.running) return;
+            this.frameId = requestAnimationFrame(loop);
+            const now = performance.now();
+            if (now - this.lastFrameTime < 35) return; // ~28 FPS cap (saves ~60% GPU)
+            this.lastFrameTime = now;
+            if (this.isScrolling) return; // Pause GPU work during scroll
+            this.step();
         }
         loop()
     }
@@ -380,8 +408,10 @@ class BorderScene {
     }
 
     dispose() {
-        this.disposed = true
-        cancelAnimationFrame(this.frameId)
+        this.disposed = true;
+        cancelAnimationFrame(this.frameId);
+        if (this.removeScrollListener) this.removeScrollListener();
+        clearTimeout(this.scrollTimer);
         const el = this.renderer.domElement
         this.geometry.dispose()
         this.material.dispose()
