@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import SmoothScroll from './components/SmoothScroll.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import FormCursor from './components/FormCursor.jsx';
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/" element={<Portfolio />} />
         <Route path="/case-study/:id" element={<CaseStudy />} />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }
