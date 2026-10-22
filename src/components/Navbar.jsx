@@ -26,11 +26,12 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
-      background: scrolled ? 'rgba(28,10,10,0.88)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(16px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(240,232,213,0.08)' : '1px solid transparent',
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+      transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
+      background: open ? '#24100e' : (scrolled ? 'rgba(28,10,10,0.88)' : 'transparent'),
+      backdropFilter: open ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
+      WebkitBackdropFilter: open ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
+      borderBottom: (open || scrolled) ? '1px solid rgba(240,232,213,0.08)' : '1px solid transparent',
     }}>
       <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
         <a href="#top" style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 20, letterSpacing: '-0.02em', color: 'var(--text)' }}>
@@ -81,14 +82,21 @@ export default function Navbar() {
 
       {open && (
         <div style={{
-          position: 'fixed', inset: 0, top: 72,
-          background: 'rgba(36, 16, 14, 0.97)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          zIndex: 99,
-          display: 'flex', flexDirection: 'column', padding: '36px 28px', gap: 24,
+          position: 'fixed',
+          top: 72,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: 'calc(100dvh - 72px)',
+          background: '#24100e',
+          zIndex: 999,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '28px 28px 36px 28px',
+          gap: 20,
           overflowY: 'auto',
-          animation: 'fadeDown 0.25s ease-out',
+          animation: 'fadeDown 0.22s ease-out',
         }}>
           {LINKS.map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setOpen(false)}
@@ -97,8 +105,9 @@ export default function Navbar() {
                 fontFamily: 'var(--display)',
                 fontWeight: 700,
                 color: 'var(--text)',
-                padding: '8px 0',
-                borderBottom: '1px solid rgba(242,236,209,0.06)',
+                padding: '10px 0',
+                borderBottom: '1px solid rgba(242,236,209,0.08)',
+                display: 'block',
               }}
             >{l}</a>
           ))}
