@@ -1,136 +1,160 @@
 import { useReveal } from '../hooks/useReveal.js';
 import GitHubStats from '../components/GitHubStats.jsx';
 
-const GROUPS = [
+const DARK = '#4D2622';
+const GOLD = '#c9922a';
+
+const STACK_GROUPS = [
   {
-    title: 'Frontend',
-    color: '#4D2622',
+    title: 'Frontend & UI Systems',
+    badge: 'CLIENT LAYER',
+    desc: 'Type-safe, component-driven interfaces built for performance and micro-animations.',
     skills: [
-      { name: 'React', level: 95 },
-      { name: 'TypeScript', level: 88 },
-      { name: 'Next.js', level: 82 },
-      { name: 'Tailwind CSS', level: 92 },
-      { name: 'Three.js', level: 74 },
+      { name: 'React 19', tag: 'Core' },
+      { name: 'TypeScript', tag: 'Type-Safe' },
+      { name: 'Next.js', tag: 'SSR / SSG' },
+      { name: 'Three.js', tag: '3D Canvas' },
+      { name: 'Tailwind / CSS-in-JS', tag: 'Design Tokens' },
     ],
   },
   {
-    title: 'Backend',
-    color: 'var(--indigo-bright)',
+    title: 'Backend & Data Architecture',
+    badge: 'DATA & AUTH',
+    desc: 'Relational databases, airtight authentication policies, and resilient serverless APIs.',
     skills: [
-      { name: 'Node.js', level: 85 },
-      { name: 'Express', level: 82 },
-      { name: 'REST APIs', level: 88 },
-      { name: 'GraphQL', level: 70 },
+      { name: 'Supabase', tag: 'Primary BaaS' },
+      { name: 'PostgreSQL', tag: 'Relational Schema' },
+      { name: 'Row-Level Security', tag: 'Auth & RLS' },
+      { name: 'Node.js / Express', tag: 'API Engine' },
+      { name: 'Redis', tag: 'Cache & Queue' },
     ],
   },
   {
-    title: 'Database & Cloud',
-    color: '#4D2622',
+    title: 'Conversational AI & Voice',
+    badge: 'AUTONOMOUS AGENTS',
+    desc: 'Low-latency voice agents and structured LLM toolchains integrated into business workflows.',
     skills: [
-      { name: 'Supabase', level: 93 },
-      { name: 'PostgreSQL', level: 84 },
-      { name: 'Firebase', level: 76 },
-      { name: 'Redis', level: 65 },
+      { name: 'Vapi Voice AI', tag: 'Sub-800ms' },
+      { name: 'Voiceflow', tag: 'Dialog Trees' },
+      { name: 'Claude 3.5 Sonnet', tag: 'Reasoning' },
+      { name: 'OpenAI API', tag: 'Embeddings' },
+      { name: 'Groq Cloud', tag: 'Ultra-Fast Inference' },
     ],
   },
   {
-    title: 'AI & Automation',
-    color: 'var(--signal)',
+    title: 'Workflow Automation & DevOps',
+    badge: 'INTEGRATIONS',
+    desc: 'Automating multi-system processes, webhook syncs, payment routing, and CI/CD pipelines.',
     skills: [
-      { name: 'n8n', level: 90 },
-      { name: 'Voiceflow', level: 85 },
-      { name: 'ManyChat', level: 80 },
-      { name: 'Claude API', level: 88 },
-      { name: 'OpenAI API', level: 82 },
-      { name: 'Vapi / Retell AI', level: 75 },
-      { name: 'ElevenLabs', level: 72 },
-    ],
-  },
-  {
-    title: 'No-Code Builders',
-    color: 'var(--indigo-bright)',
-    skills: [
-      { name: 'Lovable.dev', level: 92 },
-      { name: 'Bubble', level: 82 },
-      { name: 'Adalo', level: 75 },
-      { name: 'FlutterFlow', level: 78 },
-      { name: 'Glide', level: 70 },
-      { name: 'Webflow', level: 68 },
-    ],
-  },
-  {
-    title: 'Hosting & DevOps',
-    color: '#4D2622',
-    skills: [
-      { name: 'Vercel', level: 92 },
-      { name: 'Netlify', level: 88 },
-      { name: 'Railway', level: 80 },
-      { name: 'Render', level: 76 },
-      { name: 'Cloudflare', level: 70 },
-      { name: 'Docker (basics)', level: 62 },
-    ],
-  },
-  {
-    title: 'Chat & CRM Tools',
-    color: 'var(--signal)',
-    skills: [
-      { name: 'Tidio', level: 82 },
-      { name: 'Intercom', level: 76 },
-      { name: 'Landbot', level: 80 },
-      { name: 'GoHighLevel', level: 78 },
-    ],
-  },
-  {
-    title: 'Design & 3D',
-    color: 'var(--indigo-bright)',
-    skills: [
-      { name: 'Blender', level: 78 },
-      { name: 'Figma', level: 72 },
-      { name: 'React Three Fiber', level: 70 },
+      { name: 'n8n Workflows', tag: 'Self-Hosted' },
+      { name: 'Stripe & Paystack', tag: 'Payment APIs' },
+      { name: 'Twilio & WhatsApp', tag: 'Messaging' },
+      { name: 'Vercel & Netlify', tag: 'Global Edge' },
+      { name: 'GoHighLevel & HubSpot', tag: 'CRM Sync' },
     ],
   },
 ];
 
-function SkillBar({ name, level, inView, delay, color }) {
-  return (
-    <div style={{ marginBottom: 13 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-        <span style={{ fontSize: 13, color: '#4D2622' }}>{name}</span>
-        <span style={{ fontSize: 11, fontFamily: 'var(--mono)', color: 'rgba(77,38,34,0.4)' }}>{level}%</span>
-      </div>
-      <div style={{ height: 4, background: 'rgba(77,38,34,0.07)', borderRadius: 4, overflow: 'hidden' }}>
-        <div style={{
-          height: '100%',
-          width: inView ? `${level}%` : 0,
-          background: '#4D2622' || 'var(--indigo)',
-          borderRadius: 4,
-          transition: `width 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
-        }} />
-      </div>
-    </div>
-  );
-}
+function SkillGroupCard({ group, i }) {
+  const [ref, inView] = useReveal(0.12);
 
-function SkillGroup({ group, i }) {
-  const [ref, inView] = useReveal(0.15);
   return (
-    <div ref={ref} className={`reveal ${inView ? 'in-view' : ''}`} style={{ transitionDelay: `${i * 0.06}s` }}>
-      <div style={{
-        background: '#fff',
-        border: '1px solid rgba(77,38,34,0.12)',
-        borderRadius: 12,
-        padding: '18px 16px',
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${group.color}, transparent)` }} />
-        <h4 style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: '#4D2622', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          {group.title}
-        </h4>
-        {group.skills.map((s, idx) => (
-          <SkillBar key={s.name} {...s} inView={inView} delay={idx * 0.08} color={group.color} />
-        ))}
+    <div
+      ref={ref}
+      className={`reveal ${inView ? 'in-view' : ''}`}
+      style={{ transitionDelay: `${i * 0.08}s`, height: '100%' }}
+    >
+      <div
+        style={{
+          background: '#fff',
+          border: '1px solid rgba(77, 38, 34, 0.12)',
+          borderRadius: 16,
+          padding: '26px 22px',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          boxShadow: '0 4px 20px rgba(77, 38, 34, 0.04)',
+          transition: 'border-color 0.25s ease, transform 0.25s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(77, 38, 34, 0.3)';
+          e.currentTarget.style.transform = 'translateY(-2px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(77, 38, 34, 0.12)';
+          e.currentTarget.style.transform = 'translateY(0)';
+        }}
+      >
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: 10,
+                color: GOLD,
+                letterSpacing: '0.08em',
+                fontWeight: 700,
+              }}
+            >
+              // {group.badge}
+            </span>
+          </div>
+
+          <h3
+            style={{
+              fontFamily: 'var(--display)',
+              fontSize: 19,
+              fontWeight: 700,
+              color: DARK,
+              marginBottom: 8,
+              letterSpacing: '-0.01em',
+            }}
+          >
+            {group.title}
+          </h3>
+
+          <p
+            style={{
+              fontSize: 13,
+              color: 'rgba(77, 38, 34, 0.65)',
+              lineHeight: 1.55,
+              marginBottom: 20,
+            }}
+          >
+            {group.desc}
+          </p>
+        </div>
+
+        {/* Technical Competency Badges */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {group.skills.map((s) => (
+            <div
+              key={s.name}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '6px 10px',
+                background: 'rgba(77, 38, 34, 0.03)',
+                borderRadius: 6,
+                border: '1px solid rgba(77, 38, 34, 0.06)',
+              }}
+            >
+              <span style={{ fontSize: 13, fontWeight: 600, color: DARK }}>{s.name}</span>
+              <span
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 10,
+                  color: 'rgba(77, 38, 34, 0.5)',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                {s.tag}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -138,36 +162,54 @@ function SkillGroup({ group, i }) {
 
 export default function Skills() {
   const [headRef, headIn] = useReveal();
+
   return (
-    <section id="skills">
+    <section id="skills" style={{ padding: '90px 0' }}>
       <div className="wrap">
         <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 48 }}>
-          <div className="eyebrow">// Technical Arsenal</div>
+          <div className="eyebrow">// Technical Stack</div>
           <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
-            The full stack, and then some.
+            Engineered across the full product lifecycle.
             <span className="rule" />
           </h2>
-          <p style={{ color: 'rgba(77,38,34,0.65)', fontSize: 16, maxWidth: 540, marginTop: 12 }}>
-            Frontend to automation, no-code to 3D, hosting to AI agents — every layer of modern product delivery.
+          <p style={{ color: 'rgba(77, 38, 34, 0.7)', fontSize: 16, maxWidth: 560, marginTop: 12 }}>
+            A battle-tested production toolchain optimized for shipping speed, strict type safety, and zero operational bloat.
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 16 }} className="skills-grid">
-          {GROUPS.slice(0, 4).map((g, i) => <SkillGroup key={g.title} group={g} i={i} />)}
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 52 }} className="skills-grid">
-          {GROUPS.slice(4).map((g, i) => <SkillGroup key={g.title} group={g} i={i + 4} />)}
+        {/* 4 Architectural Stack Pillars */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 18,
+            marginBottom: 56,
+          }}
+          className="skills-grid"
+        >
+          {STACK_GROUPS.map((g, i) => (
+            <SkillGroupCard key={g.title} group={g} i={i} />
+          ))}
         </div>
 
+        {/* GitHub Activity */}
         <div>
-          <div className="eyebrow" style={{ marginBottom: 20 }}>// GitHub Activity</div>
+          <div className="eyebrow" style={{ marginBottom: 20 }}>// Codebase Telemetry</div>
           <GitHubStats />
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 1100px) { .skills-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media (max-width: 560px) { .skills-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 1024px) {
+          .skills-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .skills-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
       `}</style>
     </section>
   );

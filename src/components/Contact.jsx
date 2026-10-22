@@ -306,8 +306,6 @@ function ProjectBriefWizard() {
         borderRadius: 22,
         position: 'relative', overflow: 'hidden',
       }}>
-        {/* Radial glow */}
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 40%, rgba(201,146,42,0.12), transparent 65%)', pointerEvents: 'none' }} />
 
         <div style={{
           width: 64, height: 64, borderRadius: '50%',
@@ -371,8 +369,6 @@ function ProjectBriefWizard() {
       boxShadow: '0 24px 60px -12px rgba(15,5,4,0.6)',
       minHeight: 440,
     }}>
-      {/* Background radial glow */}
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 0%, rgba(201,146,42,0.07), transparent 60%)', pointerEvents: 'none' }} />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
         <ProgressBar step={step} />

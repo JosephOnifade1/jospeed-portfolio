@@ -3,7 +3,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import {
   Play, CheckCircle, Loader, ArrowRight, Zap,
   Phone, MessageSquare, Bot, ClipboardList, Calendar,
-  ShoppingCart, Mail, Tag, BarChart2, Home, Users,
+  ShoppingCart, Mail, Tag, BarChart2, Home,
   FileSignature, FolderOpen, Target, Receipt,
   TrendingDown, Gift, Activity,
 } from 'lucide-react';
@@ -151,9 +151,9 @@ export default function AutomationDemo() {
                 borderRadius: 999,
                 fontSize: 13.5,
                 fontWeight: 600,
-                border: `1px solid ${selected === b.value ? 'transparent' : 'var(--border-strong)'}`,
-                background: selected === b.value ? 'var(--indigo)' : 'transparent',
-                color: selected === b.value ? '#fff' : 'var(--text-dim)',
+                border: `1px solid ${selected === b.value ? '#c9922a' : 'rgba(242,236,209,0.2)'}`,
+                background: selected === b.value ? '#c9922a' : 'transparent',
+                color: selected === b.value ? '#24100e' : 'rgba(242,236,209,0.7)',
                 transition: 'all 0.22s ease',
                 cursor: 'pointer',
               }}
@@ -165,25 +165,38 @@ export default function AutomationDemo() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28, alignItems: 'start' }} className="demo-grid">
           {/* Flow visualiser */}
-          <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.14)', borderRadius: 14, overflow: 'hidden' }}>
             {/* Top bar */}
-            <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(242,236,209,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase' }}>workflow</span>
-                <div style={{ fontFamily: 'var(--display)', fontWeight: 600, fontSize: 16, marginTop: 2 }}>{flow.title}</div>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>// WORKFLOW PIPELINE</span>
+                <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 17, color: '#F2ECD1', marginTop: 2 }}>{flow.title}</div>
               </div>
               <button
                 onClick={runDemo}
                 disabled={running}
-                className="btn btn-primary btn-sm"
-                style={{ opacity: running ? 0.6 : 1, display: 'flex', alignItems: 'center', gap: 7 }}
+                style={{
+                  background: '#c9922a',
+                  color: '#24100e',
+                  border: 'none',
+                  borderRadius: 7,
+                  padding: '9px 18px',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: running ? 'not-allowed' : 'pointer',
+                  opacity: running ? 0.7 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 7,
+                  transition: 'all 0.2s',
+                }}
               >
-                {running ? <><Loader size={13} style={{ animation: 'spin 1s linear infinite' }} /> Running...</> : <><Play size={13} /> Run demo</>}
+                {running ? <><Loader size={13} style={{ animation: 'spin 1s linear infinite' }} /> Running...</> : <><Play size={13} /> Run simulation</>}
               </button>
             </div>
 
             {/* Steps */}
-            <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <div style={{ padding: '24px 24px', display: 'flex', flexDirection: 'column', gap: 0 }}>
               {flow.steps.map((step, i) => {
                 const isActive = activeStep >= i;
                 const isCurrent = activeStep === i;
@@ -197,7 +210,7 @@ export default function AutomationDemo() {
                         top: 40,
                         width: 2,
                         height: 36,
-                        background: isActive && activeStep > i ? 'var(--indigo)' : 'var(--border)',
+                        background: isActive && activeStep > i ? '#c9922a' : 'rgba(242,236,209,0.12)',
                         transition: 'background 0.4s ease',
                       }} />
                     )}
@@ -207,26 +220,26 @@ export default function AutomationDemo() {
                       width: 40,
                       height: 40,
                       borderRadius: '50%',
-                      background: isActive ? (isCurrent ? 'var(--indigo)' : 'rgba(99,102,241,0.15)') : 'var(--surface)',
-                      border: `2px solid ${isActive ? 'var(--indigo)' : 'var(--border)'}`,
+                      background: isActive ? (isCurrent ? '#c9922a' : 'rgba(201,146,42,0.18)') : 'rgba(36,16,14,0.7)',
+                      border: `2px solid ${isActive ? '#c9922a' : 'rgba(242,236,209,0.16)'}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontSize: 18,
                       flexShrink: 0,
                       transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-                      boxShadow: isCurrent ? '0 0 16px rgba(99,102,241,0.5)' : 'none',
+                      boxShadow: isCurrent ? '0 0 16px rgba(201,146,42,0.5)' : 'none',
                       zIndex: 1,
                     }}>
                       {isActive && activeStep > i
-                        ? <CheckCircle size={16} color="var(--signal)" />
-                        : (() => { const Icon = step.icon; return <Icon size={16} color={isActive ? 'var(--cyan)' : 'var(--text-faint)'} />; })()
+                        ? <CheckCircle size={16} color="#c9922a" />
+                        : (() => { const Icon = step.icon; return <Icon size={16} color={isActive ? (isCurrent ? '#24100e' : '#e8b84b') : 'rgba(242,236,209,0.3)'} />; })()
                       }
                     </div>
 
-                    <div style={{ paddingBottom: 28, opacity: isActive ? 1 : 0.35, transition: 'opacity 0.4s ease' }}>
+                    <div style={{ paddingBottom: 28, opacity: isActive ? 1 : 0.4, transition: 'opacity 0.4s ease' }}>
                       <div style={{ fontWeight: 600, fontSize: 14.5, color: '#F2ECD1', marginBottom: 3 }}>{step.label}</div>
-                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)' }}>{step.detail}</div>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.5)' }}>{step.detail}</div>
                     </div>
                   </div>
                 );
@@ -237,16 +250,16 @@ export default function AutomationDemo() {
                 <div style={{
                   marginTop: 8,
                   padding: '14px 18px',
-                  background: 'rgba(163,230,53,0.08)',
-                  border: '1px solid rgba(163,230,53,0.25)',
+                  background: 'rgba(201,146,42,0.14)',
+                  border: '1px solid rgba(201,146,42,0.35)',
                   borderRadius: 10,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
                   animation: 'fadeUp 0.4s ease',
                 }}>
-                  <Zap size={16} color="var(--signal)" />
-                  <span style={{ fontSize: 13.5, color: '#c9922a', fontWeight: 600 }}>{flow.outcome}</span>
+                  <Zap size={16} color="#c9922a" />
+                  <span style={{ fontSize: 13.5, color: '#F2ECD1', fontWeight: 600 }}>{flow.outcome}</span>
                 </div>
               )}
             </div>
@@ -254,25 +267,58 @@ export default function AutomationDemo() {
 
           {/* Sidebar info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>Tools used</div>
+            <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.12)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Production Stack</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-                {flow.tools.map(t => <span key={t} className="tag">{t}</span>)}
+                {flow.tools.map(t => (
+                  <span
+                    key={t}
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: 11,
+                      padding: '4px 9px',
+                      borderRadius: 4,
+                      background: 'rgba(242,236,209,0.08)',
+                      border: '1px solid rgba(242,236,209,0.16)',
+                      color: '#F2ECD1',
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
 
-            <div style={{ background: 'var(--bg)', border: '1px solid rgba(242,236,209,0.1)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>What you get</div>
-              {['Fully automated — no manual steps', 'Runs 24/7 including weekends', 'Setup in 3–5 days', 'Easy to modify as you scale'].map(f => (
+            <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.12)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Architecture SLA</div>
+              {['Autonomous triggers — zero human intervention', '24/7 uptime on dedicated cloud instances', 'Live monitoring & webhook failure retries', 'Version-controlled n8n JSON nodes'].map(f => (
                 <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
-                  <CheckCircle size={13} color="var(--signal)" />
-                  <span style={{ fontSize: 13.5, color: 'rgba(242,236,209,0.6)' }}>{f}</span>
+                  <CheckCircle size={13} color="#c9922a" />
+                  <span style={{ fontSize: 13, color: 'rgba(242,236,209,0.75)' }}>{f}</span>
                 </div>
               ))}
             </div>
 
-            <a href="#contact" className="btn btn-primary" style={{ justifyContent: 'center', textAlign: 'center' }}>
-              Build this for my business <ArrowRight size={15} />
+            <a
+              href="#contact"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                padding: '12px 20px',
+                borderRadius: 8,
+                background: '#F2ECD1',
+                color: '#4D2622',
+                fontSize: 14,
+                fontWeight: 700,
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#F2ECD1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              Engineer this workflow <ArrowRight size={15} />
             </a>
           </div>
         </div>

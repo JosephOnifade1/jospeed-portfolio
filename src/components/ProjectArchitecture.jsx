@@ -39,18 +39,6 @@ export default function ProjectArchitecture({ project, onFlipBack, onOpenDeepDiv
           pointerEvents: 'none',
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          top: -40,
-          right: -40,
-          width: 140,
-          height: 140,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(201, 146, 42, 0.15) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
 
       {/* Top Bar: Telemetry Badge & Flip Action */}
       <div

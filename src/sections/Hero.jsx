@@ -32,25 +32,17 @@ export default function Hero() {
   return (
     <section id="top" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:76 }}>
       <div className="wrap" style={{ display:'grid', gridTemplateColumns:'1fr 1.1fr', gap:0, alignItems:'center', width:'100%' }} id="hero-grid">
-        <div style={{ paddingRight:32 }}>
-          {/* Status */}
-          <div style={{ ...stagger(0), display:'flex', alignItems:'center', gap:8, marginBottom:28 }}>
-            <span style={{ width:7, height:7, borderRadius:'50%', background:'var(--signal)', boxShadow:'0 0 8px var(--signal)', flexShrink:0 }} />
-            <span style={{ fontFamily:'var(--mono)', fontSize:12.5, color:'var(--text-faint)', letterSpacing:'0.04em' }}>
-              Open to new projects — async only
-            </span>
-          </div>
-
-          <MagneticHeading inView={loaded} style={stagger(1)} />
+        <div style={{ paddingRight: 32 }}>
+          <MagneticHeading inView={loaded} style={stagger(0)} />
 
           {/* Mechanical Rolodex */}
-          <div style={stagger(2)}>
+          <div style={stagger(1)}>
             <MechanicalRolodex roles={ROLES} />
           </div>
 
-          <p id="hero-sub" style={{ ...stagger(3), fontSize:16, color:'var(--text-dim)', maxWidth:440, marginBottom:36, lineHeight:1.75 }}>
-            Full-stack developer specializing in React, Supabase and AI automation.
-            Helping startups and businesses ship faster with clean, scalable code.
+          <p id="hero-sub" style={{ ...stagger(2), fontSize:16, color:'var(--text-dim)', maxWidth:460, marginBottom:36, lineHeight:1.75 }}>
+            Full-stack engineer specializing in React, Supabase, and autonomous AI pipelines.
+            Turning product concepts and Figma designs into production-ready software in days — without agency bloat or meeting overhead.
           </p>
 
           <div style={{ ...stagger(4), display:'flex', gap:12, flexWrap:'wrap', marginBottom:40 }}>
