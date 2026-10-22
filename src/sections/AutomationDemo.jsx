@@ -183,9 +183,9 @@ export default function AutomationDemo() {
               float={3}
               speed={4}
               colors={{
-                petal: '#8b1a1a',
-                light: '#c9922a',
-                sheen: '#F2ECD1',
+                petal: '#1e0f0d',
+                light: '#e0a430',
+                sheen: '#f4ebd2',
               }}
               pointer={{ follow: true, tilt: 6, hoverGlow: 6, smoothing: 5 }}
               style={{ background: 'transparent' }}

@@ -4,6 +4,7 @@ import { GithubIcon } from '../components/BrandIcons.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { PROJECTS, FILTERS } from '../data/projects.js';
 import CoverflowGallery from '../components/CoverflowGallery.jsx';
+import RoundCarousel from '../components/RoundCarousel.jsx';
 import ProjectArchitecture from '../components/ProjectArchitecture.jsx';
 import ProjectDeepDiveDeck from '../components/ProjectDeepDiveDeck.jsx';
 import { useTactileTilt } from '../hooks/useTactileTilt.js';
@@ -336,7 +337,7 @@ function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
 
 export default function Projects() {
   const [filter, setFilter] = useState('All');
-  const [view, setView] = useState('coverflow');
+  const [view, setView] = useState('round');
   const [xrayMode, setXrayMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [headRef, headIn] = useReveal();
@@ -448,8 +449,9 @@ export default function Projects() {
                 }}
               >
                 {[
-                  { key: 'coverflow', Icon: Layers, label: 'Gallery' },
-                  { key: 'grid', Icon: LayoutGrid, label: 'Grid' },
+                  { key: 'round',     Icon: Cpu,        label: 'Orbit' },
+                  { key: 'coverflow', Icon: Layers,     label: 'Gallery' },
+                  { key: 'grid',      Icon: LayoutGrid, label: 'Grid' },
                 ].map(({ key, Icon, label }) => (
                   <button
                     key={key}
@@ -481,6 +483,16 @@ export default function Projects() {
             </div>
           </div>
         </div>
+
+        {/* Round Orbit Carousel */}
+        {view === 'round' && (
+          <RoundCarousel
+            onOpenDeepDive={(p) => {
+              playTactileClick('pop');
+              setSelectedProject(p);
+            }}
+          />
+        )}
 
         {/* Coverflow View */}
         {view === 'coverflow' && (

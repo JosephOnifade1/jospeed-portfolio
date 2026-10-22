@@ -40,12 +40,6 @@ const BLOOM_WIDE = 0.85
 const PETAL_U = 40
 const PETAL_V = 14
 
-const POD_CENTER_Y = 0.22
-const POD_R = 0.21
-const POD_BEADS = 46
-const RECEPTACLE_Y = -0.2
-const RECEPTACLE_R = 0.2
-const POD_CAP = 80 * DEG
 
 const SPIN_UNIT = 0.035
 const FLOAT_BOB = 0.012
@@ -210,10 +204,10 @@ type LayerSpec = {
 }
 
 const LAYERS: LayerSpec[] = [
-    { share: 1, tilt: 108, bend: 0.6, length: 0.95, width: 0.28, cup: 0.55, r0: 0.12, h0: -0.3, bud: 34, curl: 0.5 },
-    { share: 1, tilt: 55, bend: 0.7, length: 0.9, width: 0.26, cup: 0.65, r0: 0.12, h0: -0.2, bud: 26, curl: 0.8 },
-    { share: 0.875, tilt: 28, bend: 0.4, length: 0.8, width: 0.22, cup: 0.75, r0: 0.17, h0: -0.12, bud: 17, curl: 1 },
-    { share: 0.625, tilt: 30, bend: 0.3, length: 0.36, width: 0.17, cup: 0.8, r0: 0.22, h0: -0.04, bud: 9, curl: 0.6 },
+    { share: 1, tilt: 96, bend: 0.36, length: 0.96, width: 0.25, cup: 0.15, r0: 0.14, h0: -0.22, bud: 26, curl: 0.15 },
+    { share: 1, tilt: 54, bend: 0.32, length: 0.90, width: 0.23, cup: 0.15, r0: 0.15, h0: -0.14, bud: 18, curl: 0.15 },
+    { share: 0.875, tilt: 28, bend: 0.26, length: 0.80, width: 0.19, cup: 0.15, r0: 0.18, h0: -0.08, bud: 12, curl: 0.1 },
+    { share: 0.625, tilt: 24, bend: 0.20, length: 0.44, width: 0.15, cup: 0.15, r0: 0.21, h0: -0.02, bud: 7, curl: 0.05 },
 ]
 
 function buildPetals(count: number, layers: number, seed: number): THREE.BufferGeometry {
@@ -266,43 +260,37 @@ function buildPetals(count: number, layers: number, seed: number): THREE.BufferG
     return g
 }
 
-function buildPod(seed: number): THREE.BufferGeometry {
-    const rng = mulberry32(seed * 104729 + 7)
-    const sphere = new THREE.SphereGeometry(1, 14, 10)
-    const sp = sphere.attributes.position.array
-    const sn = sphere.attributes.normal.array
-    const si = sphere.index ? sphere.index.array : []
+function buildPod(_seed: number): THREE.BufferGeometry {
     const pos: number[] = []
     const nor: number[] = []
     const ao: number[] = []
     const seeds: number[] = []
     const index: number[] = []
-    const add = (cx: number, cy: number, cz: number, r: number, dir: THREE.Vector3 | null, s: number) => {
+
+    const addMesh = (geom: THREE.BufferGeometry, cx: number, cy: number, cz: number, aoVal: number, s: number) => {
         const start = pos.length / 3
-        for (let i = 0; i < sp.length; i += 3) {
-            pos.push(cx + sp[i] * r, cy + sp[i + 1] * r, cz + sp[i + 2] * r)
-            nor.push(sn[i], sn[i + 1], sn[i + 2])
-            const facing = dir ? sn[i] * dir.x + sn[i + 1] * dir.y + sn[i + 2] * dir.z : 0
-            ao.push(dir ? 0.3 + 0.7 * (facing * 0.5 + 0.5) : 0.5)
+        const p = geom.attributes.position.array
+        const n = geom.attributes.normal.array
+        const idx = geom.index ? geom.index.array : []
+        for (let i = 0; i < p.length; i += 3) {
+            pos.push(cx + p[i], cy + p[i + 1], cz + p[i + 2])
+            nor.push(n[i], n[i + 1], n[i + 2])
+            ao.push(aoVal)
             seeds.push(s)
         }
-        for (let i = 0; i < si.length; i++) index.push(start + si[i])
+        for (let i = 0; i < idx.length; i++) index.push(start + idx[i])
+        geom.dispose()
     }
-    add(0, POD_CENTER_Y, 0, POD_R * 0.9, null, 0.5)
 
-    add(0, RECEPTACLE_Y, 0, RECEPTACLE_R, null, 0.5)
-    const golden = Math.PI * (3 - Math.sqrt(5))
-    const cosMax = Math.cos(POD_CAP)
-    for (let i = 0; i < POD_BEADS; i++) {
-        const ct = 1 - ((i + 0.5) / POD_BEADS) * (1 - cosMax)
-        const st = Math.sqrt(1 - ct * ct)
-        const psi = i * golden
-        const dir = new THREE.Vector3(st * Math.cos(psi), ct, st * Math.sin(psi))
-        const theta = Math.acos(ct)
-        const r = POD_R * (0.3 - 0.1 * (theta / POD_CAP)) * (0.9 + 0.2 * rng())
-        add(dir.x * POD_R, POD_CENTER_Y + dir.y * POD_R, dir.z * POD_R, r, dir, rng())
-    }
-    sphere.dispose()
+    // Tier 1: Base collar collar ring
+    addMesh(new THREE.CylinderGeometry(0.24, 0.26, 0.14, 20), 0, 0.04, 0, 0.4, 0.2)
+    // Tier 2: Glowing reactor core cylinder
+    addMesh(new THREE.CylinderGeometry(0.18, 0.18, 0.20, 20), 0, 0.18, 0, 0.75, 0.8)
+    // Tier 3: Processor chip cap / focal crystal
+    addMesh(new THREE.CylinderGeometry(0.12, 0.14, 0.08, 16), 0, 0.30, 0, 0.9, 1.0)
+    // Sub-receptacle base
+    addMesh(new THREE.CylinderGeometry(0.22, 0.15, 0.25, 16), 0, -0.15, 0, 0.3, 0.1)
+
     const g = new THREE.BufferGeometry()
     g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3))
     g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3))
@@ -385,12 +373,16 @@ vec3 petal(float u, float v) {
     vec3 T = vec3(-sin(phi), 0.0, cos(phi));
     vec3 inward = -R * cos(a) + vec3(0.0, sin(a), 0.0);
 
-    float w = aShape.w * 1.93 * pow(u, 0.45) * pow(1.0 - u, 0.5);
-    float cup = aBend.x * uCup * mix(1.5, 1.0, o1);
-    float tip = smoothstep(0.72, 1.0, u);
-    float lift = cup * w * v * v - aMeta.w * uCurl * tip * tip * L * 0.14;
+    // Precision tech aperture blade / data shard profile:
+    // Sleek straight edges with a sharp chamfered dagger tip
+    float bladeProfile = mix(0.42, 1.0, smoothstep(0.0, 0.14, u));
+    float chamferTip = clamp((1.0 - u) * 4.2, 0.0, 1.0);
+    float w = aShape.w * 1.45 * bladeProfile * chamferTip;
 
-    lift += (aMeta.x - 0.5) * 0.06 * v * w * u;
+    // Precision planar blade (crisp mechanical aperture feel, no floppy petal curl)
+    float cup = aBend.x * uCup * 0.10;
+    float lift = cup * w * v * v;
+    lift += (aMeta.x - 0.5) * 0.015 * v * w * u;
     return R * r + vec3(0.0, h, 0.0) + T * (v * w) + inward * lift;
 }
 
@@ -481,15 +473,51 @@ void main() {
     float pod = step(3.5, vLayer);
     float petal = 1.0 - pod;
 
-    float tipT = smoothstep(0.8, 1.0, u) * petal;
+    float tipT = smoothstep(0.75, 1.0, u) * petal;
 
+    // ── Circuit edge rim (replaces organic petal rim) ──────────────────
     float rimW = max(0.13, 3.0 * fwidth(av));
-    float rim = smoothstep(0.97 - rimW, 0.97, av) * (0.13 / rimW) * petal * (1.0 - 0.5 * tipT);
-    float vein = 0.5 + 0.5 * cos(vUv.y * 30.0 + sin(u * 4.0 + vSeed * 9.0) * 0.6);
+    float rim = smoothstep(0.97 - rimW, 0.97, av) * (0.18 / rimW) * petal * (1.0 - 0.4 * tipT);
 
-    vein = mix(vein, 0.5, smoothstep(0.6, 1.6, fwidth(vUv.y) * 30.0));
-    float thick = 0.8 + 1.1 * tipT + 0.6 * pow(1.0 - u, 3.0) + 0.06 * vein * petal;
-    thick = mix(thick, 1.15, pod);
+    // ── PCB trace grid ──────────────────────────────────────────────────
+    // Main longitudinal trace: a narrow bright line running along the
+    // blade's centre axis at v=0, plus two side traces at ±0.38
+    float traceWidth = 0.025;
+    float ct  = smoothstep(traceWidth, 0.0, abs(vUv.y));                      // centre trace
+    float st1 = smoothstep(traceWidth * 0.8, 0.0, abs(abs(vUv.y) - 0.38));   // side trace 1
+    float st2 = smoothstep(traceWidth * 0.8, 0.0, abs(abs(vUv.y) - 0.62));   // side trace 2
+    float traces = ct + st1 * 0.7 + st2 * 0.45;
+
+    // Cross-traces: horizontal rungs that connect longitudinal traces.
+    // Spaced unevenly per blade using vSeed for organic variation.
+    float rungFreq = 5.5 + vSeed * 3.0;
+    float rungPhase = vSeed * 6.2832;
+    float rungT = sin(u * rungFreq * 3.14159 + rungPhase);
+    float rung = smoothstep(0.82, 1.0, abs(rungT)) * step(0.02, av) * step(av, 0.75);
+    traces += rung * 0.5;
+
+    // Via pads: small glowing dots at trace junctions
+    // Each junction = rungT peak × trace intersection
+    float viaU = fract(u * rungFreq * 0.5 + rungPhase * 0.1);
+    float viaV = abs(vUv.y);
+    float via1 = smoothstep(0.055, 0.0, length(vec2(viaU - 0.5, viaV - 0.38))) * step(0.3, u);
+    float via2 = smoothstep(0.055, 0.0, length(vec2(viaU - 0.5, viaV - 0.0))) * step(0.2, u);
+    traces += (via1 + via2) * 0.9;
+
+    // Microetch background: subtle hash grid texture for FR4 PCB feel
+    float ex = fract(u * 28.0 + vSeed * 5.0);
+    float ey = fract(vUv.y * 22.0 + vSeed * 3.7);
+    float etch = step(0.85, ex) * step(0.85, ey) * 0.12;
+    traces += etch;
+
+    // Circuit "vein" is the trace signal — replaces organic vein
+    float vein = clamp(traces, 0.0, 1.0);
+
+    // ── Thickness (controls translucency depth like original) ───────────
+    // Traces are thinner/denser toward the tip (circuit density increases)
+    float traceWeight = mix(0.04, 0.12, u) * vein;
+    float thick = 0.7 + 0.9 * tipT + 0.5 * pow(1.0 - u, 3.0) + traceWeight;
+    thick = mix(thick, 1.1, pod);
 
     float path = thick * uAbsorb / max(NoV, 0.45);
 
