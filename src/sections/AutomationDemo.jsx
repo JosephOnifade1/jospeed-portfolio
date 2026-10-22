@@ -361,7 +361,12 @@ export default function AutomationDemo() {
         @media (max-width: 860px) {
           .demo-grid { grid-template-columns: 1fr !important; }
           .automation-header-grid { grid-template-columns: 1fr !important; }
-          .automation-header-grid > div:last-child { display: none; }
+          .automation-header-grid > div:last-child {
+            display: flex !important;
+            justify-content: center;
+            height: 220px !important;
+            margin-top: 20px;
+          }
         }
       `}</style>
     </section>

@@ -79,6 +79,7 @@ export default function CustomCursor() {
       {/* Main dot */}
       <div
         ref={dotRef}
+        className="custom-cursor-dot"
         style={{
           position: 'fixed',
           top: 0, left: 0,
@@ -98,6 +99,7 @@ export default function CustomCursor() {
         <div
           key={i}
           ref={el => { trailRef.current[i] = el; }}
+          className="custom-cursor-trail"
           style={{
             position: 'fixed',
             top: 0, left: 0,
@@ -109,6 +111,11 @@ export default function CustomCursor() {
           }}
         />
       ))}
+      <style>{`
+        @media (hover: none) {
+          .custom-cursor-dot, .custom-cursor-trail { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }

@@ -13,11 +13,22 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
-      background: scrolled ? 'rgba(28,10,10,0.82)' : 'transparent',
+      background: scrolled ? 'rgba(28,10,10,0.88)' : 'transparent',
       backdropFilter: scrolled ? 'blur(16px)' : 'none',
       borderBottom: scrolled ? '1px solid rgba(240,232,213,0.08)' : '1px solid transparent',
     }}>
@@ -50,7 +61,20 @@ export default function Navbar() {
           </a>
         </div>
 
-        <button className="mobile-toggle" onClick={() => setOpen(!open)} style={{ display: 'none', color: 'var(--text)' }}>
+        <button
+          className="mobile-toggle"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Close Menu' : 'Open Menu'}
+          style={{
+            display: 'none',
+            color: 'var(--text)',
+            width: 44,
+            height: 44,
+            borderRadius: 8,
+            background: 'rgba(242,236,209,0.08)',
+            border: '1px solid rgba(242,236,209,0.14)',
+          }}
+        >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
@@ -58,23 +82,37 @@ export default function Navbar() {
       {open && (
         <div style={{
           position: 'fixed', inset: 0, top: 72,
-          background: 'var(--bg-deep)', zIndex: 99,
-          display: 'flex', flexDirection: 'column', padding: '40px 32px', gap: 28,
+          background: 'rgba(36, 16, 14, 0.97)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          zIndex: 99,
+          display: 'flex', flexDirection: 'column', padding: '36px 28px', gap: 24,
+          overflowY: 'auto',
+          animation: 'fadeDown 0.25s ease-out',
         }}>
           {LINKS.map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setOpen(false)}
-              style={{ fontSize: 24, fontFamily: 'var(--display)', fontWeight: 700, color: 'var(--text)' }}
+              style={{
+                fontSize: 22,
+                fontFamily: 'var(--display)',
+                fontWeight: 700,
+                color: 'var(--text)',
+                padding: '8px 0',
+                borderBottom: '1px solid rgba(242,236,209,0.06)',
+              }}
             >{l}</a>
           ))}
           <a href="#contact" onClick={() => setOpen(false)} style={{
-            padding: '13px 24px', borderRadius: 6, background: 'var(--accent)', color: 'var(--bg-warm)',
-            fontSize: 15, fontWeight: 700, width: 'fit-content', marginTop: 8,
-            display: 'flex', alignItems: 'center', gap: 6,
-          }}>Hire me <ArrowUpRight size={15} /></a>
+            padding: '14px 24px', borderRadius: 8,
+            background: '#F2ECD1', color: '#4D2622',
+            fontSize: 16, fontWeight: 700, width: '100%', marginTop: 12,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+          }}>Hire me <ArrowUpRight size={16} /></a>
         </div>
       )}
 
       <style>{`
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 860px) {
           .desktop-links { display: none !important; }
           .mobile-toggle { display: flex !important; align-items: center; justify-content: center; }

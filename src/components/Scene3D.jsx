@@ -383,6 +383,6 @@ export default function Scene3D() {
   }, []);
 
   return (
-    <div ref={mountRef} style={{ width: '100%', height: '100%', cursor: 'grab', touchAction: 'none' }} />
+    <div ref={mountRef} style={{ width: '100%', height: '100%', cursor: 'grab', touchAction: 'pan-y' }} />
   );
 }

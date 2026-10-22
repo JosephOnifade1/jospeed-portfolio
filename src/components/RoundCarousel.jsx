@@ -23,6 +23,7 @@ function OrbitThumb({ project, angle, isActive, onClick, total }) {
 
   return (
     <button
+      className={`rc-orbit-thumb ${isActive ? "active" : ""}`}
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -106,7 +107,8 @@ function FeaturedCard({ project, onOpenDeepDive }) {
       position: 'relative',
     }}>
       {/* Banner */}
-      <div style={{
+      <div className="rc-banner"
+      style={{
         height: 200, flexShrink: 0,
         background: project.gradient,
         position: 'relative', overflow: 'hidden',
@@ -289,6 +291,7 @@ export default function RoundCarousel({ onOpenDeepDive }) {
       {/* ── Outer orbit + center feature wrapper ── */}
       <div
         ref={wrapperRef}
+        className="rc-orbit-wrapper"
         style={{ position: 'relative', width: '100%', paddingBottom: '72%', maxWidth: 820, margin: '0 auto' }}
         onMouseEnter={() => { paused.current = true; }}
         onMouseLeave={() => { paused.current = false; }}
@@ -334,7 +337,8 @@ export default function RoundCarousel({ onOpenDeepDive }) {
           ))}
 
           {/* ── Center feature card ── */}
-          <div style={{
+          <div className="rc-center-card"
+          style={{
             position: 'absolute',
             left: '50%', top: '50%',
             transform: 'translate(-50%, -50%)',
@@ -420,6 +424,25 @@ export default function RoundCarousel({ onOpenDeepDive }) {
         @keyframes rc-pulse {
           0%,100% { opacity: 0.5; transform: scale(1); }
           50%      { opacity: 0.15; transform: scale(1.25); }
+        }
+        @media (max-width: 680px) {
+          .rc-orbit-wrapper {
+            padding-bottom: clamp(500px, 138vw, 580px) !important;
+          }
+          .rc-center-card {
+            width: 78% !important;
+          }
+          .rc-banner {
+            height: 145px !important;
+          }
+          .rc-orbit-thumb {
+            width: 38px !important;
+            height: 38px !important;
+          }
+          .rc-orbit-thumb.active {
+            width: 48px !important;
+            height: 48px !important;
+          }
         }
       `}</style>
     </div>
