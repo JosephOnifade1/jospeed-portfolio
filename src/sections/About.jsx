@@ -1,4 +1,5 @@
 import EditorialManifesto from '../components/EditorialManifesto.jsx';
+import FlowerBorder from '../components/originkit/ui/flower-border.tsx';
 import { useState, useEffect } from 'react';
 import { Check, Clock, Zap, Shield, Sun, Moon, Copy, ArrowUpRight, Sparkles, Workflow, Terminal } from 'lucide-react';
 import { GithubIcon } from '../components/BrandIcons.jsx';
@@ -506,8 +507,40 @@ export default function About() {
   const [rightRef, rightIn] = useReveal(0.15);
 
   return (
-    <section id="about" style={{ paddingBottom: 80 }}>
-      <div className="wrap">
+    <section id="about" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 80 }}>
+      {/* Flower Border Background Layer */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          zIndex: 0,
+          opacity: 0.45,
+        }}
+        aria-hidden="true"
+      >
+        <FlowerBorder
+          sides={{ top: false, bottom: false, left: true, right: true }}
+          petal="#632f2b"
+          line="#2a100e"
+          heart="#c9922a"
+          flowers={7}
+          petals={6}
+          size={11}
+          spread={92}
+          sway={10}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            minWidth: 0,
+            minHeight: 0,
+          }}
+        />
+      </div>
+
+      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 52 }}>
           <div className="eyebrow">// About me</div>
           <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
