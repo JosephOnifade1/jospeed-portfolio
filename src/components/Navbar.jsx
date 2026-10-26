@@ -35,7 +35,7 @@ export default function Navbar() {
     }}>
       <div className="wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
         <a href="#top" style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 20, letterSpacing: '-0.02em', color: 'var(--text)' }}>
-          Jos<span style={{ color: 'var(--accent-gold)' }}>peed</span>
+          JO<span style={{ color: 'var(--accent-gold)' }}>speed</span>
         </a>
 
         <div className="desktop-links" style={{ display: 'flex', gap: 36, alignItems: 'center' }}>

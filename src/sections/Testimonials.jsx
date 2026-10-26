@@ -7,7 +7,7 @@ const GOLD = '#c9922a';
 const TESTIMONIALS = [
   {
     scope: 'FULL-STACK REPLATFORMING',
-    quote: 'Jospeed rebuilt our booking flow in days, not weeks. Communication was async and effortless across time zones.',
+    quote: 'JOspeed rebuilt our booking flow in days, not weeks. Communication was async and effortless across time zones.',
     impact: 'Reduced checkout abandonment by ~28% within the first month post-launch.',
     name: 'Jurre B.',
     role: 'Product Lead',

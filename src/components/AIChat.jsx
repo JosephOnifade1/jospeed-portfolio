@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Loader } from 'lucide-react';
 
-const SYSTEM_PROMPT = `You are Jospeed's AI assistant — a helpful, concise chatbot on Joseph Onifade's portfolio website. You answer questions about his skills, services, availability, rates, and past projects.
+const SYSTEM_PROMPT = `You are JOspeed's AI assistant — a helpful, concise chatbot on Joseph Onifade's portfolio website. You answer questions about his skills, services, availability, rates, and past projects.
 
 KEY FACTS ABOUT JOSPEED:
-- Full name: Joseph Onifade. Brand: Jospeed. Handle: @Jospeed7
+- Full name: Joseph Onifade. Brand: JOspeed (Build with JOspeed). Handle: @buildwithJOspeed / @JosephOnifade1
 - Based in Nigeria (Abuja). Works async-only — no calls. Serves US, UK, Canada, EU, UAE clients.
 - 4+ years experience. 40+ projects delivered. 15+ happy clients. 5 countries served.
 
@@ -33,7 +33,7 @@ PROJECTS:
 - AI Strategy Coach: Business coaching app — Lovable + Claude API
 
 WHERE TO HIRE:
-- Fiverr: search "Jospeed" 
+- Search "JOspeed" / "Joseph Onifade"
 - Contact form on this site
 - Email: josephonifade21@gmail.com
 
@@ -49,7 +49,7 @@ const STARTERS = [
 export default function AIChat() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: "Hey 👋 I'm Jospeed's AI. Ask me about his services, projects, rates, or availability." },
+    { role: 'assistant', content: "Hey 👋 I'm JOspeed's AI. Ask me about his services, projects, rates, or availability." },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -80,10 +80,10 @@ export default function AIChat() {
         }),
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || "I'm having trouble connecting. Message Jospeed directly at josephonifade21@gmail.com";
+      const reply = data.content?.[0]?.text || "I'm having trouble connecting. Message JOspeed directly at josephonifade21@gmail.com";
       setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
     } catch {
-      setMessages((prev) => [...prev, { role: 'assistant', content: "Connection issue. Reach Jospeed directly at josephonifade21@gmail.com — he replies within 2 hours." }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: "Connection issue. Reach JOspeed directly at josephonifade21@gmail.com — he replies within 2 hours." }]);
     }
     setLoading(false);
   };
@@ -138,9 +138,9 @@ export default function AIChat() {
         >
           {/* Header */}
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, fontFamily: 'var(--display)' }}>J</div>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, fontFamily: 'var(--display)', letterSpacing: '-0.02em' }}>JO</div>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 14 }}>Ask Jospeed's AI</div>
+              <div style={{ fontWeight: 600, fontSize: 14 }}>Ask JOspeed's AI</div>
               <div style={{ fontSize: 12, color: 'var(--text-faint)', display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--signal)', display: 'inline-block' }} />
                 Powered by Claude

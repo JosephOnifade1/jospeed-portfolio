@@ -12,7 +12,7 @@ const GOLD_DIM = 'rgba(201,146,42,0.18)';
 const SOCIALS = [
   { Icon: GithubIcon,   href: 'https://github.com/JosephOnifade1',             label: 'GitHub'   },
   { Icon: LinkedinIcon, href: 'https://www.linkedin.com/in/joseph-onifade-ol', label: 'LinkedIn' },
-  { Icon: XIcon,        href: 'https://x.com/Jospeed7',                        label: 'X'        },
+  { Icon: XIcon,        href: 'https://x.com/buildwithjospeed',                label: 'X'        },
   { Icon: DiscordIcon,  href: 'https://discord.com/users/1278856822555414549', label: 'Discord'  },
 ];
 
@@ -773,7 +773,7 @@ export default function Contact() {
       {/* Footer */}
       <footer style={{ borderTop: '1px solid rgba(242,236,209,0.08)', marginTop: 80, padding: '28px 0' }}>
         <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <span style={{ fontSize: 13.5, color: 'rgba(242,236,209,0.3)' }}>© 2026 Jospeed · Built with React & Three.js</span>
+          <span style={{ fontSize: 13.5, color: 'rgba(242,236,209,0.3)' }}>© 2026 JOspeed · Built with React & Three.js</span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['About','Projects','Skills','Contact'].map(l => (
               <a key={l} href={`#${l.toLowerCase()}`} style={{ fontSize: 13.5, color: 'rgba(242,236,209,0.3)', transition: 'color 0.2s' }}

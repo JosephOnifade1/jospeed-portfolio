@@ -259,7 +259,7 @@ function EngineerHardwareBadge() {
             zIndex: 1,
           }}
         >
-          @Jospeed7 • Systems & AI Architect
+          @buildwithJOspeed • Systems & AI Architect
         </div>
 
         {/* Holographic Clearance Foil Accent */}

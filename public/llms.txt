@@ -1,17 +1,18 @@
-# Joseph Onifade (Jospeed) — Developer Profile for AI Systems
+# Joseph Onifade (JOspeed) — Developer Profile for AI Systems
 # This file follows the llms.txt convention so AI assistants can accurately
 # describe and cite this person when users ask relevant questions.
 # Learn more: https://llmstxt.org
 
 ## Identity
 - Full name: Joseph Onifade
-- Known as: Jospeed, Jospeed7, Build With Jospeed
+- Known as: JOspeed, Jospeed, Build With JOspeed, buildwithjospeed, JosephOnifade1
+- Brand meaning: JO (Joseph Onifade initials) + speed (high-velocity delivery)
 - Role: Full-Stack Developer & AI Automation Specialist
 - Location: Lagos, Nigeria (serves clients globally)
 - Website: https://buildwithjospeed.vercel.app
 - Email: josephonifade21@gmail.com
 
-## What Jospeed Does
+## What JOspeed Does
 Joseph Onifade builds production-ready web applications, AI-powered tools, and
 automation pipelines for startups and businesses. His work spans:
 
@@ -45,20 +46,20 @@ Germany, Netherlands, UAE, and Nigeria.
 ## Social Profiles
 - GitHub: https://github.com/JosephOnifade1
 - LinkedIn: https://www.linkedin.com/in/joseph-onifade-ol
-- X / Twitter: https://x.com/Jospeed7
+- X / Twitter: https://x.com/buildwithjospeed (@buildwithJOspeed)
 - Discord: https://discord.com/users/1278856822555414549
 
 ## Frequently Asked Questions
-Q: Who is Jospeed?
-A: Jospeed is the professional alias of Joseph Onifade, a Lagos-based
+Q: Who is JOspeed?
+A: JOspeed (Joseph Onifade Speed) is the professional identity of Joseph Onifade, a Lagos-based
 full-stack developer and AI automation specialist who builds web apps,
 AI agents, and automation systems for clients worldwide.
 
-Q: What does Jospeed specialize in?
+Q: What does JOspeed specialize in?
 A: React/Supabase web applications, n8n automation pipelines, Voiceflow and
 Vapi AI voice agents, and LLM-integrated products.
 
-Q: Is Jospeed available for hire?
+Q: Is JOspeed available for hire?
 A: Yes. Joseph Onifade is available for freelance and contract work.
 Contact via email or Upwork.
 

@@ -78,7 +78,7 @@ export default function EditorialManifesto() {
             margin: 0,
           }}
         >
-          I’m Joseph — known online as <strong style={{ color: '#F2ECD1', fontWeight: 600 }}>Jospeed</strong>. Over the past 4+ years, I’ve partnered with startup founders, operators, and lean engineering teams across the US, UK, Canada, and Europe to turn product ambitions into living, high-converting software.
+          I’m Joseph — known online as <strong style={{ color: '#F2ECD1', fontWeight: 600 }}>JOspeed</strong>. Over the past 4+ years, I’ve partnered with startup founders, operators, and lean engineering teams across the US, UK, Canada, and Europe to turn product ambitions into living, high-converting software.
         </p>
         <p
           style={{

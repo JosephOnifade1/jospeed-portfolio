@@ -15,7 +15,7 @@ const ROLES = [
 const SOCIALS = [
   { Icon: GithubIcon,   href: 'https://github.com/JosephOnifade1',              label: 'GitHub'   },
   { Icon: LinkedinIcon, href: 'https://www.linkedin.com/in/joseph-onifade-ol',  label: 'LinkedIn' },
-  { Icon: XIcon,        href: 'https://x.com/Jospeed7',                         label: 'X'        },
+  { Icon: XIcon,        href: 'https://x.com/buildwithjospeed',                  label: 'X'        },
   { Icon: DiscordIcon,  href: 'https://discord.com/users/1278856822555414549',   label: 'Discord'  },
 ];
 
