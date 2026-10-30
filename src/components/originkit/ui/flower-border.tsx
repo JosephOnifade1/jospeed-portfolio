@@ -272,6 +272,21 @@ class BorderScene {
     private scene = new THREE.Scene()
     private camera = new THREE.Camera()
     private geometry = new THREE.PlaneGeometry(2, 2)
+    private uniforms = {
+        uResolution: { value: new THREE.Vector2(1, 1) },
+        uTime: { value: 0 },
+        uPetal: { value: new THREE.Vector3() },
+        uLine: { value: new THREE.Vector3() },
+        uHeart: { value: new THREE.Vector3() },
+        uSides: { value: new THREE.Vector4(1, 1, 0, 0) },
+        uCount: { value: 1 },
+        uPetals: { value: 5 },
+        uSize: { value: 0.1 },
+        uPoint: { value: 1 },
+        uWeight: { value: LINE_WEIGHT },
+        uSpread: { value: 0 },
+        uSway: { value: 0 },
+    }
     private material: THREE.ShaderMaterial
     private mesh: THREE.Mesh
 
@@ -293,7 +308,7 @@ class BorderScene {
         this.renderer.setPixelRatio(1.0)
         this.renderer.outputColorSpace = THREE.SRGBColorSpace
         this.renderer.setClearColor(0x000000, 0)
-        const el = this.renderer.domElement
+        const el = this.renderer.domElement as HTMLCanvasElement
         el.style.position = "absolute"
         el.style.inset = "0"
         el.style.width = "100%"
@@ -303,21 +318,7 @@ class BorderScene {
         this.material = new THREE.ShaderMaterial({
             vertexShader: QUAD_VERTEX,
             fragmentShader: BORDER_FRAGMENT,
-            uniforms: {
-                uResolution: { value: new THREE.Vector2(1, 1) },
-                uTime: { value: 0 },
-                uPetal: { value: new THREE.Vector3() },
-                uLine: { value: new THREE.Vector3() },
-                uHeart: { value: new THREE.Vector3() },
-                uSides: { value: new THREE.Vector4(1, 1, 0, 0) },
-                uCount: { value: 1 },
-                uPetals: { value: 5 },
-                uSize: { value: 0.1 },
-                uPoint: { value: 1 },
-                uWeight: { value: LINE_WEIGHT },
-                uSpread: { value: 0 },
-                uSway: { value: 0 },
-            },
+            uniforms: this.uniforms,
             transparent: true,
             depthTest: false,
             depthWrite: false,
@@ -325,7 +326,7 @@ class BorderScene {
 
         this.mesh = new THREE.Mesh(this.geometry, this.material)
         this.mesh.frustumCulled = false
-        this.scene.add(this.mesh)
+        this.scene.add(this.mesh as any)
 
         this.updateConfig(cfg);
 
@@ -371,15 +372,15 @@ class BorderScene {
         if (this.disposed || width <= 0 || height <= 0) return
         this.renderer.setSize(width, height, false)
         const dpr = this.renderer.getPixelRatio()
-        this.material.uniforms.uResolution.value.set(width * dpr, height * dpr)
+        this.uniforms.uResolution.value.set(width * dpr, height * dpr)
 
-        this.material.uniforms.uWeight.value = LINE_WEIGHT * dpr
+        this.uniforms.uWeight.value = LINE_WEIGHT * dpr
     }
 
     updateConfig(cfg: Config) {
         if (this.disposed) return
         const S = settingsFor(cfg)
-        const u = this.material.uniforms
+        const u = this.uniforms
         u.uPetal.value.copy(toOklab(cfg.petal, DEFAULTS.petal))
         u.uLine.value.copy(toOklab(cfg.line, DEFAULTS.line))
         u.uHeart.value.copy(toOklab(cfg.heart, DEFAULTS.heart))
@@ -402,7 +403,7 @@ class BorderScene {
         if (dt > 0.05) dt = 0.05
 
         this.time += dt * 1.1
-        this.material.uniforms.uTime.value = this.time
+        this.uniforms.uTime.value = this.time
 
         this.renderer.render(this.scene, this.camera)
     }
@@ -412,7 +413,7 @@ class BorderScene {
         cancelAnimationFrame(this.frameId);
         if (this.removeScrollListener) this.removeScrollListener();
         clearTimeout(this.scrollTimer);
-        const el = this.renderer.domElement
+        const el = this.renderer.domElement as HTMLCanvasElement
         this.geometry.dispose()
         this.material.dispose()
         this.renderer.dispose()
