@@ -16,6 +16,7 @@ import Services from './sections/Services.jsx';
 import Testimonials from './sections/Testimonials.jsx';
 import AutomationDemo from './sections/AutomationDemo.jsx';
 import CaseStudy from './pages/CaseStudy.jsx';
+import Gallery from './pages/Gallery.jsx';
 
 function Portfolio() {
   return (
@@ -61,6 +62,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Portfolio />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/coverflow" element={<Gallery />} />
         <Route path="/case-study/:id" element={<CaseStudy />} />
       </Routes>
       <Analytics />

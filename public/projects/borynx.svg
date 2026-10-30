@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f0907" />
+      <stop offset="50%" stop-color="#3d1815" />
+      <stop offset="100%" stop-color="#5a2420" />
+    </linearGradient>
+    <radialGradient id="glow" cx="60%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#c9922a" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(242,236,209,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)" />
+  <rect width="800" height="800" fill="url(#glow)" />
+  <rect width="800" height="800" fill="url(#grid)" />
+
+  <!-- Accent glow orb -->
+  <circle cx="650" cy="180" r="160" fill="#c9922a" opacity="0.12" filter="blur(40px)" />
+
+  <!-- Decorative card container -->
+  <g transform="translate(60, 60)">
+    <!-- Header row -->
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="rgba(20,8,7,0.55)" stroke="rgba(242,236,209,0.18)" stroke-width="1.5" />
+    
+    <!-- Top badge -->
+    <g transform="translate(36, 40)">
+      <rect width="130" height="32" rx="16" fill="rgba(201,146,42,0.15)" stroke="#c9922a" stroke-width="1" />
+      <text x="65" y="21" fill="#e8b84b" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" letter-spacing="1" text-anchor="middle">WEB APPS</text>
+    </g>
+
+    <g transform="translate(520, 40)">
+      <rect width="124" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      <text x="62" y="21" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle">POSTGRES RLS</text>
+    </g>
+
+    <!-- Watermark / Icon graphic -->
+    <g transform="translate(36, 120)">
+      <!-- Stylized Network / Nodes icon -->
+      <path d="M 60 40 L 200 40 L 260 120 L 200 200 L 60 200 Z" fill="none" stroke="rgba(201,146,42,0.2)" stroke-width="2" stroke-dasharray="6 6"/>
+      <circle cx="60" cy="40" r="8" fill="#c9922a" />
+      <circle cx="200" cy="40" r="8" fill="#e8b84b" />
+      <circle cx="260" cy="120" r="12" fill="#c9922a" />
+      <circle cx="200" cy="200" r="8" fill="#e8b84b" />
+      <circle cx="60" cy="200" r="8" fill="#c9922a" />
+      <circle cx="140" cy="120" r="16" fill="#f2ecd1" opacity="0.9" />
+    </g>
+
+    <!-- Large Title -->
+    <text x="36" y="380" fill="#ffffff" font-family="'Playfair Display', serif, system-ui" font-size="58" font-weight="800" letter-spacing="-1">Borynx</text>
+
+    <!-- Subtitle -->
+    <text x="36" y="420" fill="rgba(242,236,209,0.75)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400">
+      Zero-Lockin Full-Text Community Engine
+    </text>
+
+    <!-- Metric box -->
+    <g transform="translate(36, 460)">
+      <rect width="360" height="54" rx="12" fill="rgba(0,0,0,0.4)" stroke="rgba(201,146,42,0.3)" stroke-width="1" />
+      <circle cx="24" cy="27" r="5" fill="#c9922a" />
+      <text x="38" y="33" fill="#e8b84b" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700">&lt; 80ms Feed &amp; Upvote Latency</text>
+    </g>
+
+    <!-- Tech tags -->
+    <g transform="translate(36, 560)">
+      <g transform="translate(0, 0)">
+        <rect width="94" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="47" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">React 19</text>
+      </g>
+      <g transform="translate(104, 0)">
+        <rect width="102" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="51" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Supabase</text>
+      </g>
+      <g transform="translate(216, 0)">
+        <rect width="116" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="58" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">TypeScript</text>
+      </g>
+      <g transform="translate(342, 0)">
+        <rect width="138" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="69" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">PostgreSQL FTS</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -8,6 +8,7 @@ export const PROJECTS = [
     stack: ['React', 'Supabase', 'TypeScript'],
     github: 'https://github.com/JosephOnifade1/freelancer-s-hub',
     live: null,
+    image: '/projects/borynx.svg',
     // Warm dark burgundy → slightly lighter — editorial, confident
     gradient: 'linear-gradient(145deg, #3a1410 0%, #6b2d28 60%, #8b4a3a 100%)',
     architecture: {
@@ -42,6 +43,7 @@ export const PROJECTS = [
     stack: ['React', 'Gemini', 'Supabase'],
     github: 'https://github.com/JosephOnifade1/fiverr-scout',
     live: null,
+    image: '/projects/fiverr-scout.svg',
     // Deep olive-brown — intelligence, terminal energy
     gradient: 'linear-gradient(145deg, #1a1a0e 0%, #3d3518 60%, #5a4a22 100%)',
     architecture: {
@@ -76,6 +78,7 @@ export const PROJECTS = [
     stack: ['n8n', 'Twilio', 'GoHighLevel'],
     github: 'https://github.com/JosephOnifade1',
     live: null,
+    image: '/projects/ai-missed-call.svg',
     // Warm amber-brown — urgency, healthcare
     gradient: 'linear-gradient(145deg, #2a1800 0%, #5c3010 60%, #8a5020 100%)',
     architecture: {
@@ -110,6 +113,7 @@ export const PROJECTS = [
     stack: ['n8n', 'Groq', 'Supabase'],
     github: 'https://github.com/JosephOnifade1',
     live: null,
+    image: '/projects/ai-client-finder.svg',
     // Dark slate-brown — automation, precision
     gradient: 'linear-gradient(145deg, #0e1a18 0%, #1e3530 60%, #2e4a42 100%)',
     architecture: {
@@ -144,6 +148,7 @@ export const PROJECTS = [
     stack: ['React', 'Supabase', 'Paystack'],
     github: 'https://github.com/JosephOnifade1',
     live: null,
+    image: '/projects/homeplate.svg',
     // Warm terracotta-brown — food, warmth, Africa
     gradient: 'linear-gradient(145deg, #2a0e0a 0%, #5a2a18 60%, #7a4028 100%)',
     architecture: {

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c0e00" />
+      <stop offset="50%" stop-color="#3d2008" />
+      <stop offset="100%" stop-color="#5e3410" />
+    </linearGradient>
+    <radialGradient id="glow" cx="65%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#e07a1f" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(242,236,209,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)" />
+  <rect width="800" height="800" fill="url(#glow)" />
+  <rect width="800" height="800" fill="url(#grid)" />
+
+  <circle cx="630" cy="190" r="160" fill="#e07a1f" opacity="0.12" filter="blur(40px)" />
+
+  <g transform="translate(60, 60)">
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="rgba(25,12,2,0.6)" stroke="rgba(242,236,209,0.18)" stroke-width="1.5" />
+    
+    <g transform="translate(36, 40)">
+      <rect width="168" height="32" rx="16" fill="rgba(224,122,31,0.15)" stroke="#e07a1f" stroke-width="1" />
+      <text x="84" y="21" fill="#f59e42" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" letter-spacing="1" text-anchor="middle">AI / AUTOMATION</text>
+    </g>
+
+    <g transform="translate(480, 40)">
+      <rect width="164" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      <text x="82" y="21" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle">TWILIO + N8N WORKFLOW</text>
+    </g>
+
+    <!-- Voice webhook wave graphic -->
+    <g transform="translate(36, 120)">
+      <path d="M 30 100 Q 60 40 90 100 T 150 100 T 210 100 T 270 100" fill="none" stroke="rgba(224,122,31,0.4)" stroke-width="3" />
+      <path d="M 30 100 Q 60 20 90 100 T 150 100 T 210 100 T 270 100" fill="none" stroke="#f59e42" stroke-width="2" stroke-dasharray="4 4"/>
+      <circle cx="90" cy="100" r="6" fill="#f59e42" />
+      <circle cx="150" cy="100" r="6" fill="#f59e42" />
+      <circle cx="210" cy="100" r="6" fill="#f59e42" />
+    </g>
+
+    <text x="36" y="360" fill="#ffffff" font-family="'Playfair Display', serif, system-ui" font-size="52" font-weight="800" letter-spacing="-1">AI Missed-Call</text>
+    <text x="36" y="410" fill="#ffffff" font-family="'Playfair Display', serif, system-ui" font-size="38" font-weight="700" letter-spacing="-1">Recovery</text>
+
+    <text x="36" y="445" fill="rgba(242,236,209,0.75)" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="400">
+      Sub-60s Inbound Voice Recovery &amp; Lead Qualification
+    </text>
+
+    <g transform="translate(36, 480)">
+      <rect width="360" height="54" rx="12" fill="rgba(0,0,0,0.4)" stroke="rgba(224,122,31,0.3)" stroke-width="1" />
+      <circle cx="24" cy="27" r="5" fill="#e07a1f" />
+      <text x="38" y="33" fill="#f59e42" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700">&lt; 60s Call-to-SMS Follow-up</text>
+    </g>
+
+    <g transform="translate(36, 570)">
+      <g transform="translate(0, 0)">
+        <rect width="84" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="42" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">n8n</text>
+      </g>
+      <g transform="translate(94, 0)">
+        <rect width="94" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="47" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Twilio</text>
+      </g>
+      <g transform="translate(198, 0)">
+        <rect width="136" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="68" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">GoHighLevel</text>
+      </g>
+      <g transform="translate(344, 0)">
+        <rect width="144" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="72" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Webhooks API</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091412" />
+      <stop offset="50%" stop-color="#142e2a" />
+      <stop offset="100%" stop-color="#24453e" />
+    </linearGradient>
+    <radialGradient id="glow" cx="65%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(242,236,209,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)" />
+  <rect width="800" height="800" fill="url(#glow)" />
+  <rect width="800" height="800" fill="url(#grid)" />
+
+  <circle cx="640" cy="180" r="160" fill="#22c55e" opacity="0.1" filter="blur(40px)" />
+
+  <g transform="translate(60, 60)">
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="rgba(8,18,16,0.6)" stroke="rgba(242,236,209,0.18)" stroke-width="1.5" />
+    
+    <g transform="translate(36, 40)">
+      <rect width="168" height="32" rx="16" fill="rgba(34,197,94,0.15)" stroke="#22c55e" stroke-width="1" />
+      <text x="84" y="21" fill="#4ade80" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" letter-spacing="1" text-anchor="middle">AI / AUTOMATION</text>
+    </g>
+
+    <g transform="translate(480, 40)">
+      <rect width="164" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      <text x="82" y="21" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle">GROQ LLAMA-3.3 70B</text>
+    </g>
+
+    <!-- Bot / Telegram dispatch graphic -->
+    <g transform="translate(36, 120)">
+      <rect x="20" y="20" width="160" height="120" rx="16" fill="none" stroke="rgba(34,197,94,0.3)" stroke-width="2" />
+      <circle cx="70" cy="70" r="14" fill="#22c55e" />
+      <circle cx="130" cy="70" r="14" fill="#22c55e" />
+      <path d="M 60 110 Q 100 130 140 110" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 180 50 L 250 20 L 220 90 Z" fill="none" stroke="#4ade80" stroke-width="2"/>
+    </g>
+
+    <text x="36" y="360" fill="#ffffff" font-family="'Playfair Display', serif, system-ui" font-size="52" font-weight="800" letter-spacing="-1">AI Client Finder</text>
+    <text x="36" y="410" fill="#ffffff" font-family="'Playfair Display', serif, system-ui" font-size="38" font-weight="700" letter-spacing="-1">Bot</text>
+
+    <text x="36" y="445" fill="rgba(242,236,209,0.75)" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="400">
+      High-Throughput Lead Scoring &amp; Push Dispatch
+    </text>
+
+    <g transform="translate(36, 480)">
+      <rect width="360" height="54" rx="12" fill="rgba(0,0,0,0.4)" stroke="rgba(34,197,94,0.3)" stroke-width="1" />
+      <circle cx="24" cy="27" r="5" fill="#22c55e" />
+      <text x="38" y="33" fill="#4ade80" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700">10x Faster Inference via Groq</text>
+    </g>
+
+    <g transform="translate(36, 570)">
+      <g transform="translate(0, 0)">
+        <rect width="84" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="42" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">n8n</text>
+      </g>
+      <g transform="translate(94, 0)">
+        <rect width="94" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="47" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Groq</text>
+      </g>
+      <g transform="translate(198, 0)">
+        <rect width="102" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="51" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Supabase</text>
+      </g>
+      <g transform="translate(310, 0)">
+        <rect width="144" height="34" rx="8" fill="rgba(242,236,209,0.08)" stroke="rgba(242,236,209,0.2)" stroke-width="1"/>
+        <text x="72" y="22" fill="#f2ecd1" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle">Telegram API</text>
+      </g>
+    </g>
+  </g>
+</svg>

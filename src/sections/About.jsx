@@ -75,13 +75,13 @@ function EngineerHardwareBadge() {
         transition: 'border-color 0.3s ease',
       }}
     >
-      {/* Specular sheen overlay */}
+      {/* Hairline tactile edge highlight */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background:
-            'radial-gradient(circle 260px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201, 146, 42, 0.16), transparent 75%)',
+          border: '1px solid rgba(201, 146, 42, 0.25)',
+          borderRadius: 20,
           pointerEvents: 'none',
           zIndex: 3,
         }}
@@ -129,32 +129,22 @@ function EngineerHardwareBadge() {
             display: 'flex',
             alignItems: 'center',
             gap: 6,
-            background: 'rgba(201, 146, 42, 0.12)',
-            border: '1px solid rgba(201, 146, 42, 0.35)',
+            background: 'rgba(242, 236, 209, 0.06)',
+            border: '1px solid rgba(242, 236, 209, 0.18)',
             padding: '3px 8px',
-            borderRadius: 999,
+            borderRadius: 4,
           }}
         >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: '#5cd65c',
-              boxShadow: '0 0 8px #5cd65c',
-              display: 'inline-block',
-            }}
-          />
           <span
             style={{
               fontFamily: 'var(--mono)',
               fontSize: 9.5,
               fontWeight: 700,
-              letterSpacing: '0.06em',
-              color: '#F2ECD1',
+              letterSpacing: '0.08em',
+              color: '#e8dfc0',
             }}
           >
-            ACTIVE
+            STATUS // AVAILABLE
           </span>
         </div>
       </div>

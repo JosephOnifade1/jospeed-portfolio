@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ArrowUpRight, ExternalLink, Layers, LayoutGrid, Cpu } from 'lucide-react';
 import { GithubIcon } from '../components/BrandIcons.jsx';
 import { useReveal } from '../hooks/useReveal.js';
@@ -12,7 +12,6 @@ import { playTactileClick } from '../utils/audioHaptics.js';
 
 const DARK  = '#4D2622';
 const CREAM = '#F2ECD1';
-const GOLD  = '#c9922a';
 
 function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
   const [hover, setHover] = useState(false);
@@ -84,16 +83,16 @@ function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
           position: 'relative',
         }}
       >
-        {/* Dynamic Specular Sheen (follows cursor) */}
+        {/* Fine Architectural Edge Highlight on Hover */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background:
-              'radial-gradient(circle 240px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201, 146, 42, 0.18), transparent 75%)',
+            border: '1px solid rgba(201, 146, 42, 0.45)',
+            borderRadius: 14,
             pointerEvents: 'none',
             opacity: hover ? 1 : 0,
-            transition: 'opacity 0.3s ease',
+            transition: 'opacity 0.25s ease',
             zIndex: 4,
           }}
         />
@@ -337,7 +336,7 @@ function ProjectCard({ p, i, globalXray, onOpenDeepDive }) {
 
 export default function Projects() {
   const [filter, setFilter] = useState('All');
-  const [view, setView] = useState('round');
+  const [view, setView] = useState('coverflow');
   const [xrayMode, setXrayMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [headRef, headIn] = useReveal();
@@ -382,11 +381,11 @@ export default function Projects() {
                   color: DARK,
                   fontFamily: 'var(--display)',
                   fontWeight: 800,
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.025em',
                   margin: '0 0 6px 0',
                 }}
               >
-                Built for performance.
+                Production systems. Zero agency bloat.
               </h2>
               <p style={{ margin: 0, fontSize: 14, color: 'rgba(77,38,34,0.65)' }}>
                 {xrayMode
@@ -397,7 +396,7 @@ export default function Projects() {
 
             {/* Action Bar: Architecture X-Ray & View Toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              {/* Architecture X-Ray Master Switch */}
+              {/* Architecture Blueprint Rocker Switch */}
               <button
                 onClick={() => {
                   playTactileClick('xray');
@@ -406,35 +405,36 @@ export default function Projects() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 7,
-                  padding: '7px 15px',
-                  borderRadius: 9,
-                  border: xrayMode ? '1px solid #c9922a' : '1px solid rgba(77,38,34,0.2)',
+                  gap: 8,
+                  padding: '6px 14px',
+                  borderRadius: 8,
+                  border: xrayMode ? '1px solid #c9922a' : '1px solid rgba(77,38,34,0.22)',
                   background: xrayMode ? '#2a110f' : 'rgba(77,38,34,0.06)',
                   color: xrayMode ? '#f2ecd1' : DARK,
                   cursor: 'pointer',
-                  fontSize: 12.5,
+                  fontSize: 12,
                   fontWeight: 700,
                   fontFamily: 'var(--mono)',
                   letterSpacing: '0.04em',
-                  boxShadow: xrayMode
-                    ? '0 0 20px rgba(201, 146, 42, 0.3), inset 0 0 10px rgba(201, 146, 42, 0.1)'
-                    : 'none',
-                  transition: 'all 0.25s cubic-bezier(0.16,1,0.3,1)',
+                  transition: 'all 0.22s cubic-bezier(0.16,1,0.3,1)',
                 }}
               >
                 <span
                   style={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: '50%',
-                    background: xrayMode ? '#c9922a' : 'rgba(77,38,34,0.4)',
-                    boxShadow: xrayMode ? '0 0 8px #c9922a' : 'none',
-                    display: 'inline-block',
-                    animation: xrayMode ? 'pulse 1.8s infinite' : 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    padding: '2px 6px',
+                    borderRadius: 4,
+                    fontSize: 10,
+                    fontWeight: 800,
+                    background: xrayMode ? '#c9922a' : 'rgba(77,38,34,0.12)',
+                    color: xrayMode ? '#1e0c0a' : 'rgba(77,38,34,0.6)',
+                    letterSpacing: '0.06em',
                   }}
-                />
-                {xrayMode ? 'SYSTEM ARCHITECTURE: ON' : 'SYSTEM ARCHITECTURE'}
+                >
+                  {xrayMode ? 'ACTIVE' : 'OFF'}
+                </span>
+                <span>SYSTEM ARCHITECTURE</span>
               </button>
 
               {/* View toggle (Gallery vs Grid) */}
