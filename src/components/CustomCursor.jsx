@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const TRAIL_LENGTH = 14;
+const TRAIL_LENGTH = 12;
 
 export default function CustomCursor() {
   const dotRef   = useRef(null);
@@ -11,57 +11,48 @@ export default function CustomCursor() {
 
     const dot = dotRef.current;
     const trails = trailRef.current;
+    if (!dot) return;
 
     let mouseX = 0, mouseY = 0;
-    // Each trail point: { x, y }
     const points = Array.from({ length: TRAIL_LENGTH }, () => ({ x: 0, y: 0 }));
 
     const onMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      // Detect hoverable elements — enlarge dot
       const target = e.target;
-      const isClickable = target.closest('a, button, [role="button"]');
+      const isClickable = target && target.closest ? target.closest('a, button, [role="button"]') : null;
       dot.style.transform = isClickable
         ? 'translate(-50%,-50%) scale(2.2)'
         : 'translate(-50%,-50%) scale(1)';
-      dot.style.background = isClickable ? '#c9922a' : '#F2ECD1';
+      dot.style.background = isClickable ? '#D8F36A' : '#F5F4EE';
+      dot.style.boxShadow = isClickable ? '0 0 16px rgba(216, 243, 106, 0.6)' : 'none';
     };
     window.addEventListener('mousemove', onMove, { passive: true });
 
     let frameId;
     const animate = () => {
-      // Lead point follows mouse directly
-      points[0].x += (mouseX - points[0].x) * 0.38;
-      points[0].y += (mouseY - points[0].y) * 0.38;
+      points[0].x += (mouseX - points[0].x) * 0.4;
+      points[0].y += (mouseY - points[0].y) * 0.4;
 
-      // Each subsequent point follows the one ahead of it — creates snake trail
       for (let i = 1; i < TRAIL_LENGTH; i++) {
-        points[i].x += (points[i - 1].x - points[i].x) * 0.5;
-        points[i].y += (points[i - 1].y - points[i].y) * 0.5;
+        points[i].x += (points[i - 1].x - points[i].x) * 0.45;
+        points[i].y += (points[i - 1].y - points[i].y) * 0.45;
       }
 
-      // Dot sits at mouse position directly
       dot.style.left = `${mouseX}px`;
       dot.style.top  = `${mouseY}px`;
 
-      // Update trail elements
       trails.forEach((el, i) => {
         if (!el) return;
         const p = points[i];
-        const progress = 1 - i / TRAIL_LENGTH; // 1 at front, 0 at back
-        const size     = Math.max(1.5, 6 * progress);
-        const opacity  = progress * progress * 0.55; // quadratic fade
+        const progress = 1 - i / TRAIL_LENGTH;
+        const size     = Math.max(1.5, 5 * progress);
+        const opacity  = progress * progress * 0.45;
         el.style.transform = `translate(${p.x}px, ${p.y}px) translate(-50%,-50%)`;
         el.style.width      = `${size}px`;
         el.style.height     = `${size}px`;
         el.style.opacity    = opacity;
-        // Color shifts from burgundy at front to gold at back
-        const t = 1 - progress;
-        const r = Math.round(139 + (201 - 139) * t);
-        const g = Math.round(26  + (146 - 26)  * t);
-        const b = Math.round(26  + (42  - 26)  * t);
-        el.style.background = `rgb(${r},${g},${b})`;
+        el.style.background = '#D8F36A';
       });
 
       frameId = requestAnimationFrame(animate);
@@ -82,15 +73,16 @@ export default function CustomCursor() {
         className="custom-cursor-dot"
         style={{
           position: 'fixed',
-          top: 0, left: 0,
-          width: 8, height: 8,
+          top: 0,
+          left: 0,
+          width: 8,
+          height: 8,
           borderRadius: '50%',
-          background: '#F2ECD1',
+          background: '#D8F36A',
           pointerEvents: 'none',
           zIndex: 9999,
           transform: 'translate(-50%,-50%)',
-          transition: 'transform 0.2s cubic-bezier(.22,1,.36,1), background 0.2s ease',
-          
+          transition: 'transform 0.2s cubic-bezier(.22,1,.36,1), background 0.2s ease, box-shadow 0.2s ease',
         }}
       />
 
@@ -102,11 +94,11 @@ export default function CustomCursor() {
           className="custom-cursor-trail"
           style={{
             position: 'fixed',
-            top: 0, left: 0,
+            top: 0,
+            left: 0,
             borderRadius: '50%',
             pointerEvents: 'none',
             zIndex: 9997,
-            
             willChange: 'transform, opacity, width, height',
           }}
         />

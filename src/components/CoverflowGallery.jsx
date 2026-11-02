@@ -155,8 +155,8 @@ export default function CoverflowGallery({ xrayMode = false, onOpenDeepDive }) {
       >
         <Smooth3DSlideshow
           slides={slides}
-          cardWidth={420}
-          cardHeight={400}
+          cardWidth={typeof window !== 'undefined' && window.innerWidth < 450 ? 290 : 420}
+          cardHeight={typeof window !== 'undefined' && window.innerWidth < 450 ? 320 : 400}
           radius={5}
           gap={8}
           tilt={14}
