@@ -1,157 +1,96 @@
 import { useReveal } from '../hooks/useReveal.js';
-import GitHubStats from '../components/GitHubStats.jsx';
 
-const DARK = '#4D2622';
-const GOLD = '#c9922a';
-
-const STACK_GROUPS = [
+const SKILL_GROUPS = [
   {
-    title: 'Frontend & UI Systems',
-    badge: 'CLIENT LAYER',
-    desc: 'Type-safe, component-driven interfaces built for performance and micro-animations.',
-    skills: [
-      { name: 'React 19', tag: 'Core' },
-      { name: 'TypeScript', tag: 'Type-Safe' },
-      { name: 'Next.js', tag: 'SSR / SSG' },
-      { name: 'Three.js', tag: '3D Canvas' },
-      { name: 'Tailwind / CSS-in-JS', tag: 'Design Tokens' },
-    ],
+    title: 'Frontend',
+    skills: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Three.js'],
   },
   {
-    title: 'Backend & Data Architecture',
-    badge: 'DATA & AUTH',
-    desc: 'Relational databases, airtight authentication policies, and resilient serverless APIs.',
-    skills: [
-      { name: 'Supabase', tag: 'Primary BaaS' },
-      { name: 'PostgreSQL', tag: 'Relational Schema' },
-      { name: 'Row-Level Security', tag: 'Auth & RLS' },
-      { name: 'Node.js / Express', tag: 'API Engine' },
-      { name: 'Redis', tag: 'Cache & Queue' },
-    ],
+    title: 'Backend',
+    skills: ['Node.js', 'Express', 'Python', 'Supabase', 'PostgreSQL'],
   },
   {
-    title: 'Conversational AI & Voice',
-    badge: 'AUTONOMOUS AGENTS',
-    desc: 'Low-latency voice agents and structured LLM toolchains integrated into business workflows.',
-    skills: [
-      { name: 'Vapi Voice AI', tag: 'Sub-800ms' },
-      { name: 'Voiceflow', tag: 'Dialog Trees' },
-      { name: 'Claude 3.5 Sonnet', tag: 'Reasoning' },
-      { name: 'OpenAI API', tag: 'Embeddings' },
-      { name: 'Groq Cloud', tag: 'Ultra-Fast Inference' },
-    ],
+    title: 'AI & Data',
+    skills: ['OpenAI', 'LangChain', 'RAG', 'Groq', 'Claude API'],
   },
   {
-    title: 'Workflow Automation & DevOps',
-    badge: 'INTEGRATIONS',
-    desc: 'Automating multi-system processes, webhook syncs, payment routing, and CI/CD pipelines.',
-    skills: [
-      { name: 'n8n Workflows', tag: 'Self-Hosted' },
-      { name: 'Stripe & Paystack', tag: 'Payment APIs' },
-      { name: 'Twilio & WhatsApp', tag: 'Messaging' },
-      { name: 'Vercel & Netlify', tag: 'Global Edge' },
-      { name: 'GoHighLevel & HubSpot', tag: 'CRM Sync' },
-    ],
+    title: 'Blockchain',
+    skills: ['Solidity', 'Web3.js', 'Smart Contracts', 'Ethers.js'],
+  },
+  {
+    title: '3D Tools',
+    skills: ['Blender', 'Three.js', '3D Design'],
+  },
+  {
+    title: 'Dev Tools',
+    skills: ['Git', 'Docker', 'Supabase', 'Vercel', 'n8n'],
   },
 ];
 
-function SkillGroupCard({ group, i }) {
-  const [ref, inView] = useReveal(0.12);
+const ALWAYS_LEARNING = [
+  { icon: '⬡', label: 'Web3' },
+  { icon: '◈', label: 'Blender' },
+  { icon: '⬡', label: 'AI Agents' },
+  { icon: '◈', label: 'Next.js' },
+];
+
+function SkillGroup({ group, i }) {
+  const [ref, inView] = useReveal(0.1);
 
   return (
     <div
       ref={ref}
       className={`reveal ${inView ? 'in-view' : ''}`}
-      style={{ transitionDelay: `${i * 0.08}s`, height: '100%' }}
+      style={{ transitionDelay: `${i * 0.07}s` }}
     >
       <div
         style={{
-          background: '#fff',
-          border: '1px solid rgba(77, 38, 34, 0.12)',
-          borderRadius: 16,
-          padding: '26px 22px',
+          background: 'rgba(255,255,255,0.025)',
+          border: '1px solid rgba(245,244,238,0.07)',
+          borderRadius: 14,
+          padding: '22px 20px',
           height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          boxShadow: '0 4px 20px rgba(77, 38, 34, 0.04)',
-          transition: 'border-color 0.25s ease, transform 0.25s ease',
+          transition: 'border-color 0.25s',
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(77, 38, 34, 0.3)';
-          e.currentTarget.style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(77, 38, 34, 0.12)';
-          e.currentTarget.style.transform = 'translateY(0)';
-        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(216,243,106,0.2)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(245,244,238,0.07)'; }}
       >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: 10,
-                color: GOLD,
-                letterSpacing: '0.08em',
-                fontWeight: 700,
-              }}
-            >
-              // {group.badge}
-            </span>
-          </div>
-
-          <h3
-            style={{
-              fontFamily: 'var(--display)',
-              fontSize: 19,
-              fontWeight: 700,
-              color: DARK,
-              marginBottom: 8,
-              letterSpacing: '-0.01em',
-            }}
-          >
-            {group.title}
-          </h3>
-
-          <p
-            style={{
-              fontSize: 13,
-              color: 'rgba(77, 38, 34, 0.65)',
-              lineHeight: 1.55,
-              marginBottom: 20,
-            }}
-          >
-            {group.desc}
-          </p>
+        <div
+          style={{
+            fontFamily: 'var(--font-ui)',
+            fontWeight: 700,
+            fontSize: 14,
+            color: 'var(--paper)',
+            marginBottom: 14,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          {group.title}
         </div>
-
-        {/* Technical Competency Badges */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {group.skills.map((s) => (
             <div
-              key={s.name}
+              key={s}
               style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 13.5,
+                color: 'rgba(245,244,238,0.6)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '6px 10px',
-                background: 'rgba(77, 38, 34, 0.03)',
-                borderRadius: 6,
-                border: '1px solid rgba(77, 38, 34, 0.06)',
+                gap: 8,
               }}
             >
-              <span style={{ fontSize: 13, fontWeight: 600, color: DARK }}>{s.name}</span>
               <span
                 style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 10,
-                  color: 'rgba(77, 38, 34, 0.5)',
-                  letterSpacing: '0.04em',
+                  width: 5,
+                  height: 5,
+                  borderRadius: '50%',
+                  background: 'var(--citron)',
+                  flexShrink: 0,
+                  opacity: 0.7,
                 }}
-              >
-                {s.tag}
-              </span>
+              />
+              {s}
             </div>
           ))}
         </div>
@@ -162,55 +101,170 @@ function SkillGroupCard({ group, i }) {
 
 export default function Skills() {
   const [headRef, headIn] = useReveal();
+  const [learningRef, learningIn] = useReveal(0.12);
 
   return (
-    <section id="skills" style={{ padding: '90px 0' }}>
-      <div className="wrap">
-        <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 48 }}>
-          <div className="eyebrow">// Technical Stack</div>
-          <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
-            Engineered across the full product lifecycle.
-            <span className="rule" />
-          </h2>
-          <p style={{ color: 'rgba(77, 38, 34, 0.7)', fontSize: 16, maxWidth: 560, marginTop: 12 }}>
-            A battle-tested production toolchain optimized for shipping speed, strict type safety, and zero operational bloat.
-          </p>
+    <section
+      id="skills"
+      style={{
+        padding: 'clamp(72px, 9vw, 120px) 0',
+        background: 'var(--ink)',
+        position: 'relative',
+      }}
+    >
+      {/* Ambient glow */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(216,243,106,0.03) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <div
+          ref={headRef}
+          className={`reveal ${headIn ? 'in-view' : ''}`}
+          style={{ marginBottom: 'clamp(40px, 6vw, 60px)' }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              letterSpacing: '0.16em',
+              color: 'var(--citron)',
+              textTransform: 'uppercase',
+              marginBottom: 14,
+              opacity: 0.8,
+            }}
+          >
+            My Skills
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 24,
+            }}
+          >
+            <h2
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontWeight: 800,
+                fontSize: 'clamp(36px, 5vw, 64px)',
+                color: 'var(--paper)',
+                letterSpacing: '-0.03em',
+                lineHeight: 1.05,
+                margin: 0,
+              }}
+            >
+              Tools I
+              <br />
+              <span style={{ color: 'var(--citron)' }}>Master.</span>
+            </h2>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'clamp(14px, 1.4vw, 16px)',
+                color: 'rgba(245,244,238,0.55)',
+                maxWidth: 380,
+                lineHeight: 1.7,
+                margin: 0,
+              }}
+            >
+              A blend of modern technologies across development, AI and more.
+            </p>
+          </div>
         </div>
 
-        {/* 4 Architectural Stack Pillars */}
+        {/* Skills grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 18,
-            marginBottom: 56,
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 180px), 1fr))',
+            gap: 16,
+            marginBottom: 60,
           }}
-          className="skills-grid"
         >
-          {STACK_GROUPS.map((g, i) => (
-            <SkillGroupCard key={g.title} group={g} i={i} />
+          {SKILL_GROUPS.map((g, i) => (
+            <SkillGroup key={g.title} group={g} i={i} />
           ))}
         </div>
 
-        {/* GitHub Activity */}
-        <div>
-          <div className="eyebrow" style={{ marginBottom: 20 }}>// Codebase Telemetry</div>
-          <GitHubStats />
+        {/* Always Learning */}
+        <div
+          ref={learningRef}
+          className={`reveal ${learningIn ? 'in-view' : ''}`}
+        >
+          <div
+            style={{
+              borderTop: '1px solid rgba(245,244,238,0.07)',
+              paddingTop: 40,
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.14em',
+                color: 'var(--citron)',
+                textTransform: 'uppercase',
+                marginBottom: 8,
+                opacity: 0.8,
+              }}
+            >
+              Always Learning
+            </div>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                color: 'rgba(245,244,238,0.45)',
+                marginBottom: 24,
+                marginTop: 0,
+              }}
+            >
+              Exploring new technologies to stay ahead.
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              {ALWAYS_LEARNING.map((item) => (
+                <div
+                  key={item.label}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '10px 18px',
+                    borderRadius: 100,
+                    border: '1px solid rgba(216,243,106,0.2)',
+                    background: 'rgba(216,243,106,0.05)',
+                  }}
+                >
+                  <span style={{ color: 'var(--citron)', fontSize: 14 }}>{item.icon}</span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-ui)',
+                      fontWeight: 600,
+                      fontSize: 13,
+                      color: 'var(--paper)',
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          .skills-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        @media (max-width: 600px) {
-          .skills-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

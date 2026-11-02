@@ -1,561 +1,355 @@
-import EditorialManifesto from '../components/EditorialManifesto.jsx';
-import FlowerBorder from '../components/originkit/ui/flower-border.tsx';
 import { useState, useEffect } from 'react';
-import { Check, Clock, Zap, Shield, Sun, Moon, Copy, ArrowUpRight, Sparkles, Workflow, Terminal } from 'lucide-react';
-import { GithubIcon } from '../components/BrandIcons.jsx';
 import { useReveal } from '../hooks/useReveal.js';
-import { useTactileTilt } from '../hooks/useTactileTilt.js';
-import { playTactileClick } from '../utils/audioHaptics.js';
 
-const HIGHLIGHTS = [
-  'Async-first — no calls, full clarity over text & Loom',
-  'End-to-end delivery from schema design to deployed UI',
-  'AI-native build process using Claude, Gemini & Groq',
+const WHAT_I_DO = [
+  {
+    icon: '⬡',
+    label: 'Fullstack Development',
+    desc: 'React, Node.js, TypeScript, Supabase — end-to-end web applications.',
+  },
+  {
+    icon: '◈',
+    label: 'AI Engineering',
+    desc: 'RAG systems, LLM integrations, AI agents, voice automation.',
+  },
+  {
+    icon: '⬡',
+    label: 'Blockchain (Learning)',
+    desc: 'Solidity, Web3.js, smart contracts — actively exploring decentralized tech.',
+  },
+  {
+    icon: '◈',
+    label: '3D Creation (Blender)',
+    desc: 'Blender, Three.js, 3D design — creative experiments and renders.',
+  },
 ];
 
-function EngineerHardwareBadge() {
-  const { cardRef, onMouseMove, onMouseLeave } = useTactileTilt({ maxTilt: 5, scale: 1.015 });
-  const [copied, setCopied] = useState(false);
+const METRICS = [
+  { value: '2+', label: 'Years Learning' },
+  { value: '∞', label: 'Curiosity' },
+  { value: '100%', label: 'Async-First' },
+];
+
+export default function About() {
+  const [headRef, headIn] = useReveal();
+  const [leftRef, leftIn] = useReveal(0.1);
+  const [rightRef, rightIn] = useReveal(0.1);
   const [timeStr, setTimeStr] = useState('');
   const [hourOfDay, setHourOfDay] = useState(12);
 
   useEffect(() => {
-    const updateTime = () => {
+    const update = () => {
       try {
         const now = new Date();
-        const formatter = new Intl.DateTimeFormat('en-GB', {
+        const fmt = new Intl.DateTimeFormat('en-GB', {
           timeZone: 'Africa/Lagos',
           hour: '2-digit',
           minute: '2-digit',
-          second: '2-digit',
           hour12: false,
         });
-        const parts = formatter.formatToParts(now);
+        const parts = fmt.formatToParts(now);
         const hour = parseInt(parts.find((p) => p.type === 'hour')?.value || '12', 10);
-        setTimeStr(formatter.format(now));
+        setTimeStr(fmt.format(now));
         setHourOfDay(hour);
       } catch {
-        setTimeStr('WAT (UTC+1)');
+        setTimeStr('WAT');
       }
     };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
   }, []);
 
-  const handleCopyEmail = (e) => {
-    e.stopPropagation();
-    playTactileClick('pop');
-    navigator.clipboard.writeText('josephonifade21@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  };
-
-  const isNight = hourOfDay < 6 || hourOfDay >= 21;
   const statusLabel =
-    hourOfDay >= 8 && hourOfDay < 18
-      ? 'CORE LAB'
-      : hourOfDay >= 18 && hourOfDay < 24
-      ? 'NIGHT DEEP-WORK'
-      : 'ASYNC STANDBY';
+    hourOfDay >= 8 && hourOfDay < 18 ? 'Available' : hourOfDay >= 18 ? 'Deep Work' : 'Async';
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
+    <section
+      id="about"
       style={{
-        background: 'linear-gradient(165deg, rgba(77, 38, 34, 0.55) 0%, rgba(45, 18, 16, 0.92) 100%)',
-        border: '1px solid rgba(201, 146, 42, 0.35)',
-        borderRadius: 20,
-        overflow: 'hidden',
-        boxShadow: '0 20px 45px -10px rgba(20, 8, 7, 0.65), 0 0 20px rgba(201, 146, 42, 0.08)',
+        padding: 'clamp(72px, 9vw, 120px) 0',
+        background: 'var(--ink)',
         position: 'relative',
-        transformStyle: 'preserve-3d',
-        transition: 'border-color 0.3s ease',
+        overflow: 'hidden',
       }}
     >
-      {/* Hairline tactile edge highlight */}
+      {/* Subtle citron ambient */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          border: '1px solid rgba(201, 146, 42, 0.25)',
-          borderRadius: 20,
+          top: '-20%',
+          right: '-10%',
+          width: 600,
+          height: 600,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(216,243,106,0.04) 0%, transparent 70%)',
           pointerEvents: 'none',
-          zIndex: 3,
         }}
       />
-
-      {/* Lanyard Clip Slot Accent */}
-      <div
-        style={{
-          width: 52,
-          height: 5,
-          borderRadius: 999,
-          background: 'rgba(242, 236, 209, 0.18)',
-          border: '1px solid rgba(242, 236, 209, 0.25)',
-          margin: '12px auto 0 auto',
-        }}
-      />
-
-      {/* Hardware Badge Top Bar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '12px 18px 8px 18px',
-          borderBottom: '1px solid rgba(242, 236, 209, 0.1)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Shield size={12} color="#c9922a" />
-          <span
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: 10,
-              letterSpacing: '0.12em',
-              color: '#c9922a',
-              fontWeight: 700,
-            }}
-          >
-            ENG-ID // JO-07
-          </span>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            background: 'rgba(242, 236, 209, 0.06)',
-            border: '1px solid rgba(242, 236, 209, 0.18)',
-            padding: '3px 8px',
-            borderRadius: 4,
-          }}
-        >
-          <span
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: 9.5,
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              color: '#e8dfc0',
-            }}
-          >
-            STATUS // AVAILABLE
-          </span>
-        </div>
-      </div>
-
-      {/* Avatar & Info Section */}
-      <div
-        style={{
-          padding: '22px 20px 20px 20px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          position: 'relative',
-          background: 'radial-gradient(circle at 50% 25%, rgba(201, 146, 42, 0.1), transparent 70%)',
-        }}
-      >
-        {/* Subtle grid pattern */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: 'radial-gradient(circle, rgba(242, 236, 209, 0.15) 1px, transparent 1px)',
-            backgroundSize: '16px 16px',
-            opacity: 0.25,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Profile Avatar with metallic bezel ring */}
-        <div
-          style={{
-            position: 'relative',
-            width: 104,
-            height: 104,
-            borderRadius: '50%',
-            padding: 3,
-            background: 'linear-gradient(145deg, #c9922a, rgba(77, 38, 34, 0.8), #F2ECD1)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.45)',
-            marginBottom: 14,
-            zIndex: 1,
-          }}
-        >
-          <img
-            src="/profile.jpg"
-            alt="Joseph Onifade"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-              e.currentTarget.nextSibling.style.display = 'flex';
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              display: 'block',
-              background: '#3a1a17',
-            }}
-          />
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              background: '#3a1a17',
-              display: 'none',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'var(--display)',
-              fontSize: 32,
-              fontWeight: 800,
-              color: '#F2ECD1',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            JO
-          </div>
-        </div>
-
-        {/* Name & Title */}
-        <div
-          style={{
-            fontFamily: 'var(--display)',
-            fontWeight: 800,
-            fontSize: 22,
-            color: '#F2ECD1',
-            letterSpacing: '-0.02em',
-            marginBottom: 3,
-            textAlign: 'center',
-            zIndex: 1,
-          }}
-        >
-          Joseph Onifade
-        </div>
-        <div
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: 12,
-            color: '#c9922a',
-            letterSpacing: '0.04em',
-            marginBottom: 14,
-            textAlign: 'center',
-            zIndex: 1,
-          }}
-        >
-          @buildwithJOspeed • Systems & AI Architect
-        </div>
-
-        {/* Holographic Clearance Foil Accent */}
-        <div
-          style={{
-            width: '100%',
-            height: 2,
-            background:
-              'linear-gradient(90deg, transparent, rgba(201, 146, 42, 0.6), rgba(242, 236, 209, 0.8), rgba(201, 146, 42, 0.6), transparent)',
-            opacity: 0.65,
-            marginBottom: 16,
-          }}
-        />
-
-        {/* Live Telemetry Display Board */}
-        <div
-          style={{
-            width: '100%',
-            background: 'rgba(36, 16, 14, 0.85)',
-            border: '1px solid rgba(242, 236, 209, 0.12)',
-            borderRadius: 12,
-            padding: '12px 14px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 10,
-            zIndex: 1,
-          }}
-        >
-          {/* Telemetry Row 1: Real-time WAT Clock */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              {isNight ? <Moon size={14} color="#c9922a" /> : <Sun size={14} color="#e8b84b" />}
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'rgba(242, 236, 209, 0.65)' }}>
-                WAT (UTC+1)
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#F2ECD1',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                {timeStr || '12:00:00'}
-              </span>
-              <span
-                style={{
-                  fontSize: 9,
-                  fontFamily: 'var(--mono)',
-                  background: 'rgba(201, 146, 42, 0.2)',
-                  color: '#e8b84b',
-                  padding: '2px 5px',
-                  borderRadius: 4,
-                  fontWeight: 600,
-                }}
-              >
-                {statusLabel}
-              </span>
-            </div>
-          </div>
-
-          <div style={{ height: 1, background: 'rgba(242, 236, 209, 0.08)' }} />
-
-          {/* Telemetry Row 2: Async SLA */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <Clock size={14} color="#c9922a" />
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'rgba(242, 236, 209, 0.65)' }}>
-                Response SLA
-              </span>
-            </div>
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: 11,
-                fontWeight: 600,
-                color: '#F2ECD1',
-              }}
-            >
-              &lt; 2hr (Mon–Sat)
-            </span>
-          </div>
-
-          <div style={{ height: 1, background: 'rgba(242, 236, 209, 0.08)' }} />
-
-          {/* Telemetry Row 3: Protocol */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <Zap size={14} color="#c9922a" />
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'rgba(242, 236, 209, 0.65)' }}>
-                Protocol
-              </span>
-            </div>
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: 11,
-                fontWeight: 600,
-                color: '#F2ECD1',
-              }}
-            >
-              100% Async / Loom
-            </span>
-          </div>
-        </div>
-
-        {/* Quick Email Copy Chip */}
-        <button
-          onClick={handleCopyEmail}
-          title="Click to copy email"
-          style={{
-            width: '100%',
-            marginTop: 14,
-            padding: '10px 14px',
-            borderRadius: 10,
-            background: copied ? 'rgba(92, 214, 92, 0.15)' : 'rgba(242, 236, 209, 0.07)',
-            border: `1px solid ${copied ? 'rgba(92, 214, 92, 0.45)' : 'rgba(201, 146, 42, 0.35)'}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            zIndex: 1,
-          }}
-          onMouseEnter={(e) => {
-            if (!copied) {
-              e.currentTarget.style.background = 'rgba(201, 146, 42, 0.18)';
-              e.currentTarget.style.borderColor = '#c9922a';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!copied) {
-              e.currentTarget.style.background = 'rgba(242, 236, 209, 0.07)';
-              e.currentTarget.style.borderColor = 'rgba(201, 146, 42, 0.35)';
-            }
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: '#F2ECD1' }}>
-              josephonifade21@gmail.com
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            {copied ? (
-              <>
-                <Check size={12} color="#5cd65c" />
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: '#5cd65c', fontWeight: 700 }}>
-                  COPIED
-                </span>
-              </>
-            ) : (
-              <>
-                <Copy size={12} color="#c9922a" />
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: '#c9922a', fontWeight: 600 }}>
-                  COPY
-                </span>
-              </>
-            )}
-          </div>
-        </button>
-
-        {/* Channel Links */}
-        <div style={{ display: 'flex', width: '100%', gap: 8, marginTop: 10, zIndex: 1 }}>
-          <a
-            href="https://github.com/JosephOnifade1"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              padding: '8px 0',
-              borderRadius: 8,
-              background: 'rgba(242, 236, 209, 0.05)',
-              border: '1px solid rgba(242, 236, 209, 0.15)',
-              fontSize: 11.5,
-              fontWeight: 600,
-              fontFamily: 'var(--mono)',
-              color: 'rgba(242, 236, 209, 0.85)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 5,
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(201, 146, 42, 0.15)';
-              e.currentTarget.style.borderColor = '#c9922a';
-              e.currentTarget.style.color = '#F2ECD1';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(242, 236, 209, 0.05)';
-              e.currentTarget.style.borderColor = 'rgba(242, 236, 209, 0.15)';
-              e.currentTarget.style.color = 'rgba(242, 236, 209, 0.85)';
-            }}
-          >
-            <GithubIcon size={13} color="currentColor" /> GitHub
-          </a>
-          <a
-            href="https://upwork.com"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              padding: '8px 0',
-              borderRadius: 8,
-              background: 'rgba(242, 236, 209, 0.05)',
-              border: '1px solid rgba(242, 236, 209, 0.15)',
-              fontSize: 11.5,
-              fontWeight: 600,
-              fontFamily: 'var(--mono)',
-              color: 'rgba(242, 236, 209, 0.85)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 4,
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(201, 146, 42, 0.15)';
-              e.currentTarget.style.borderColor = '#c9922a';
-              e.currentTarget.style.color = '#F2ECD1';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(242, 236, 209, 0.05)';
-              e.currentTarget.style.borderColor = 'rgba(242, 236, 209, 0.15)';
-              e.currentTarget.style.color = 'rgba(242, 236, 209, 0.85)';
-            }}
-          >
-            Upwork <ArrowUpRight size={12} />
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-export default function About() {
-  const [headRef, headIn] = useReveal();
-  const [leftRef, leftIn] = useReveal(0.15);
-  const [rightRef, rightIn] = useReveal(0.15);
-
-  return (
-    <section id="about" style={{ position: 'relative', overflow: 'hidden', paddingBottom: 80 }}>
-      {/* Lightweight Flower Border (optimized: 3 flowers, 28fps cap, scroll-paused) */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          opacity: 0.38,
-        }}
-        aria-hidden="true"
-      >
-        <FlowerBorder
-          sides={{ top: false, bottom: false, left: true, right: true }}
-          petal="#5c2622"
-          line="#260e0c"
-          heart="#c9922a"
-          flowers={3}
-          petals={5}
-          size={9}
-          spread={80}
-          sway={4}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            minWidth: 0,
-            minHeight: 0,
-          }}
-        />
-      </div>
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-        <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`} style={{ marginBottom: 52 }}>
-          <div className="eyebrow">// About me</div>
-          <h2 className={`section-heading ${headIn ? 'in-view' : ''}`}>
-            The person behind the code.
-            <span className="rule" />
+        {/* Section header */}
+        <div
+          ref={headRef}
+          className={`reveal ${headIn ? 'in-view' : ''}`}
+          style={{ marginBottom: 'clamp(40px, 6vw, 72px)' }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              letterSpacing: '0.16em',
+              color: 'var(--citron)',
+              textTransform: 'uppercase',
+              marginBottom: 16,
+              opacity: 0.8,
+            }}
+          >
+            About Me
+          </div>
+          <h2
+            style={{
+              fontFamily: 'var(--font-ui)',
+              fontWeight: 800,
+              fontSize: 'clamp(36px, 5vw, 64px)',
+              color: 'var(--paper)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.05,
+              margin: 0,
+            }}
+          >
+            I'm Joseph
+            <br />
+            <span style={{ color: 'var(--citron)' }}>Onifade.</span>
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '350px 1fr', gap: 52, alignItems: 'start' }} className="about-grid">
-          {/* Left — Hardware ID / Telemetry Dossier */}
+        {/* 2-col layout */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)',
+            gap: 'clamp(32px, 5vw, 72px)',
+            alignItems: 'start',
+          }}
+          className="about-cols"
+        >
+          {/* Left — photo + bio */}
           <div ref={leftRef} className={`reveal ${leftIn ? 'in-view' : ''}`}>
-            <EngineerHardwareBadge />
+            {/* Photo card */}
+            <div
+              style={{
+                position: 'relative',
+                borderRadius: 20,
+                overflow: 'hidden',
+                aspectRatio: '3 / 4',
+                maxHeight: 520,
+                background: '#0d1010',
+                border: '1px solid rgba(216,243,106,0.12)',
+                marginBottom: 32,
+              }}
+            >
+              <img
+                src="/profile.jpg"
+                alt="Joseph Onifade"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  display: 'block',
+                  filter: 'grayscale(15%) contrast(1.05)',
+                }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+              {/* Status pill */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: 'rgba(10,13,9,0.85)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(216,243,106,0.25)',
+                  borderRadius: 100,
+                  padding: '6px 14px 6px 10px',
+                }}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: '50%',
+                    background: '#4ade80',
+                    boxShadow: '0 0 6px rgba(74,222,128,0.7)',
+                    display: 'inline-block',
+                    flexShrink: 0,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 11,
+                    color: 'var(--paper)',
+                    letterSpacing: '0.06em',
+                  }}
+                >
+                  {statusLabel} · WAT {timeStr}
+                </span>
+              </div>
+            </div>
+
+            {/* Metrics row */}
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              {METRICS.map((m) => (
+                <div key={m.label}>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-ui)',
+                      fontWeight: 800,
+                      fontSize: 'clamp(28px, 3.5vw, 40px)',
+                      color: 'var(--citron)',
+                      letterSpacing: '-0.04em',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {m.value}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 11,
+                      color: 'rgba(245,244,238,0.5)',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      marginTop: 4,
+                    }}
+                  >
+                    {m.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Right — Operating Protocol Switcher */}
-          <div ref={rightRef} className={`reveal ${rightIn ? 'in-view' : ''}`} style={{ transitionDelay: '0.1s' }}>
-            <EditorialManifesto />
+          {/* Right — bio + what I do */}
+          <div
+            ref={rightRef}
+            className={`reveal ${rightIn ? 'in-view' : ''}`}
+            style={{ transitionDelay: '0.1s' }}
+          >
+            {/* Bio paragraph */}
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'clamp(15px, 1.6vw, 17px)',
+                color: 'rgba(245,244,238,0.75)',
+                lineHeight: 1.75,
+                marginBottom: 36,
+                marginTop: 0,
+              }}
+            >
+              A fullstack developer and AI engineer with a passion for building intelligent,
+              beautiful and useful products. I'm also exploring blockchain and 3D tools like
+              Blender to expand what I can create.
+            </p>
+
+            {/* Signature */}
+            <div
+              style={{
+                fontFamily: 'cursive, Georgia, serif',
+                fontSize: 'clamp(28px, 3vw, 42px)',
+                color: 'var(--citron)',
+                letterSpacing: '-0.01em',
+                marginBottom: 40,
+                lineHeight: 1,
+              }}
+            >
+              JOspeed
+            </div>
+
+            {/* What I Do */}
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.14em',
+                color: 'var(--citron)',
+                textTransform: 'uppercase',
+                marginBottom: 20,
+                opacity: 0.8,
+              }}
+            >
+              What I Do
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {WHAT_I_DO.map((item, i) => (
+                <div
+                  key={item.label}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 16,
+                    padding: '18px 0',
+                    borderBottom:
+                      i < WHAT_I_DO.length - 1
+                        ? '1px solid rgba(245,244,238,0.07)'
+                        : 'none',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: 10,
+                      background: 'rgba(216,243,106,0.08)',
+                      border: '1px solid rgba(216,243,106,0.15)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 16,
+                      color: 'var(--citron)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-ui)',
+                        fontWeight: 600,
+                        fontSize: 15,
+                        color: 'var(--paper)',
+                        marginBottom: 3,
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: 13.5,
+                        color: 'rgba(245,244,238,0.5)',
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {item.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       <style>{`
-        @keyframes ringPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.06); opacity: 1; } }
-        @media (max-width: 860px) {
-          .about-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 768px) {
+          .about-cols { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

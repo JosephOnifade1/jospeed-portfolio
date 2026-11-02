@@ -128,7 +128,7 @@ export default function AutomationDemo() {
   useEffect(() => () => clearTimers(), []);
 
   return (
-    <section id="automation-demo" style={{ background: 'rgba(242,236,209,0.06)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+    <section id="automation-demo" style={{ background: 'rgba(245,244,238,0.06)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="wrap">
       {/* Two-column header: text+pills left, Lantern Lotus right */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 0, alignItems: 'stretch', marginBottom: 32 }} className="automation-header-grid">
@@ -141,7 +141,7 @@ export default function AutomationDemo() {
                 Watch automation in action.
                 <span className="rule" />
               </h2>
-              <p style={{ color: 'rgba(242,236,209,0.6)', fontSize: 16, maxWidth: 520, marginTop: 12 }}>
+              <p style={{ color: 'rgba(245,244,238,0.6)', fontSize: 16, maxWidth: 520, marginTop: 12 }}>
                 Pick a business type and run a real simulation of the automation I'd build for it.
               </p>
             </div>
@@ -157,9 +157,9 @@ export default function AutomationDemo() {
                     borderRadius: 999,
                     fontSize: 13.5,
                     fontWeight: 600,
-                    border: `1px solid ${selected === b.value ? '#c9922a' : 'rgba(242,236,209,0.2)'}`,
-                    background: selected === b.value ? '#c9922a' : 'transparent',
-                    color: selected === b.value ? '#24100e' : 'rgba(242,236,209,0.7)',
+                    border: `1px solid ${selected === b.value ? 'var(--citron)' : 'rgba(245,244,238,0.2)'}`,
+                    background: selected === b.value ? 'var(--citron)' : 'transparent',
+                    color: selected === b.value ? '#24100e' : 'rgba(245,244,238,0.7)',
                     transition: 'all 0.22s ease',
                     cursor: 'pointer',
                   }}
@@ -196,18 +196,18 @@ export default function AutomationDemo() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 28, alignItems: 'start' }} className="demo-grid">
           {/* Flow visualiser */}
-          <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.14)', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: '#2d1412', border: '1px solid rgba(245,244,238,0.14)', borderRadius: 14, overflow: 'hidden' }}>
             {/* Top bar */}
-            <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(242,236,209,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(245,244,238,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>// WORKFLOW PIPELINE</span>
-                <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 17, color: '#F2ECD1', marginTop: 2 }}>{flow.title}</div>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--citron)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>// WORKFLOW PIPELINE</span>
+                <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 17, color: 'var(--paper)', marginTop: 2 }}>{flow.title}</div>
               </div>
               <button
                 onClick={runDemo}
                 disabled={running}
                 style={{
-                  background: '#c9922a',
+                  background: 'var(--citron)',
                   color: '#24100e',
                   border: 'none',
                   borderRadius: 7,
@@ -241,7 +241,7 @@ export default function AutomationDemo() {
                         top: 40,
                         width: 2,
                         height: 36,
-                        background: isActive && activeStep > i ? '#c9922a' : 'rgba(242,236,209,0.12)',
+                        background: isActive && activeStep > i ? 'var(--citron)' : 'rgba(245,244,238,0.12)',
                         transition: 'background 0.4s ease',
                       }} />
                     )}
@@ -251,26 +251,26 @@ export default function AutomationDemo() {
                       width: 40,
                       height: 40,
                       borderRadius: '50%',
-                      background: isActive ? (isCurrent ? '#c9922a' : 'rgba(201,146,42,0.18)') : 'rgba(36,16,14,0.7)',
-                      border: `2px solid ${isActive ? '#c9922a' : 'rgba(242,236,209,0.16)'}`,
+                      background: isActive ? (isCurrent ? 'var(--citron)' : 'rgba(216,243,106,0.18)') : 'rgba(36,16,14,0.7)',
+                      border: `2px solid ${isActive ? 'var(--citron)' : 'rgba(245,244,238,0.16)'}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontSize: 18,
                       flexShrink: 0,
                       transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-                      boxShadow: isCurrent ? '0 0 16px rgba(201,146,42,0.5)' : 'none',
+                      boxShadow: isCurrent ? '0 0 16px rgba(216,243,106,0.5)' : 'none',
                       zIndex: 1,
                     }}>
                       {isActive && activeStep > i
-                        ? <CheckCircle size={16} color="#c9922a" />
-                        : (() => { const Icon = step.icon; return <Icon size={16} color={isActive ? (isCurrent ? '#24100e' : '#e8b84b') : 'rgba(242,236,209,0.3)'} />; })()
+                        ? <CheckCircle size={16} color="var(--citron)" />
+                        : (() => { const Icon = step.icon; return <Icon size={16} color={isActive ? (isCurrent ? '#24100e' : '#e8b84b') : 'rgba(245,244,238,0.3)'} />; })()
                       }
                     </div>
 
                     <div style={{ paddingBottom: 28, opacity: isActive ? 1 : 0.4, transition: 'opacity 0.4s ease' }}>
-                      <div style={{ fontWeight: 600, fontSize: 14.5, color: '#F2ECD1', marginBottom: 3 }}>{step.label}</div>
-                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(242,236,209,0.5)' }}>{step.detail}</div>
+                      <div style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--paper)', marginBottom: 3 }}>{step.label}</div>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'rgba(245,244,238,0.5)' }}>{step.detail}</div>
                     </div>
                   </div>
                 );
@@ -281,16 +281,16 @@ export default function AutomationDemo() {
                 <div style={{
                   marginTop: 8,
                   padding: '14px 18px',
-                  background: 'rgba(201,146,42,0.14)',
-                  border: '1px solid rgba(201,146,42,0.35)',
+                  background: 'rgba(216,243,106,0.14)',
+                  border: '1px solid rgba(216,243,106,0.35)',
                   borderRadius: 10,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
                   animation: 'fadeUp 0.4s ease',
                 }}>
-                  <Zap size={16} color="#c9922a" />
-                  <span style={{ fontSize: 13.5, color: '#F2ECD1', fontWeight: 600 }}>{flow.outcome}</span>
+                  <Zap size={16} color="var(--citron)" />
+                  <span style={{ fontSize: 13.5, color: 'var(--paper)', fontWeight: 600 }}>{flow.outcome}</span>
                 </div>
               )}
             </div>
@@ -298,8 +298,8 @@ export default function AutomationDemo() {
 
           {/* Sidebar info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.12)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Production Stack</div>
+            <div style={{ background: '#2d1412', border: '1px solid rgba(245,244,238,0.12)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--citron)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Production Stack</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
                 {flow.tools.map(t => (
                   <span
@@ -309,9 +309,9 @@ export default function AutomationDemo() {
                       fontSize: 11,
                       padding: '4px 9px',
                       borderRadius: 4,
-                      background: 'rgba(242,236,209,0.08)',
-                      border: '1px solid rgba(242,236,209,0.16)',
-                      color: '#F2ECD1',
+                      background: 'rgba(245,244,238,0.08)',
+                      border: '1px solid rgba(245,244,238,0.16)',
+                      color: 'var(--paper)',
                     }}
                   >
                     {t}
@@ -320,12 +320,12 @@ export default function AutomationDemo() {
               </div>
             </div>
 
-            <div style={{ background: '#2d1412', border: '1px solid rgba(242,236,209,0.12)', borderRadius: 12, padding: 20 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#c9922a', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Architecture SLA</div>
+            <div style={{ background: '#2d1412', border: '1px solid rgba(245,244,238,0.12)', borderRadius: 12, padding: 20 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--citron)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Architecture SLA</div>
               {['Autonomous triggers — zero human intervention', '24/7 uptime on dedicated cloud instances', 'Live monitoring & webhook failure retries', 'Version-controlled n8n JSON nodes'].map(f => (
                 <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
-                  <CheckCircle size={13} color="#c9922a" />
-                  <span style={{ fontSize: 13, color: 'rgba(242,236,209,0.75)' }}>{f}</span>
+                  <CheckCircle size={13} color="var(--citron)" />
+                  <span style={{ fontSize: 13, color: 'rgba(245,244,238,0.75)' }}>{f}</span>
                 </div>
               ))}
             </div>
@@ -339,15 +339,15 @@ export default function AutomationDemo() {
                 gap: 8,
                 padding: '12px 20px',
                 borderRadius: 8,
-                background: '#F2ECD1',
-                color: '#4D2622',
+                background: 'var(--paper)',
+                color: 'var(--ink)',
                 fontSize: 14,
                 fontWeight: 700,
                 textDecoration: 'none',
                 transition: 'all 0.2s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#F2ECD1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--paper)'; e.currentTarget.style.transform = 'translateY(0)'; }}
             >
               Engineer this workflow <ArrowRight size={15} />
             </a>

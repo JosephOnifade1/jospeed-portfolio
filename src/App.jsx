@@ -12,9 +12,9 @@ import Projects from './sections/Projects.jsx';
 import Skills from './sections/Skills.jsx';
 import Services from './sections/Services.jsx';
 import Testimonials from './sections/Testimonials.jsx';
-import AutomationDemo from './sections/AutomationDemo.jsx';
 import CaseStudy from './pages/CaseStudy.jsx';
 import Gallery from './pages/Gallery.jsx';
+import Footer from './components/Footer.jsx';
 
 function Portfolio() {
   return (
@@ -27,12 +27,12 @@ function Portfolio() {
         <Hero />
         <About />
         <Projects />
-        <AutomationDemo />
         <Skills />
         <Services />
         <Testimonials />
         <Contact />
       </main>
+      <Footer />
     </SmoothScroll>
   );
 }

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a12"/>
+      <stop offset="100%" style="stop-color:#1a3d28"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <!-- Grid dots -->
+  <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+    <circle cx="15" cy="15" r="1" fill="rgba(216,243,106,0.15)"/>
+  </pattern>
+  <rect width="800" height="450" fill="url(#dots)"/>
+  <!-- Center icon -->
+  <circle cx="400" cy="200" r="60" fill="none" stroke="rgba(216,243,106,0.3)" stroke-width="1.5"/>
+  <circle cx="400" cy="200" r="40" fill="rgba(216,243,106,0.08)" stroke="rgba(216,243,106,0.4)" stroke-width="1"/>
+  <text x="400" y="208" text-anchor="middle" font-family="monospace" font-size="22" fill="#D8F36A">⬡</text>
+  <!-- Label -->
+  <text x="400" y="300" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="20" font-weight="700" fill="#F5F4EE">Quivellox</text>
+  <text x="400" y="324" text-anchor="middle" font-family="monospace" font-size="12" fill="rgba(216,243,106,0.6)">AI Knowledge Workspace (RAG)</text>
+</svg>
+
