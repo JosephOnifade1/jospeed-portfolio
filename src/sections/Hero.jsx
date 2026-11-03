@@ -15,8 +15,8 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        paddingTop: 110,
-        paddingBottom: 64,
+        paddingTop: 100,
+        paddingBottom: 60,
         position: 'relative',
         overflow: 'hidden',
         background: '#070906',
@@ -36,9 +36,9 @@ export default function Hero() {
           />
         </picture>
 
-        {/* Contrast vignette: smooth darkening behind the text on the left */}
+        {/* Contrast gradient: darkens only the text column on the far left */}
         <div className="hero-artwork-left-gradient" />
-        {/* Soft bottom edge fade merging into the next section */}
+        {/* Bottom edge fade merging into the next section */}
         <div className="hero-artwork-bottom-gradient" />
         {/* Top edge fade under navbar */}
         <div className="hero-artwork-top-gradient" />
@@ -234,7 +234,7 @@ export default function Hero() {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: right bottom;
+          object-position: right center;
           display: block;
           filter: contrast(1.05) brightness(1.02);
         }
@@ -245,11 +245,10 @@ export default function Hero() {
           inset: 0;
           background: linear-gradient(
             to right,
-            rgba(7, 9, 6, 0.96) 0%,
-            rgba(7, 9, 6, 0.88) 22%,
-            rgba(7, 9, 6, 0.6) 42%,
-            rgba(7, 9, 6, 0.2) 60%,
-            transparent 78%
+            rgba(7, 9, 6, 0.95) 0%,
+            rgba(7, 9, 6, 0.82) 24%,
+            rgba(7, 9, 6, 0.38) 42%,
+            transparent 56%
           );
         }
 
