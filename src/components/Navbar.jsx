@@ -109,7 +109,7 @@ export default function Navbar() {
                 lineHeight: 1,
               }}
             >
-              JO<span style={{ color: 'var(--citron)' }}>speed</span>
+              JOspeed
             </span>
           </div>
         </a>

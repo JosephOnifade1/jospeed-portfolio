@@ -1,18 +1,9 @@
-import { ArrowRight, ArrowDown } from 'lucide-react';
-import Scene3D from '../components/Scene3D.jsx';
-import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from '../components/BrandIcons.jsx';
+import { ArrowRight } from 'lucide-react';
 
 const STATS = [
   { value: '10+', label: 'Projects' },
   { value: '2+', label: 'Years Learning' },
   { value: '∞', label: 'Curiosity' },
-];
-
-const SOCIALS = [
-  { Icon: GithubIcon,   href: 'https://github.com/JosephOnifade1',             label: 'GitHub'   },
-  { Icon: LinkedinIcon, href: 'https://www.linkedin.com/in/joseph-onifade-ol', label: 'LinkedIn' },
-  { Icon: XIcon,        href: 'https://x.com/buildwithjospeed',                 label: 'X'        },
-  { Icon: DiscordIcon,  href: 'https://discord.com/users/1278856822555414549',  label: 'Discord'  },
 ];
 
 export default function Hero() {
@@ -24,274 +15,281 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        paddingTop: 104,
-        paddingBottom: 48,
+        paddingTop: 110,
+        paddingBottom: 64,
         position: 'relative',
         overflow: 'hidden',
-        background: 'var(--ink)',
+        background: '#070906',
       }}
     >
-      {/* Background Ambient Citron Glow */}
-      <div
-        className="ambient-glow-citron"
-        style={{
-          width: 580,
-          height: 580,
-          top: '12%',
-          right: '8%',
-          opacity: 0.7,
-        }}
-      />
+      {/* Full-bleed Cinematic Hero Artwork Layer (Desktop) */}
+      <div className="hero-artwork-desktop-bg" aria-hidden="true">
+        <picture>
+          <source type="image/webp" srcSet="/jospeed-hero-artwork.webp" />
+          <img
+            src="/jospeed-hero-artwork.png"
+            alt=""
+            className="hero-artwork-bg-img"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
+
+        {/* Contrast vignette: smooth darkening behind the text on the left */}
+        <div className="hero-artwork-left-gradient" />
+        {/* Soft bottom edge fade merging into the next section */}
+        <div className="hero-artwork-bottom-gradient" />
+        {/* Top edge fade under navbar */}
+        <div className="hero-artwork-top-gradient" />
+      </div>
 
       <div className="wrap" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
         
-        {/* Desktop & Mobile Grid */}
-        <div id="hero-layout">
+        {/* Content Column */}
+        <div className="hero-content">
           
-          {/* Main Content Column */}
-          <div className="hero-content">
-            
-            {/* Tag / Eyebrow */}
-            <div className="hero-anim-1" style={{ marginBottom: 18 }}>
-              <span className="eyebrow-tag">
-                Joseph Onifade · JOspeed
-              </span>
-            </div>
-
-            {/* Editorial Headline */}
-            <h1
-              id="hero-headline"
-              className="hero-anim-2"
+          {/* Eyebrow Tag */}
+          <div className="hero-anim-1" style={{ marginBottom: 20 }}>
+            <span
               style={{
-                fontSize: 'clamp(44px, 5.4vw, 76px)',
-                lineHeight: 1.04,
-                fontWeight: 700,
-                letterSpacing: '-0.04em',
-                marginBottom: 20,
-              }}
-            >
-              Build.<br />
-              Innovate.<br />
-              <span style={{ color: 'var(--citron)' }}>Create More.</span>
-            </h1>
-
-            {/* Subtitle / Positioning */}
-            <p
-              id="hero-sub"
-              className="hero-anim-3"
-              style={{
-                fontSize: 'clamp(15px, 1.35vw, 17px)',
-                color: 'var(--text-dim)',
-                lineHeight: 1.65,
-                maxWidth: 480,
-                marginBottom: 32,
-                fontWeight: 400,
-              }}
-            >
-              Fullstack Developer &amp; AI Engineer exploring Blockchain and 3D tools like Blender.
-              Designing and building intelligent web applications, automated workflows, and production systems.
-            </p>
-
-            {/* Action Buttons */}
-            <div
-              className="hero-anim-4 hero-cta-row"
-              style={{
-                display: 'flex',
-                gap: 14,
-                flexWrap: 'wrap',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 12,
+                letterSpacing: '0.14em',
+                color: '#D8F36A',
+                textTransform: 'uppercase',
+                fontWeight: 600,
+                display: 'inline-flex',
                 alignItems: 'center',
-                marginBottom: 38,
+                gap: 8,
               }}
             >
-              <a href="#projects" className="btn-citron-pill">
-                Explore My Work
-                <ArrowRight size={15} />
-              </a>
+              <span>—</span> JOSEPH ONIFADE - JOSPEED
+            </span>
+          </div>
 
-              <a href="#contact" className="btn-ghost-pill">
-                Get in Touch
-              </a>
-            </div>
+          {/* Editorial Headline */}
+          <h1
+            id="hero-headline"
+            className="hero-anim-2"
+            style={{
+              fontSize: 'clamp(46px, 5.4vw, 78px)',
+              lineHeight: 1.04,
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              color: '#FFFFFF',
+              marginBottom: 22,
+            }}
+          >
+            Build.<br />
+            Innovate.<br />
+            <span style={{ color: 'var(--citron)' }}>Create More.</span>
+          </h1>
 
-            {/* Desktop Only: Stats Dock & Social Links */}
-            <div className="desktop-stats-row hero-anim-5">
-              {/* Stat Pill Dock */}
-              <div className="stat-pill-container">
-                {STATS.map(({ value, label }) => (
-                  <div key={label} className="stat-item">
-                    <span className="stat-value">{value}</span>
-                    <span className="stat-label">{label}</span>
-                  </div>
-                ))}
-              </div>
+          {/* Subtitle / Positioning */}
+          <p
+            id="hero-sub"
+            className="hero-anim-3"
+            style={{
+              fontSize: 'clamp(14.5px, 1.25vw, 16px)',
+              color: 'rgba(245, 244, 238, 0.72)',
+              lineHeight: 1.65,
+              maxWidth: 490,
+              marginBottom: 34,
+              fontWeight: 400,
+            }}
+          >
+            Fullstack Developer &amp; AI Engineer exploring Blockchain and 3D tools like Blender.
+            Designing and building intelligent web applications, automated workflows, and production systems.
+          </p>
 
-              {/* Social Icons */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                {SOCIALS.map(({ Icon, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={label}
+          {/* Action Buttons */}
+          <div
+            className="hero-anim-4 hero-cta-row"
+            style={{
+              display: 'flex',
+              gap: 14,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              marginBottom: 44,
+            }}
+          >
+            <a
+              href="#projects"
+              className="btn-citron-pill"
+              style={{
+                padding: '13px 28px',
+                fontSize: 15,
+                fontWeight: 700,
+                boxShadow: '0 0 30px rgba(216, 243, 106, 0.28)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                textDecoration: 'none',
+              }}
+            >
+              Explore My Work
+              <ArrowRight size={16} />
+            </a>
+
+            <a
+              href="#contact"
+              style={{
+                padding: '13px 26px',
+                fontSize: 15,
+                fontWeight: 600,
+                color: 'var(--paper)',
+                background: 'rgba(20, 24, 18, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                borderRadius: 9999,
+                textDecoration: 'none',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(216, 243, 106, 0.4)';
+                e.currentTarget.style.background = 'rgba(216, 243, 106, 0.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.14)';
+                e.currentTarget.style.background = 'rgba(20, 24, 18, 0.65)';
+              }}
+            >
+              Get in Touch
+            </a>
+          </div>
+
+          {/* Mobile Only: Dedicated Artwork Focal View */}
+          <div className="hero-mobile-artwork">
+            <picture>
+              <source type="image/webp" srcSet="/jospeed-hero-artwork.webp" />
+              <img
+                src="/jospeed-hero-artwork.png"
+                alt="JOspeed Creative Engineering Sculpture"
+                className="hero-mobile-img"
+              />
+            </picture>
+            <div className="hero-mobile-vignette" aria-hidden="true" />
+          </div>
+
+          {/* Stats Dock */}
+          <div className="hero-stats-dock hero-anim-5">
+            {STATS.map(({ value, label }, idx) => (
+              <div key={label} style={{ display: 'contents' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span
                     style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 8,
-                      background: 'rgba(245, 244, 238, 0.04)',
-                      border: '1px solid rgba(245, 244, 238, 0.08)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'var(--text-dim)',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--citron)';
-                      e.currentTarget.style.borderColor = 'rgba(216, 243, 106, 0.3)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'var(--text-dim)';
-                      e.currentTarget.style.borderColor = 'rgba(245, 244, 238, 0.08)';
-                      e.currentTarget.style.transform = 'none';
+                      fontFamily: 'var(--font-ui)',
+                      fontWeight: 800,
+                      fontSize: 20,
+                      color: '#FFFFFF',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1,
                     }}
                   >
-                    <Icon size={16} color="currentColor" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* 3D Visual Centerpiece */}
-          <div id="hero-3d-wrapper">
-            <Scene3D />
-
-            {/* Interactive Hint Pill */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 14,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: 10,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--text-faint)',
-                pointerEvents: 'none',
-                background: 'rgba(10, 13, 9, 0.75)',
-                padding: '4px 12px',
-                borderRadius: 9999,
-                border: '1px solid rgba(216, 243, 106, 0.15)',
-                backdropFilter: 'blur(8px)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              drag to explore 3D
-            </div>
-          </div>
-
-          {/* Mobile Only: Stats Dock & Social Links positioned right below the 3D visual */}
-          <div className="mobile-stats-row">
-            <div className="stat-pill-container" style={{ width: '100%', justifyContent: 'space-around' }}>
-              {STATS.map(({ value, label }) => (
-                <div key={label} className="stat-item" style={{ padding: '0 8px' }}>
-                  <span className="stat-value" style={{ fontSize: 20 }}>{value}</span>
-                  <span className="stat-label" style={{ fontSize: 10 }}>{label}</span>
+                    {value}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 10.5,
+                      color: 'rgba(245,244,238,0.5)',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    {label}
+                  </span>
                 </div>
-              ))}
-            </div>
-
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginTop: 16 }}>
-              {SOCIALS.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  title={label}
-                  style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: 8,
-                    background: 'rgba(245, 244, 238, 0.04)',
-                    border: '1px solid rgba(245, 244, 238, 0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--text-dim)',
-                  }}
-                >
-                  <Icon size={17} color="currentColor" />
-                </a>
-              ))}
-            </div>
+                {idx < STATS.length - 1 && (
+                  <div
+                    style={{
+                      width: 1,
+                      height: 26,
+                      background: 'rgba(255,255,255,0.1)',
+                    }}
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
         </div>
 
-        {/* Scroll Down Indicator */}
-        <div
-          className="hero-anim-5"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            marginTop: 40,
-            color: 'var(--text-faint)',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-          }}
-        >
-          <a
-            href="#about"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              color: 'inherit',
-              transition: 'color 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--citron)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-faint)')}
-          >
-            <span>Scroll Down</span>
-            <span style={{ animation: 'bounceDown 1.8s infinite ease-in-out' }}>
-              <ArrowDown size={13} />
-            </span>
-          </a>
-        </div>
       </div>
 
       <style>{`
-        /* Desktop Layout */
-        #hero-layout {
-          display: grid;
-          grid-template-columns: 1.05fr 1.15fr;
-          gap: 28px;
-          align-items: center;
+        /* Desktop Artwork Background: Spans seamlessly across the hero */
+        .hero-artwork-desktop-bg {
+          position: absolute;
+          inset: 0;
           width: 100%;
+          height: 100%;
+          z-index: 1;
+          pointer-events: none;
+          overflow: hidden;
         }
-        #hero-3d-wrapper {
-          position: relative;
+
+        .hero-artwork-bg-img {
           width: 100%;
-          height: clamp(480px, 58vw, 650px);
-          display: flex;
-          align-items: center;
-          justifyContent: center;
+          height: 100%;
+          object-fit: cover;
+          object-position: right bottom;
+          display: block;
+          filter: contrast(1.05) brightness(1.02);
         }
-        .desktop-stats-row {
-          display: flex;
+
+        /* Contrast Gradient Overlays */
+        .hero-artwork-left-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to right,
+            rgba(7, 9, 6, 0.96) 0%,
+            rgba(7, 9, 6, 0.88) 22%,
+            rgba(7, 9, 6, 0.6) 42%,
+            rgba(7, 9, 6, 0.2) 60%,
+            transparent 78%
+          );
+        }
+
+        .hero-artwork-bottom-gradient {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 140px;
+          background: linear-gradient(to bottom, transparent 0%, rgba(7, 9, 6, 0.8) 60%, var(--ink) 100%);
+        }
+
+        .hero-artwork-top-gradient {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 90px;
+          background: linear-gradient(to bottom, rgba(7, 9, 6, 0.6) 0%, transparent 100%);
+        }
+
+        .hero-content {
+          max-width: 560px;
+        }
+
+        /* Stats Dock Styling */
+        .hero-stats-dock {
+          display: inline-flex;
           align-items: center;
+          background: rgba(12, 16, 11, 0.72);
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          border-radius: 14px;
+          padding: 14px 26px;
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           gap: 24px;
-          flex-wrap: wrap;
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
-        .mobile-stats-row {
+
+        .hero-mobile-artwork {
           display: none;
         }
 
@@ -312,34 +310,41 @@ export default function Hero() {
         .hero-anim-4 { animation: heroFadeIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.28s backwards; }
         .hero-anim-5 { animation: heroFadeIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.36s backwards; }
 
-        @keyframes bounceDown {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(4px); }
-        }
-
-        /* Mobile Layout */
+        /* Responsive Breakpoints */
         @media (max-width: 880px) {
-          #hero-layout {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 20px !important;
-          }
-          .hero-content {
-            width: 100% !important;
-          }
-          .desktop-stats-row {
+          .hero-artwork-desktop-bg {
             display: none !important;
           }
-          #hero-3d-wrapper {
-            height: clamp(340px, 75vw, 440px) !important;
-            margin: 10px 0 !important;
+          .hero-content {
+            max-width: 100% !important;
           }
-          .mobile-stats-row {
+          .hero-mobile-artwork {
             display: block !important;
-            width: 100% !important;
+            position: relative;
+            width: 100%;
+            height: clamp(320px, 80vw, 440px);
+            margin: 12px 0 28px 0;
+            border-radius: 16px;
+            overflow: hidden;
           }
-          .hero-cta-row {
-            margin-bottom: 20px !important;
+          .hero-mobile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 73% center;
+            display: block;
+          }
+          .hero-mobile-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 95% 95% at 73% 50%, transparent 50%, rgba(7, 9, 6, 0.7) 85%, var(--ink) 100%);
+            pointer-events: none;
+          }
+          .hero-stats-dock {
+            width: 100% !important;
+            justify-content: space-around !important;
+            padding: 14px 18px !important;
+            gap: 12px !important;
           }
         }
       `}</style>
