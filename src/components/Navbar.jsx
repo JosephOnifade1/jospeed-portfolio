@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const LINKS = [
   { label: 'Home', href: '#top' },
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Skills', href: '#skills' },
+  { label: 'Blog', href: '/blog', isRoute: true },
   { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -30,6 +34,12 @@ export default function Navbar() {
     };
   }, [open]);
 
+  const resolveHref = (link) => {
+    if (link.isRoute) return link.href;
+    if (isHome) return link.href;
+    return `/${link.href}`;
+  };
+
   return (
     <header
       style={{
@@ -41,7 +51,7 @@ export default function Navbar() {
         transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
         background: open
           ? '#0A0D09'
-          : (scrolled ? 'rgba(10, 13, 9, 0.82)' : 'transparent'),
+          : (scrolled ? 'rgba(10, 13, 9, 0.88)' : 'transparent'),
         backdropFilter: open ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
         WebkitBackdropFilter: open ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
         borderBottom: (open || scrolled)
@@ -60,8 +70,8 @@ export default function Navbar() {
         }}
       >
         {/* Brand Logo */}
-        <a
-          href="#top"
+        <Link
+          to="/"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -69,24 +79,21 @@ export default function Navbar() {
             textDecoration: 'none',
           }}
         >
-          {/* Stylized Angled Circuit / Slash Monogram */}
           <div
             style={{
               width: 32,
               height: 32,
-              borderRadius: 6,
+              borderRadius: 8,
               background: 'rgba(216, 243, 106, 0.12)',
               border: '1px solid rgba(216, 243, 106, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              position: 'relative',
-              overflow: 'hidden',
             }}
           >
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -98,21 +105,19 @@ export default function Navbar() {
             </svg>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-ui)',
-                fontWeight: 700,
-                fontSize: 19,
-                letterSpacing: '-0.03em',
-                color: 'var(--text-main)',
-                lineHeight: 1,
-              }}
-            >
-              JOspeed
-            </span>
-          </div>
-        </a>
+          <span
+            style={{
+              fontFamily: 'var(--font-ui)',
+              fontWeight: 700,
+              fontSize: 19,
+              letterSpacing: '-0.03em',
+              color: '#FFFFFF',
+              lineHeight: 1,
+            }}
+          >
+            JOspeed
+          </span>
+        </Link>
 
         {/* Desktop Links */}
         <nav
@@ -123,38 +128,84 @@ export default function Navbar() {
             alignItems: 'center',
           }}
         >
-          {LINKS.map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              style={{
-                fontFamily: 'var(--font-ui)',
-                fontSize: 14,
-                fontWeight: 500,
-                color: 'var(--text-dim)',
-                transition: 'color 0.2s ease',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--citron)')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-dim)')}
-            >
-              {label}
-            </a>
-          ))}
+          {LINKS.map((link) => {
+            const targetHref = resolveHref(link);
+            const isExternalPage = link.isRoute || !isHome;
+
+            if (isExternalPage) {
+              return (
+                <Link
+                  key={link.label}
+                  to={targetHref}
+                  style={{
+                    fontFamily: 'var(--font-ui)',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: location.pathname === link.href ? 'var(--citron)' : 'var(--text-dim)',
+                    textDecoration: 'none',
+                    transition: 'color 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--citron)')}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color =
+                      location.pathname === link.href ? 'var(--citron)' : 'var(--text-dim)';
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            }
+
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                style={{
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: 'var(--text-dim)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--citron)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-dim)')}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Desktop CTA Button */}
         <div className="desktop-cta" style={{ display: 'flex', alignItems: 'center' }}>
-          <a
-            href="#contact"
-            className="btn-citron-pill"
-            style={{
-              padding: '10px 22px',
-              fontSize: 13.5,
-              fontWeight: 600,
-            }}
-          >
-            Let's Talk
-          </a>
+          {isHome ? (
+            <a
+              href="#contact"
+              className="btn-citron-pill"
+              style={{
+                padding: '10px 22px',
+                fontSize: 13.5,
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              Let's Talk
+            </a>
+          ) : (
+            <Link
+              to="/#contact"
+              className="btn-citron-pill"
+              style={{
+                padding: '10px 22px',
+                fontSize: 13.5,
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              Let's Talk
+            </Link>
+          )}
         </div>
 
         {/* Mobile Toggle Button */}
@@ -163,9 +214,8 @@ export default function Navbar() {
           onClick={() => setOpen(!open)}
           aria-label={open ? 'Close Menu' : 'Open Menu'}
           style={{
-            color: 'var(--text-main)',
-            width: 42,
-            height: 42,
+            width: 40,
+            height: 40,
             borderRadius: 8,
             background: 'rgba(216, 243, 106, 0.08)',
             border: '1px solid rgba(216, 243, 106, 0.25)',
@@ -201,43 +251,91 @@ export default function Navbar() {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-            {LINKS.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                onClick={() => setOpen(false)}
-                style={{
-                  fontSize: 22,
-                  fontFamily: 'var(--font-ui)',
-                  fontWeight: 600,
-                  color: 'var(--text-main)',
-                  padding: '12px 0',
-                  borderBottom: '1px solid rgba(245, 244, 238, 0.06)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span>{label}</span>
-                <span style={{ color: 'var(--citron)', fontSize: 14 }}>→</span>
-              </a>
-            ))}
+            {LINKS.map((link) => {
+              const targetHref = resolveHref(link);
+              const isExternal = link.isRoute || !isHome;
+
+              if (isExternal) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={targetHref}
+                    onClick={() => setOpen(false)}
+                    style={{
+                      fontSize: 22,
+                      fontFamily: 'var(--font-ui)',
+                      fontWeight: 600,
+                      color: location.pathname === link.href ? 'var(--citron)' : '#FFFFFF',
+                      padding: '12px 0',
+                      borderBottom: '1px solid rgba(245, 244, 238, 0.06)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <span style={{ color: 'var(--citron)', fontSize: 14 }}>→</span>
+                  </Link>
+                );
+              }
+
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    fontSize: 22,
+                    fontFamily: 'var(--font-ui)',
+                    fontWeight: 600,
+                    color: '#FFFFFF',
+                    padding: '12px 0',
+                    borderBottom: '1px solid rgba(245, 244, 238, 0.06)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <span>{link.label}</span>
+                  <span style={{ color: 'var(--citron)', fontSize: 14 }}>→</span>
+                </a>
+              );
+            })}
           </div>
 
-          <a
-            href="#contact"
-            onClick={() => setOpen(false)}
-            className="btn-citron-pill"
-            style={{
-              width: '100%',
-              padding: '14px',
-              fontSize: 15,
-              fontWeight: 700,
-              justifyContent: 'center',
-            }}
-          >
-            Let's Talk <ArrowUpRight size={16} />
-          </a>
+          {isHome ? (
+            <a
+              href="#contact"
+              onClick={() => setOpen(false)}
+              className="btn-citron-pill"
+              style={{
+                width: '100%',
+                padding: '14px 0',
+                justifyContent: 'center',
+                textAlign: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              Let's Talk
+            </a>
+          ) : (
+            <Link
+              to="/#contact"
+              onClick={() => setOpen(false)}
+              className="btn-citron-pill"
+              style={{
+                width: '100%',
+                padding: '14px 0',
+                justifyContent: 'center',
+                textAlign: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              Let's Talk
+            </Link>
+          )}
         </div>
       )}
 
@@ -250,8 +348,12 @@ export default function Navbar() {
           display: none;
         }
         @media (max-width: 860px) {
-          .desktop-nav, .desktop-cta { display: none !important; }
-          .mobile-toggle { display: flex !important; }
+          .desktop-nav, .desktop-cta {
+            display: none !important;
+          }
+          .mobile-toggle {
+            display: inline-flex !important;
+          }
         }
       `}</style>
     </header>

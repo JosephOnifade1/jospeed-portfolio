@@ -10,10 +10,12 @@ import Hero from './sections/Hero.jsx';
 import About from './sections/About.jsx';
 import Projects from './sections/Projects.jsx';
 import Skills from './sections/Skills.jsx';
-import Services from './sections/Services.jsx';
-import Testimonials from './sections/Testimonials.jsx';
+import BlogInsights from './sections/BlogInsights.jsx';
 import CaseStudy from './pages/CaseStudy.jsx';
 import Gallery from './pages/Gallery.jsx';
+import BlogIndex from './pages/BlogIndex.jsx';
+import BlogPost from './pages/BlogPost.jsx';
+import NotFound from './pages/NotFound.jsx';
 import Footer from './components/Footer.jsx';
 
 function Portfolio() {
@@ -23,13 +25,12 @@ function Portfolio() {
       <CustomCursor />
       <FormCursor />
       <Navbar />
-      <main role="main" aria-label="Joseph Onifade Portfolio" style={{ background: 'var(--ink)' }}>
+      <main role="main" aria-label="Joseph Onifade Portfolio" style={{ background: '#070906' }}>
         <Hero />
         <About />
         <Projects />
         <Skills />
-        <Services />
-        <Testimonials />
+        <BlogInsights />
         <Contact />
       </main>
       <Footer />
@@ -45,6 +46,9 @@ export default function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/coverflow" element={<Gallery />} />
         <Route path="/case-study/:id" element={<CaseStudy />} />
+        <Route path="/blog" element={<BlogIndex />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Analytics />
       <SpeedInsights />
