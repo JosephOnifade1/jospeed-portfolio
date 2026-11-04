@@ -180,36 +180,22 @@ export default function Projects() {
         isolation: 'isolate',
       }}
     >
-      {/* Cinematic Ambient Glow & Orbital Ring */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: '36%',
-          right: '-5%',
-          width: 580,
-          height: 580,
-          borderRadius: '50%',
-          border: '1px solid rgba(216, 243, 106, 0.12)',
-          pointerEvents: 'none',
-          zIndex: 0,
-          filter: 'blur(1px)',
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: '20%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'clamp(400px, 70vw, 900px)',
-          height: 'clamp(300px, 40vw, 500px)',
-          background: 'radial-gradient(ellipse, rgba(216, 243, 106, 0.08) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+      {/* ── Standalone Atmospheric Background Artwork ── */}
+      <div className="projects-artwork-bg" aria-hidden="true">
+        <picture>
+          <img
+            src="/jospeed-project-art.webp"
+            alt=""
+            className="projects-artwork-img"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        {/* Soft edge blend overlays to seamlessly integrate into #070906 */}
+        <div className="projects-artwork-top-gradient" />
+        <div className="projects-artwork-bottom-gradient" />
+        <div className="projects-artwork-center-vignette" />
+      </div>
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         {/* ── 1. Section Heading ── */}
@@ -537,6 +523,58 @@ export default function Projects() {
       </div>
 
       <style>{`
+        /* ── Standalone Atmospheric Background Artwork ── */
+        .projects-artwork-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .projects-artwork-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+          opacity: 0.65;
+          filter: contrast(1.05) brightness(0.92);
+          transform: translateZ(0);
+          will-change: transform;
+        }
+
+        .projects-artwork-top-gradient {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 140px;
+          background: linear-gradient(to bottom, #070906 0%, rgba(7, 9, 6, 0.7) 40%, transparent 100%);
+        }
+
+        .projects-artwork-bottom-gradient {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 180px;
+          background: linear-gradient(to top, #070906 0%, rgba(7, 9, 6, 0.85) 50%, transparent 100%);
+        }
+
+        .projects-artwork-center-vignette {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            ellipse 85% 70% at 50% 50%,
+            rgba(7, 9, 6, 0.45) 0%,
+            rgba(7, 9, 6, 0.25) 45%,
+            rgba(7, 9, 6, 0.85) 100%
+          );
+        }
+
         /* ── Deck Stage & Composition ── */
         .projects-deck-wrapper {
           position: relative;

@@ -26,9 +26,9 @@ const WHAT_I_DO = [
 ];
 
 const METRICS = [
-  { value: '2+', label: 'Projects' },
-  { value: 'Ongoing', label: 'Learning' },
-  { value: '100%', label: 'Curiosity' },
+  { value: '10+', label: 'Projects Built' },
+  { value: 'Ongoing', label: 'Active Learning' },
+  { value: '100%', label: 'Curiosity & Drive' },
 ];
 
 export default function About() {
@@ -69,35 +69,53 @@ export default function About() {
       id="about"
       className="about-grain-section"
       style={{
-        padding: 'clamp(80px, 9vw, 130px) 0',
-        background: '#070906',
+        padding: 'clamp(90px, 10vw, 150px) 0 clamp(80px, 9vw, 130px)',
+        background: '#0B0E0A', // Warmer, softer near-black tone
         position: 'relative',
         overflow: 'hidden',
         isolation: 'isolate',
       }}
     >
-      {/* Ambient glow */}
+      {/* Soft Top Transition from Hero */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
-          top: '10%',
-          right: '-5%',
-          width: 600,
-          height: 600,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(216,243,106,0.05) 0%, transparent 68%)',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 120,
+          background: 'linear-gradient(to bottom, #070906 0%, transparent 100%)',
           pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Faint Architectural Alignment Lines (Subtle Environmental Texture) */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px)
+          `,
+          backgroundSize: '140px 140px',
+          maskImage: 'radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%)',
+          pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
 
-        {/* Eyebrow */}
+        {/* Section Header */}
         <div
           ref={headRef}
           className={`reveal ${headIn ? 'in-view' : ''}`}
-          style={{ marginBottom: 'clamp(40px, 5vw, 68px)' }}
+          style={{ marginBottom: 'clamp(44px, 5.5vw, 72px)' }}
         >
           <div className="eyebrow-tag" style={{ marginBottom: 18 }}>About Me</div>
           <h2
@@ -119,40 +137,40 @@ export default function About() {
         {/* 2-Column Main Layout */}
         <div className="about-main-grid">
 
-          {/* ─── Left Column ─── */}
+          {/* ─── Left Column: Story & Expertise ─── */}
           <div ref={leftRef} className={`reveal ${leftIn ? 'in-view' : ''}`}>
 
             <p
               style={{
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(15.5px, 1.35vw, 17.5px)',
-                color: 'rgba(245, 244, 238, 0.75)',
+                fontSize: 'clamp(16px, 1.4vw, 18px)',
+                color: 'rgba(245, 244, 238, 0.76)',
                 lineHeight: 1.8,
                 margin: '0 0 32px',
                 maxWidth: 560,
               }}
             >
               I'm a fullstack developer and AI engineer with a passion for building intelligent,
-              beautiful and useful products. I love exploring new technologies — from blockchain
-              to 3D design — and turning ideas into reality.
+              practical and useful digital products. I combine solid web architecture with RAG pipelines
+              and autonomous agents — exploring blockchain and 3D creative tools to push what's possible.
             </p>
 
             {/* Signature */}
             <div
               style={{
                 fontFamily: "'Dancing Script', cursive, Georgia, serif",
-                fontSize: 'clamp(36px, 4vw, 52px)',
+                fontSize: 'clamp(38px, 4vw, 54px)',
                 color: 'var(--citron)',
                 letterSpacing: '-0.01em',
-                marginBottom: 42,
+                marginBottom: 44,
                 lineHeight: 1,
-                textShadow: '0 0 30px rgba(216,243,106,0.25)',
+                textShadow: '0 0 25px rgba(216,243,106,0.2)',
               }}
             >
               JOspeed
             </div>
 
-            {/* What I Do */}
+            {/* What I Do - Structured Grid */}
             <div>
               <div className="eyebrow-tag" style={{ marginBottom: 20 }}>What I Do</div>
               <div className="what-i-do-grid">
@@ -163,11 +181,11 @@ export default function About() {
                   >
                     <div
                       style={{
-                        width: 40,
-                        height: 40,
+                        width: 38,
+                        height: 38,
                         borderRadius: 10,
-                        background: 'rgba(216, 243, 106, 0.1)',
-                        border: '1px solid rgba(216, 243, 106, 0.22)',
+                        background: 'rgba(216, 243, 106, 0.08)',
+                        border: '1px solid rgba(216, 243, 106, 0.2)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -175,7 +193,7 @@ export default function About() {
                         flexShrink: 0,
                       }}
                     >
-                      <Icon size={18} />
+                      <Icon size={17} />
                     </div>
                     <div>
                       <div
@@ -207,27 +225,31 @@ export default function About() {
             </div>
           </div>
 
-          {/* ─── Right Column: Profile Photo ─── */}
+          {/* ─── Right Column: Profile Image Placeholder Frame ───
+              Note: Built as a resilient, flexible portrait container designed to easily receive
+              a future high-fidelity photograph without breaking framing or aspect ratios. */}
           <div
             ref={rightRef}
             className={`reveal ${rightIn ? 'in-view' : ''}`}
             style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}
           >
             <div
+              className="about-portrait-frame"
               style={{
                 position: 'relative',
                 width: '100%',
                 maxWidth: 400,
                 borderRadius: 22,
                 overflow: 'hidden',
-                background: 'rgba(14, 18, 14, 0.8)',
+                background: '#0E130D',
                 border: '1px solid rgba(216, 243, 106, 0.22)',
-                boxShadow: '0 30px 70px rgba(0, 0, 0, 0.65), 0 0 40px rgba(216, 243, 106, 0.06)',
+                boxShadow: '0 24px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(216, 243, 106, 0.05)',
               }}
             >
               <img
                 src="/profile.jpg"
                 alt="Joseph Onifade"
+                className="about-portrait-img"
                 style={{
                   width: '100%',
                   aspectRatio: '3 / 4',
@@ -237,17 +259,17 @@ export default function About() {
                   filter: 'contrast(1.04) brightness(1.02)',
                 }}
               />
-              {/* Bottom gradient */}
+              {/* Bottom Vignette */}
               <div
                 aria-hidden="true"
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top, rgba(7, 9, 6, 0.85) 0%, transparent 38%)',
+                  background: 'linear-gradient(to top, rgba(11, 14, 10, 0.9) 0%, transparent 40%)',
                   pointerEvents: 'none',
                 }}
               />
-              {/* Status pill */}
+              {/* Live Status Pill */}
               <div
                 style={{
                   position: 'absolute',
@@ -311,9 +333,9 @@ export default function About() {
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 0,
-            marginTop: 'clamp(40px, 5vw, 64px)',
-            background: 'rgba(14, 18, 14, 0.6)',
-            border: '1px solid rgba(255, 255, 255, 0.07)',
+            marginTop: 'clamp(44px, 5.5vw, 68px)',
+            background: 'rgba(16, 21, 15, 0.6)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
             borderRadius: 18,
             overflow: 'hidden',
           }}
@@ -370,7 +392,7 @@ export default function About() {
           background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOCIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2VGaWx0ZXIpIi8+PC9zdmc+");
           background-repeat: repeat;
           background-size: 160px 160px;
-          opacity: 0.04;
+          opacity: 0.035;
           mix-blend-mode: screen;
           transform: translateZ(0);
           backface-visibility: hidden;
@@ -389,7 +411,7 @@ export default function About() {
           gap: 14px;
         }
         .what-i-do-card {
-          background: rgba(14, 18, 14, 0.75);
+          background: rgba(16, 21, 15, 0.7);
           border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 14px;
           padding: 16px 16px;

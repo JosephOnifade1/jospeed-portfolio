@@ -121,7 +121,7 @@ export default function Hero() {
                 padding: '13px 28px',
                 fontSize: 15,
                 fontWeight: 700,
-                boxShadow: '0 0 30px rgba(216, 243, 106, 0.28)',
+                boxShadow: '0 4px 18px rgba(216, 243, 106, 0.22)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
@@ -149,11 +149,11 @@ export default function Hero() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(216, 243, 106, 0.4)';
-                e.currentTarget.style.background = 'rgba(216, 243, 106, 0.08)';
+                e.currentTarget.style.color = '#D8F36A';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.14)';
-                e.currentTarget.style.background = 'rgba(20, 24, 18, 0.65)';
+                e.currentTarget.style.color = 'var(--paper)';
               }}
             >
               Get in Touch

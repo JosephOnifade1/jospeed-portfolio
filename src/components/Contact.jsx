@@ -1,73 +1,40 @@
 import { useState } from 'react';
 import { useReveal } from '../hooks/useReveal.js';
 import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from './BrandIcons.jsx';
-import { Mail, CheckCircle2 } from 'lucide-react';
+import { Mail, CheckCircle2, ArrowRight } from 'lucide-react';
 
 const SOCIALS = [
   {
     Icon: Mail,
     href: 'mailto:josephonifade21@gmail.com',
-    label: 'Email',
+    label: 'Direct Email',
     handle: 'josephonifade21@gmail.com',
+    note: 'Response within 24h',
   },
   {
     Icon: LinkedinIcon,
     href: 'https://www.linkedin.com/in/joseph-onifade-ol',
     label: 'LinkedIn',
     handle: '/in/joseph-onifade-ol',
+    note: 'Professional network',
   },
   {
     Icon: GithubIcon,
     href: 'https://github.com/JosephOnifade1',
     label: 'GitHub',
     handle: '/JosephOnifade1',
+    note: 'Code repositories & PRs',
   },
 ];
 
 const EXTRA_SOCIALS = [
-  { Icon: XIcon, href: 'https://x.com/buildwithjospeed', label: 'X / Twitter' },
+  { Icon: XIcon, href: 'https://x.com/buildwithjospeed', label: 'X (Twitter)' },
   { Icon: DiscordIcon, href: 'https://discord.com/users/1278856822555414549', label: 'Discord' },
 ];
 
-// SVG Envelope Illustration
-function EnvelopeIllustration() {
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        width: 120,
-        height: 100,
-        animation: 'floatEnvelope 6s ease-in-out infinite',
-        filter: 'drop-shadow(0 8px 30px rgba(216, 243, 106, 0.35))',
-      }}
-    >
-      <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="120" height="100">
-        {/* Envelope body */}
-        <rect x="4" y="20" width="112" height="72" rx="8" fill="#0e1810" stroke="rgba(216,243,106,0.55)" strokeWidth="1.5" />
-        {/* Envelope flap */}
-        <path d="M4 20 L60 58 L116 20" stroke="rgba(216,243,106,0.55)" strokeWidth="1.5" fill="none" />
-        {/* Left diagonal */}
-        <line x1="4" y1="92" x2="44" y2="55" stroke="rgba(216,243,106,0.2)" strokeWidth="1" />
-        {/* Right diagonal */}
-        <line x1="116" y1="92" x2="76" y2="55" stroke="rgba(216,243,106,0.2)" strokeWidth="1" />
-        {/* Stamp */}
-        <rect x="88" y="28" width="18" height="14" rx="2" fill="rgba(216,243,106,0.15)" stroke="rgba(216,243,106,0.5)" strokeWidth="1" />
-        <rect x="91" y="31" width="12" height="8" rx="1" fill="rgba(216,243,106,0.3)" />
-        {/* Glow line */}
-        <line x1="4" y1="20" x2="60" y2="58" stroke="rgba(216,243,106,0.6)" strokeWidth="1.5" />
-        <line x1="116" y1="20" x2="60" y2="58" stroke="rgba(216,243,106,0.6)" strokeWidth="1.5" />
-        {/* @ symbol in envelope */}
-        <text x="52" y="80" fontFamily="monospace" fontSize="14" fill="rgba(216,243,106,0.4)" fontWeight="bold">@</text>
-        {/* Shadow/glow */}
-        <ellipse cx="60" cy="96" rx="50" ry="5" fill="rgba(216,243,106,0.06)" />
-      </svg>
-    </div>
-  );
-}
-
 export default function Contact() {
   const [headRef, headIn] = useReveal();
-  const [formRef, formIn] = useReveal(0.1);
+  const [formRef, formIn] = useReveal(0.08);
 
   const [status, setStatus] = useState('idle');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -99,7 +66,7 @@ export default function Contact() {
   const inputStyle = {
     width: '100%',
     boxSizing: 'border-box',
-    background: 'rgba(10, 13, 9, 0.75)',
+    background: 'rgba(10, 14, 10, 0.72)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: 12,
     padding: '14px 16px',
@@ -107,7 +74,7 @@ export default function Contact() {
     fontSize: 14.5,
     color: '#FFFFFF',
     outline: 'none',
-    transition: 'border-color 0.2s',
+    transition: 'all 0.2s ease',
     appearance: 'none',
     WebkitAppearance: 'none',
   };
@@ -116,23 +83,24 @@ export default function Contact() {
     <section
       id="contact"
       style={{
-        padding: 'clamp(80px, 9vw, 130px) 0',
-        background: '#070906',
+        padding: 'clamp(90px, 10vw, 140px) 0 clamp(80px, 8vw, 120px)',
+        background: '#080A07', // Grounded arrival dark tone — visual destination leading into footer
         position: 'relative',
         overflow: 'hidden',
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
       }}
     >
-      {/* Ambient glow */}
+      {/* Subtle arrival ambient aura */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
-          bottom: '-10%',
-          right: '-5%',
-          width: 600,
-          height: 600,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(216,243,106,0.055) 0%, transparent 68%)',
+          bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '70vw',
+          height: 380,
+          background: 'radial-gradient(ellipse at bottom, rgba(216, 243, 106, 0.04) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />
@@ -140,52 +108,89 @@ export default function Contact() {
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <div className="contact-layout-grid">
 
-          {/* Left Column */}
+          {/* Left Column: Direct Invitation & Verified Channels */}
           <div ref={headRef} className={`reveal ${headIn ? 'in-view' : ''}`}>
-            <div className="eyebrow-tag" style={{ marginBottom: 18 }}>Let's Work Together</div>
+            {/* Status Pill */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'rgba(216, 243, 106, 0.08)',
+                border: '1px solid rgba(216, 243, 106, 0.25)',
+                padding: '6px 14px',
+                borderRadius: 100,
+                marginBottom: 20,
+              }}
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: '50%',
+                  background: 'var(--citron)',
+                  boxShadow: '0 0 10px var(--citron)',
+                  display: 'inline-block',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  color: 'var(--citron)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Available for New Work & Roles
+              </span>
+            </div>
+
             <h2
               style={{
                 fontFamily: 'var(--font-ui)',
                 fontWeight: 800,
-                fontSize: 'clamp(36px, 5vw, 64px)',
+                fontSize: 'clamp(36px, 4.8vw, 64px)',
                 color: '#FFFFFF',
                 letterSpacing: '-0.038em',
-                lineHeight: 1.05,
-                margin: '0 0 20px',
+                lineHeight: 1.06,
+                margin: '0 0 18px',
               }}
             >
-              Got a project<br />
-              <span style={{ color: 'var(--citron)' }}>or idea?</span>
+              Let's build<br />
+              <span style={{ color: 'var(--citron)' }}>something real.</span>
             </h2>
+
             <p
               style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: 16,
-                color: 'rgba(245, 244, 238, 0.62)',
+                color: 'rgba(245, 244, 238, 0.65)',
                 lineHeight: 1.72,
-                margin: '0 0 40px',
-                maxWidth: 420,
+                margin: '0 0 36px',
+                maxWidth: 440,
               }}
             >
-              I'm always open to discussing new opportunities, collaborations, or just having a tech chat.
+              Whether you need to ship a production AI workflow, architect a modern web application, or discuss high-impact technical initiatives — my inbox is open.
             </p>
 
-            {/* Social links */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {SOCIALS.map(({ Icon, href, label, handle }) => (
+            {/* Direct Channels */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
+              {SOCIALS.map(({ Icon, href, label, handle, note }) => (
                 <a
                   key={label}
                   href={href}
                   target={href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noreferrer"
-                  className="contact-social-link"
+                  className="contact-channel-row"
                 >
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 10,
-                      background: 'rgba(216, 243, 106, 0.1)',
+                      width: 42,
+                      height: 42,
+                      borderRadius: 12,
+                      background: 'rgba(216, 243, 106, 0.08)',
                       border: '1px solid rgba(216, 243, 106, 0.22)',
                       display: 'flex',
                       alignItems: 'center',
@@ -194,26 +199,47 @@ export default function Contact() {
                       color: 'var(--citron)',
                     }}
                   >
-                    <Icon size={17} />
+                    <Icon size={18} />
                   </div>
-                  <div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
-                        fontFamily: 'var(--font-ui)',
-                        fontWeight: 600,
-                        fontSize: 14,
-                        color: '#FFFFFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 8,
                         marginBottom: 2,
                       }}
                     >
-                      {label}
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-ui)',
+                          fontWeight: 700,
+                          fontSize: 14.5,
+                          color: '#FFFFFF',
+                        }}
+                      >
+                        {label}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: 10.5,
+                          color: 'rgba(245, 244, 238, 0.35)',
+                        }}
+                      >
+                        {note}
+                      </span>
                     </div>
                     <div
                       style={{
                         fontFamily: 'var(--font-mono)',
-                        fontSize: 11.5,
-                        color: 'rgba(245, 244, 238, 0.45)',
-                        letterSpacing: '0.02em',
+                        fontSize: 12,
+                        color: 'rgba(245, 244, 238, 0.55)',
+                        letterSpacing: '0.01em',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       {handle}
@@ -223,85 +249,102 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Extra socials */}
-            <div style={{ display: 'flex', gap: 10, marginTop: 22 }}>
-              {EXTRA_SOCIALS.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  title={label}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    background: 'rgba(14, 18, 14, 0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'rgba(245, 244, 238, 0.55)',
-                    transition: 'all 0.2s',
-                    textDecoration: 'none',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(216, 243, 106, 0.35)';
-                    e.currentTarget.style.color = 'var(--citron)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.color = 'rgba(245, 244, 238, 0.55)';
-                  }}
-                >
-                  <Icon size={17} color="currentColor" />
-                </a>
-              ))}
+            {/* Extra Networks & Base Info */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: 16,
+                borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                flexWrap: 'wrap',
+                gap: 16,
+              }}
+            >
+              <div style={{ display: 'flex', gap: 10 }}>
+                {EXTRA_SOCIALS.map(({ Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={label}
+                    className="extra-social-pill"
+                  >
+                    <Icon size={16} color="currentColor" />
+                  </a>
+                ))}
+              </div>
+
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  color: 'rgba(245, 244, 238, 0.38)',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                LOC: LAGOS, NG · WAT (UTC+1)
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Form */}
+          {/* Right Column: Clean Form Container (No cartoon graphics) */}
           <div
             ref={formRef}
             className={`reveal ${formIn ? 'in-view' : ''}`}
             style={{ position: 'relative' }}
           >
-            {/* Floating envelope graphic */}
-            <div
-              style={{
-                position: 'absolute',
-                top: -50,
-                right: 24,
-                zIndex: 2,
-                pointerEvents: 'none',
-              }}
-            >
-              <EnvelopeIllustration />
-            </div>
-
-            {/* Form container */}
-            <div
-              style={{
-                background: 'rgba(14, 18, 14, 0.78)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: 24,
-                padding: 'clamp(28px, 4vw, 44px)',
-                boxShadow: '0 24px 60px rgba(0, 0, 0, 0.5)',
-                position: 'relative',
-                zIndex: 1,
-              }}
-            >
+            <div className="contact-form-card">
+              {/* Card Header */}
               <div
                 style={{
-                  fontFamily: 'var(--font-ui)',
-                  fontWeight: 700,
-                  fontSize: 19,
-                  color: '#FFFFFF',
-                  marginBottom: 26,
-                  letterSpacing: '-0.02em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: 24,
+                  paddingBottom: 16,
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                Send a Message
+                <div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-ui)',
+                      fontWeight: 700,
+                      fontSize: 18,
+                      color: '#FFFFFF',
+                      letterSpacing: '-0.02em',
+                      marginBottom: 3,
+                    }}
+                  >
+                    Direct Dispatch
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 11,
+                      color: 'rgba(245, 244, 238, 0.42)',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    MESSAGING GATEWAY // FORMSPREE ENCRYPTED
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 10.5,
+                    color: 'var(--citron)',
+                    background: 'rgba(216, 243, 106, 0.08)',
+                    border: '1px solid rgba(216, 243, 106, 0.25)',
+                    padding: '3px 9px',
+                    borderRadius: 6,
+                  }}
+                >
+                  24H SLA
+                </div>
               </div>
 
               {status === 'done' ? (
@@ -312,56 +355,123 @@ export default function Contact() {
                     color: 'var(--citron)',
                   }}
                 >
-                  <CheckCircle2 size={48} style={{ margin: '0 auto 18px' }} />
+                  <CheckCircle2 size={46} style={{ margin: '0 auto 16px' }} />
                   <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, fontSize: 18, marginBottom: 8, color: '#FFFFFF' }}>
-                    Message Dispatched!
+                    Message Dispatched Successfully
                   </div>
-                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(245, 244, 238, 0.65)' }}>
-                    Thank you! I'll review your note and respond shortly.
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(245, 244, 238, 0.65)', maxWidth: 360, margin: '0 auto' }}>
+                    Thank you. Your message has reached Joseph Onifade. You will receive a response shortly.
                   </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="form-cols">
-                    <input
-                      name="name"
-                      type="text"
-                      placeholder="Your name"
-                      value={formData.name}
+                    <div>
+                      <label
+                        htmlFor="name"
+                        style={{
+                          display: 'block',
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: 11,
+                          color: 'rgba(245, 244, 238, 0.5)',
+                          marginBottom: 6,
+                          letterSpacing: '0.03em',
+                        }}
+                      >
+                        YOUR NAME
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        placeholder="Alex Morgan"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        style={inputStyle}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'rgba(216, 243, 106, 0.55)';
+                          e.target.style.background = 'rgba(14, 20, 14, 0.9)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                          e.target.style.background = 'rgba(10, 14, 10, 0.72)';
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="email"
+                        style={{
+                          display: 'block',
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: 11,
+                          color: 'rgba(245, 244, 238, 0.5)',
+                          marginBottom: 6,
+                          letterSpacing: '0.03em',
+                        }}
+                      >
+                        EMAIL ADDRESS
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="alex@company.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        style={inputStyle}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'rgba(216, 243, 106, 0.55)';
+                          e.target.style.background = 'rgba(14, 20, 14, 0.9)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                          e.target.style.background = 'rgba(10, 14, 10, 0.72)';
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="message"
+                      style={{
+                        display: 'block',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 11,
+                        color: 'rgba(245, 244, 238, 0.5)',
+                        marginBottom: 6,
+                        letterSpacing: '0.03em',
+                      }}
+                    >
+                      PROJECT SCOPE / MESSAGE
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      placeholder="Outline your project scope, timeline, engineering requirements, or open roles..."
+                      value={formData.message}
                       onChange={handleChange}
                       required
-                      style={inputStyle}
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(216, 243, 106, 0.45)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
-                    />
-                    <input
-                      name="email"
-                      type="email"
-                      placeholder="Your email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      style={inputStyle}
-                      onFocus={(e) => { e.target.style.borderColor = 'rgba(216, 243, 106, 0.45)'; }}
-                      onBlur={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
+                      rows={5}
+                      style={{ ...inputStyle, resize: 'vertical', minHeight: 130 }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = 'rgba(216, 243, 106, 0.55)';
+                        e.target.style.background = 'rgba(14, 20, 14, 0.9)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(10, 14, 10, 0.72)';
+                      }}
                     />
                   </div>
 
-                  <textarea
-                    name="message"
-                    placeholder="Tell me about your project or inquiry..."
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    style={{ ...inputStyle, resize: 'vertical', minHeight: 130 }}
-                    onFocus={(e) => { e.target.style.borderColor = 'rgba(216, 243, 106, 0.45)'; }}
-                    onBlur={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
-                  />
-
                   {status === 'error' && (
                     <div style={{ color: '#f87171', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
-                      Submission failed — please email josephonifade21@gmail.com directly.
+                      Dispatch error — please write directly to josephonifade21@gmail.com.
                     </div>
                   )}
 
@@ -370,17 +480,20 @@ export default function Contact() {
                     disabled={status === 'sending'}
                     className="btn-citron-pill"
                     style={{
-                      padding: '14px 36px',
-                      fontSize: 15,
+                      padding: '14px 34px',
+                      fontSize: 14.5,
                       fontWeight: 700,
                       alignSelf: 'flex-start',
-                      boxShadow: '0 0 28px rgba(216, 243, 106, 0.22)',
+                      boxShadow: '0 0 28px rgba(216, 243, 106, 0.2)',
                       border: 'none',
                       opacity: status === 'sending' ? 0.7 : 1,
                       cursor: status === 'sending' ? 'wait' : 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
                     }}
                   >
-                    {status === 'sending' ? 'Sending...' : 'Send Message →'}
+                    {status === 'sending' ? 'Transmitting...' : 'Send Message'} <ArrowRight size={15} />
                   </button>
                 </form>
               )}
@@ -390,17 +503,13 @@ export default function Contact() {
       </div>
 
       <style>{`
-        @keyframes floatEnvelope {
-          0%, 100% { transform: translateY(0px) rotate(-3deg); }
-          50% { transform: translateY(-10px) rotate(2deg); }
-        }
         .contact-layout-grid {
           display: grid;
-          grid-template-columns: 1fr 1.1fr;
-          gap: clamp(40px, 6vw, 80px);
+          grid-template-columns: 1fr 1.15fr;
+          gap: clamp(40px, 6vw, 84px);
           align-items: start;
         }
-        .contact-social-link {
+        .contact-channel-row {
           display: flex;
           align-items: center;
           gap: 16px;
@@ -408,13 +517,39 @@ export default function Contact() {
           padding: 16px 20px;
           border-radius: 14px;
           border: 1px solid rgba(255, 255, 255, 0.07);
-          background: rgba(14, 18, 14, 0.72);
+          background: rgba(14, 20, 14, 0.65);
           transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .contact-social-link:hover {
-          border-color: rgba(216, 243, 106, 0.3);
+        .contact-channel-row:hover {
+          border-color: rgba(216, 243, 106, 0.32);
           transform: translateY(-2px);
-          background: rgba(18, 24, 18, 0.88);
+          background: rgba(18, 26, 18, 0.88);
+        }
+        .contact-form-card {
+          background: rgba(13, 18, 13, 0.78);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 22px;
+          padding: clamp(26px, 3.8vw, 42px);
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+          position: relative;
+        }
+        .extra-social-pill {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          background: rgba(14, 20, 14, 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(245, 244, 238, 0.55);
+          transition: all 0.2s;
+          text-decoration: none;
+        }
+        .extra-social-pill:hover {
+          border-color: rgba(216, 243, 106, 0.35);
+          color: var(--citron);
+          background: rgba(216, 243, 106, 0.08);
         }
         @media (max-width: 880px) {
           .contact-layout-grid {
