@@ -54,7 +54,7 @@ export default function CaseStudy() {
       <Navbar />
       <main className="case-page">
         <div className="wrap">
-          <div className="case-breadcrumb">
+          <nav className="case-breadcrumb" aria-label="Breadcrumb">
             <Link to={returnPath}>
               <ArrowLeft size={16} />{' '}
               {fromGallery
@@ -63,8 +63,8 @@ export default function CaseStudy() {
                   ? 'Back to project archive'
                   : 'Back to selected work'}
             </Link>
-            <span className="quiet-label">JOspeed / Case study</span>
-          </div>
+            <span className="quiet-label" aria-current="page">Case study / {name}</span>
+          </nav>
           <article aria-labelledby="case-title">
             <div className="case-opening">
               <div className="case-lead">

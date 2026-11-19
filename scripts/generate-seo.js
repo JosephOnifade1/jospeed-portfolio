@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { brand } from '../src/data/brand.js';
 import { WORK_INDEX } from '../src/data/projects.js';
-import { companionFor } from '../src/utils/companionReading.js';
 import { readPublishedPosts } from './blog-content.js';
 import { caseCardPath, escapeHtml, pageFor, renderHead, siteUrl } from '../src/seo/pageHead.js';
 
@@ -17,104 +18,139 @@ function routes(posts) {
 }
 
 function sitemap(posts) {
-  const priorities = { '/': '1.0', '/blog': '0.9', '/gallery': '0.7' };
-  const urls = routes(posts).map((route) => {
-    const post = posts.find((p) => route === `/blog/${p.slug}`);
-    return [
-      '  <url>',
-      `    <loc>${escapeHtml(siteUrl(route))}</loc>`,
-      ...(post ? [`    <lastmod>${escapeHtml(post.date)}</lastmod>`] : []),
-      `    <changefreq>${route === '/' || route === '/blog' ? 'daily' : 'weekly'}</changefreq>`,
-      `    <priority>${priorities[route] || '0.8'}</priority>`,
-      '  </url>',
-    ].join('\n');
-  });
+  // A publication date isn't necessarily the last modification. List canonical
+  // URLs without synthesizing freshness dates or update schedules.
+  const urls = routes(posts).map((route) => `  <url><loc>${escapeHtml(siteUrl(route))}</loc></url>`);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
 }
 
-function fallbackLinks(path, posts) {
-  if (path === '/blog') return posts.map((p) => [`/blog/${p.slug}`, p.title]);
-  if (path === '/work' || path === '/gallery') return WORK_INDEX.map((p) => [`/case-study/${p.id}`, p.name]);
-  const companion = companionFor(path, posts);
-  return [
-    ...(companion ? [[companion.href, companion.label]] : []),
-    ['/work', 'Project archive'],
-    ['/blog', 'Blog'],
-  ];
+const headSlot = '<!--page-head-->';
+const rootSlot = '<div id="root"></div>';
+const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl('/sitemap.xml')}\n`;
+const entries = (posts) => [...routes(posts), '/coverflow', '/404'];
+const filename = (route) => (route === '/' ? 'index.html' : `${route.slice(1)}.html`);
+
+function documentFor(template, pathname, posts, renderBody) {
+  if (!template.includes(headSlot) || !template.includes(rootSlot)) {
+    throw new Error('Missing head or root slot in the HTML template.');
+  }
+  return template
+    .replace(headSlot, () => renderHead(pageFor(pathname, posts)))
+    .replace(
+      rootSlot,
+      () => `<div id="root" data-page="${escapeHtml(pathname)}">${renderBody(pathname)}</div>`
+    );
 }
 
-const marker = '<!--page-head-->';
-function documentFor(template, pathname, posts) {
-  const page = pageFor(pathname, posts);
-  const html = template.replace(marker, () => renderHead(page));
-  // Real navigation for readers without JavaScript, not hidden crawler-only text.
-  const links = fallbackLinks(page.path, posts).map(
-    ([href, label]) => `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`
-  );
-  const summary = `<noscript><main class="static-summary wrap"><h1>${escapeHtml(page.shareTitle || page.title)}</h1><p>${escapeHtml(page.description)}</p><nav>${links.join(' · ')}</nav></main></noscript>`;
-  return html.replace('<div id="root"></div>', () => `<div id="root">${summary}</div>`);
+function validateContent(posts) {
+  for (const url of [brand.mark, brand.logo, brand.shareImage]) {
+    if (!fs.existsSync(path.join('public', url))) {
+      throw new Error(`Missing brand asset ${url}. Run npm run brand:assets.`);
+    }
+  }
+  for (const project of WORK_INDEX) {
+    if (!project.shareSubtitle || !fs.existsSync(path.join('public', caseCardPath(project.id)))) {
+      throw new Error(`Missing share copy or artwork for ${project.id}. Run npm run share:images.`);
+    }
+  }
+  for (const post of posts) {
+    if (post.relatedProject && !WORK_INDEX.some((p) => p.id === post.relatedProject)) {
+      throw new Error(`Unknown relatedProject in ${post.slug}: ${post.relatedProject}`);
+    }
+    if (post.coverImage.startsWith('/') && !fs.existsSync(path.join('public', post.coverImage))) {
+      throw new Error(`Missing cover image for ${post.slug}: ${post.coverImage}`);
+    }
+  }
 }
+
+export async function buildPortfolio({ build, environments: { client, ssr } }) {
+  const posts = readPublishedPosts();
+  validateContent(posts);
+  await build(client);
+  await build(ssr);
+  const out = path.resolve(client.config.build.outDir);
+  const renderer = path.resolve(ssr.config.build.outDir, 'entry-static.js');
+  const { renderBody } = await import(pathToFileURL(renderer).href);
+  const template = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
+  for (const route of entries(posts)) {
+    const file = path.join(out, filename(route));
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, documentFor(template, route, posts, renderBody));
+  }
+  fs.writeFileSync(path.join(out, 'sitemap.xml'), sitemap(posts));
+  fs.writeFileSync(path.join(out, 'robots.txt'), robots);
+  client.config.logger.info(
+    `Prerendered ${entries(posts).length} pages; ${routes(posts).length} canonical URLs in sitemap.`
+  );
+}
+
+// Vercel serves the flat HTML files with cleanUrls and no trailing slash. Mirror
+// that policy in dev/preview, retaining the query but never redirecting off-site.
+function redirectPath(pathname, known) {
+  const clean =
+    pathname
+      .replace(/\/+$/, '')
+      .replace(/\.html$/, '')
+      .replace(/\/index$/, '') || '/';
+  return clean !== pathname && known.has(clean) ? clean : null;
+}
+function send(res, status, type, content, method) {
+  res.writeHead(status, { 'Content-Type': `${type}; charset=utf-8` });
+  res.end(method === 'HEAD' ? undefined : content);
+}
+const isPageRequest = (url) => !/\.[^/]+$/.test(url.pathname) || url.pathname.endsWith('.html');
 
 export function portfolioPages() {
   return {
     name: 'portfolio-static-pages',
-    enforce: 'post',
-    buildStart() {
-      const posts = readPublishedPosts();
-      for (const project of WORK_INDEX) {
-        if (!project.shareSubtitle || !fs.existsSync(path.join('public', caseCardPath(project.id)))) {
-          throw new Error(
-            `Missing share copy or artwork for ${project.id}. Update projects.js and run npm run share:images.`
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (!['GET', 'HEAD'].includes(req.method)) return next();
+        try {
+          const url = new URL(req.url, 'http://vite.local');
+          if (url.pathname === '/robots.txt') return send(res, 200, 'text/plain', robots, req.method);
+          if (url.pathname === '/sitemap.xml')
+            return send(res, 200, 'application/xml', sitemap(readPublishedPosts()), req.method);
+          // Leave Vite's module requests, file assets and HMR transport alone.
+          if (!isPageRequest(url) || /^\/(?:@|__|node_modules\/|src\/)/.test(url.pathname)) return next();
+          const posts = readPublishedPosts();
+          const known = new Set(entries(posts));
+          const redirect = redirectPath(url.pathname, known);
+          if (redirect) return res.writeHead(308, { Location: redirect + url.search }).end();
+          const route = known.has(url.pathname) ? url.pathname : '/404';
+          const { renderBody } = await server.ssrLoadModule('/src/entry-static.jsx');
+          const shell = await server.transformIndexHtml('/index.html', fs.readFileSync('index.html', 'utf8'));
+          send(
+            res,
+            route === '/404' ? 404 : 200,
+            'text/html',
+            documentFor(shell, route, posts, renderBody),
+            req.method
           );
+        } catch (error) {
+          next(error);
         }
-      }
-      for (const post of posts) {
-        if (post.relatedProject && !WORK_INDEX.some((p) => p.id === post.relatedProject)) {
-          throw new Error(`Unknown relatedProject in ${post.slug}: ${post.relatedProject}`);
-        }
-      }
-      fs.writeFileSync('public/sitemap.xml', sitemap(posts));
-      fs.writeFileSync(
-        'public/robots.txt',
-        `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl('/sitemap.xml')}\n`
-      );
-    },
-    transformIndexHtml(html, ctx) {
-      // Dev also answers unfurl requests without needing a browser. In a build,
-      // keep the slot until Vite has finished resolving JS and CSS asset names.
-      if (!ctx.server) return html;
-      const { pathname } = new URL(ctx.originalUrl || ctx.path, 'http://vite.local');
-      return documentFor(html, pathname === '/index.html' ? '/' : pathname, readPublishedPosts());
-    },
-    generateBundle: {
-      order: 'post',
-      handler(_options, bundle) {
-        const shell = bundle['index.html'];
-        if (!shell?.source.includes(marker))
-          throw new Error('Cannot find the page-head slot in the built HTML.');
-        const template = shell.source;
-        const posts = readPublishedPosts();
-        const paths = [...routes(posts), '/coverflow', '/404'];
-        for (const pathname of paths) {
-          const source = documentFor(template, pathname, posts);
-          if (pathname === '/') shell.source = source;
-          else this.emitFile({ type: 'asset', fileName: `${pathname.slice(1)}.html`, source });
-        }
-        this.info(
-          `Generated ${paths.length} HTML entry points, including ${WORK_INDEX.length} case studies.`
-        );
-      },
+      });
     },
     configurePreviewServer(server) {
-      // Match Vercel's cleanUrls/trailingSlash policy: Vite normally looks for
-      // /foo/index.html on a request for /foo/, missing the real /foo.html.
-      const pages = new Set([...routes(readPublishedPosts()), '/coverflow']);
+      // Inspect the actual build, not the Markdown currently on disk. A draft
+      // edit doesn't change the pages served until the next successful build.
+      const out = path.resolve(server.config.build.outDir);
+      const known = new Set(
+        fs
+          .readdirSync(out, { recursive: true })
+          .filter((file) => file.endsWith('.html'))
+          .map((file) => (file === 'index.html' ? '/' : `/${file.split(path.sep).join('/').slice(0, -5)}`))
+      );
       server.middlewares.use((req, res, next) => {
+        if (!['GET', 'HEAD'].includes(req.method)) return next();
         const url = new URL(req.url, 'http://vite.local');
-        const clean = url.pathname.replace(/\/+$/, '');
-        if (url.pathname !== clean && pages.has(clean)) {
-          res.writeHead(308, { Location: clean + url.search }).end();
-        } else next();
+        const redirect = redirectPath(url.pathname, known);
+        if (redirect) return res.writeHead(308, { Location: redirect + url.search }).end();
+        if (isPageRequest(url) && (!known.has(url.pathname) || url.pathname === '/404')) {
+          return send(res, 404, 'text/html', fs.readFileSync(path.join(out, '404.html')), req.method);
+        }
+        next();
       });
     },
   };

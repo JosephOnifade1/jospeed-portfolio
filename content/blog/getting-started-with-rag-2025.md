@@ -12,8 +12,6 @@ draft: false
 featured: true
 ---
 
-# Getting Started with RAG in 2025
-
 Retrieval-Augmented Generation (RAG) has matured from an experimental hack into the definitive standard for grounding Large Language Models in proprietary, dynamic knowledge bases.
 
 In 2025, simply generating text embeddings and running a vanilla cosine similarity search is no longer enough to achieve production-grade precision. High hallucination rates, document fragmentation, and context-window pollution demand an engineered approach.

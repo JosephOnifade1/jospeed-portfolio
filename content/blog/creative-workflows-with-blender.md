@@ -11,8 +11,6 @@ draft: false
 featured: false
 ---
 
-# Creative Workflows with Blender & Three.js for Creative Developers
-
 Modern web development has largely been flattened into homogeneous SaaS grids, standard cards, and repetitive templates.
 
 Learning Blender as a software engineer completely reframed my perspective on visual design. When you understand light transport, physical materials, and camera optics, your web applications evolve from static flat screens into immersive digital experiences.
