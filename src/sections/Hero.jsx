@@ -1,8 +1,11 @@
 import { ArrowRight } from 'lucide-react';
+import { profile } from '../data/profile.js';
+import { WORK_INDEX } from '../data/projects.js';
+import { getAllPosts } from '../utils/blog.js';
 
 const STATS = [
-  { value: '10+', label: 'Projects' },
-  { value: '2+', label: 'Years Learning' },
+  { value: WORK_INDEX.length, label: 'Case studies' },
+  { value: getAllPosts().length, label: 'Field notes' },
   { value: '∞', label: 'Curiosity' },
 ];
 
@@ -71,6 +74,8 @@ export default function Hero() {
           {/* Editorial Headline */}
           <h1
             id="hero-headline"
+            data-route-title
+            tabIndex={-1}
             className="hero-anim-2"
             style={{
               fontSize: 'clamp(46px, 5.4vw, 78px)',
@@ -99,7 +104,7 @@ export default function Hero() {
               fontWeight: 400,
             }}
           >
-            Fullstack Developer &amp; AI Engineer exploring Blockchain and 3D tools like Blender.
+            {profile.role} exploring Blockchain and 3D tools like Blender.
             Designing and building intelligent web applications, automated workflows, and production systems.
           </p>
 

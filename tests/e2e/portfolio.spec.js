@@ -35,16 +35,16 @@ test('featured work → case study → inquiry, with retry and attribution', asy
     expect(route.request().postDataJSON()).toEqual({
       name: 'Example',
       email: 'qa@example.com',
-      message: 'A test project.',
+      message: 'An engineering role on our team.',
     });
     await route.fulfill({ status: attempts === 1 ? 503 : 200, json: { ok: attempts > 1 } });
   });
   await page.getByLabel('Your name').fill('Example');
   await page.getByLabel('Email address').fill('qa@example.com');
-  await page.getByLabel('About your project').fill('A test project.');
+  await page.getByLabel('About your project or role', { exact: true }).fill('An engineering role on our team.');
   await page.getByRole('button', { name: 'Send message' }).click();
   await expect(page.getByRole('alert')).toContainText('didn’t send');
-  await expect(page.getByLabel('About your project')).toHaveValue('A test project.');
+  await expect(page.getByLabel('About your project or role', { exact: true })).toHaveValue('An engineering role on our team.');
   expect(await page.evaluate(() => window.folioEvents.filter((e) => e.name === 'inquiry_sent'))).toHaveLength(
     0
   );
@@ -150,7 +150,7 @@ test('Upwork is a separate hiring option that leaves the inquiry draft on the po
     expect((await card.boundingBox()).y).toBeGreaterThan(submitBox.y + submitBox.height);
   }
 
-  const message = page.getByLabel('About your project');
+  const message = page.getByLabel('About your project or role', { exact: true });
   await message.fill('An unsent inquiry.');
   await page.keyboard.press('Tab');
   await expect(send).toBeFocused();

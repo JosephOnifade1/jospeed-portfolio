@@ -7,6 +7,7 @@ import CustomCursor from '../components/CustomCursor.jsx';
 import { getPostBySlug, getAllPosts } from '../utils/blog.js';
 import { ArrowRight, Share2, Check } from 'lucide-react';
 import { companionFor } from '../utils/companionReading.js';
+import { profile } from '../data/profile.js';
 import { siteUrl } from '../seo/pageHead.js';
 import { XIcon, LinkedinIcon } from '../components/BrandIcons.jsx';
 
@@ -30,13 +31,13 @@ export default function BlogPost() {
     return (
       <div style={{ background: '#070906', minHeight: '100vh', color: '#F5F4EE', paddingTop: 140 }}>
         <Navbar />
-        <div className="wrap" style={{ textAlign: 'center', padding: '60px 20px' }}>
+        <main className="wrap" style={{ textAlign: 'center', padding: '60px 20px' }}>
           <h1 data-route-title tabIndex={-1} style={{ fontFamily: 'var(--font-ui)', fontSize: 32, marginBottom: 16 }}>Article Not Found</h1>
           <p style={{ color: 'rgba(245,244,238,0.6)', marginBottom: 28 }}>The article you are looking for does not exist or has been relocated.</p>
           <Link to="/blog" className="btn-citron-pill">
             ← Back to Blog
           </Link>
-        </div>
+        </main>
         <Footer />
       </div>
     );
@@ -63,10 +64,11 @@ export default function BlogPost() {
       <CustomCursor />
       <Navbar />
 
-      <article style={{ paddingTop: 120, paddingBottom: 110 }}>
-        <div className="wrap" style={{ maxWidth: 860 }}>
+      <main style={{ paddingTop: 120, paddingBottom: 110 }}>
+        <article className="wrap" aria-labelledby="post-title" style={{ maxWidth: 860 }}>
           {/* Breadcrumb Navigation */}
-          <div
+          <nav
+            aria-label="Breadcrumb"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -80,9 +82,9 @@ export default function BlogPost() {
             <Link to="/blog" style={{ color: 'var(--citron)', textDecoration: 'none' }}>
               Blog
             </Link>
-            <span>/</span>
-            <span>{post.category}</span>
-          </div>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{post.title}</span>
+          </nav>
 
           {/* Article Header */}
           <header style={{ marginBottom: 40 }}>
@@ -111,7 +113,8 @@ export default function BlogPost() {
               >
                 {post.category}
               </span>
-              <span
+              <time
+                dateTime={post.date}
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: 12,
@@ -119,7 +122,7 @@ export default function BlogPost() {
                 }}
               >
                 {post.date}
-              </span>
+              </time>
               <span style={{ color: 'rgba(245, 244, 238, 0.3)' }}>•</span>
               <span
                 style={{
@@ -134,6 +137,7 @@ export default function BlogPost() {
 
             {/* Headline */}
             <h1
+              id="post-title"
               data-route-title
               tabIndex={-1}
               style={{
@@ -205,7 +209,7 @@ export default function BlogPost() {
                       color: 'var(--citron)',
                     }}
                   >
-                    Systems &amp; AI Architect
+                    {post.author === profile.name ? profile.role : 'Guest author'}
                   </div>
                 </div>
               </div>
@@ -259,6 +263,7 @@ export default function BlogPost() {
                 </a>
 
                 <button
+                  data-needs-js
                   onClick={handleCopyLink}
                   title="Copy Link to Clipboard"
                   style={{
@@ -300,8 +305,9 @@ export default function BlogPost() {
                 disableParsingRawHTML: true,
                 overrides: {
                   h1: {
-                    component: ({ children }) => (
+                    component: ({ children, id }) => (
                       <h2
+                        id={id}
                         style={{
                           fontFamily: 'var(--font-ui)',
                           fontWeight: 800,
@@ -316,8 +322,9 @@ export default function BlogPost() {
                     ),
                   },
                   h2: {
-                    component: ({ children }) => (
+                    component: ({ children, id }) => (
                       <h2
+                        id={id}
                         style={{
                           fontFamily: 'var(--font-ui)',
                           fontWeight: 700,
@@ -332,8 +339,9 @@ export default function BlogPost() {
                     ),
                   },
                   h3: {
-                    component: ({ children }) => (
+                    component: ({ children, id }) => (
                       <h3
+                        id={id}
                         style={{
                           fontFamily: 'var(--font-ui)',
                           fontWeight: 600,
@@ -353,42 +361,7 @@ export default function BlogPost() {
                       </p>
                     ),
                   },
-                  pre: {
-                    component: ({ children }) => (
-                      <div
-                        style={{
-                          background: '#0d110e',
-                          border: '1px solid rgba(216, 243, 106, 0.2)',
-                          borderRadius: 14,
-                          padding: '20px 22px',
-                          overflowX: 'auto',
-                          margin: '28px 0',
-                          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)',
-                        }}
-                      >
-                        <pre style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 13.5, color: '#D8F36A' }}>
-                          {children}
-                        </pre>
-                      </div>
-                    ),
-                  },
-                  code: {
-                    component: ({ children }) => (
-                      <code
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontSize: '0.88em',
-                          color: 'var(--citron)',
-                          background: 'rgba(216, 243, 106, 0.08)',
-                          border: '1px solid rgba(216, 243, 106, 0.2)',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                        }}
-                      >
-                        {children}
-                      </code>
-                    ),
-                  },
+                  pre: { component: 'pre', props: { tabIndex: 0 } },
                   blockquote: {
                     component: ({ children }) => (
                       <blockquote
@@ -458,7 +431,8 @@ export default function BlogPost() {
           </div>
 
           {/* Next / Previous Article Navigation */}
-          <div
+          <nav
+            aria-label="Adjacent articles"
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
@@ -520,9 +494,9 @@ export default function BlogPost() {
                 </span>
               </Link>
             ) : <div />}
-          </div>
-        </div>
-      </article>
+          </nav>
+        </article>
+      </main>
 
       <Footer />
 
