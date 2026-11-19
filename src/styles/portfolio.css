@@ -91,23 +91,12 @@
 .brand-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: white;
-  font: 700 19px/1 var(--font-ui);
-  letter-spacing: -0.03em;
-}
-.brand-mark,
-.nav-toggle {
-  display: grid;
-  place-items: center;
-  color: var(--citron);
-  background: var(--citron-subtle);
-  border: 1px solid var(--citron-border);
-  border-radius: 8px;
-}
-.brand-mark {
-  width: 32px;
-  height: 32px;
+  flex-shrink: 0;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--paper);
+  font: 700 20px/1 var(--font-ui);
+  letter-spacing: -0.05em;
 }
 .mast-nav {
   display: flex;
@@ -136,8 +125,13 @@
   display: none;
 }
 .nav-toggle {
+  place-items: center;
   width: 44px;
   height: 44px;
+  color: var(--citron);
+  background: var(--citron-subtle);
+  border: 1px solid var(--citron-border);
+  border-radius: 8px;
 }
 
 /* Work index: one lead story, then two open entries rather than a carousel. */
@@ -920,10 +914,6 @@ body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot
 }
 .footer-layout {
   justify-content: space-between;
-}
-.footer-brand {
-  font: 700 19px var(--font-ui);
-  letter-spacing: -0.04em;
 }
 .footer-layout p {
   font-size: 12px;

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { brand } from '../src/data/brand.js';
 import { WORK_INDEX } from '../src/data/projects.js';
 import { readPublishedPosts } from './blog-content.js';
 import { caseCardPath, escapeHtml, pageFor, renderHead, siteUrl } from '../src/seo/pageHead.js';
@@ -42,6 +43,11 @@ function documentFor(template, pathname, posts, renderBody) {
 }
 
 function validateContent(posts) {
+  for (const url of [brand.mark, brand.logo, brand.shareImage]) {
+    if (!fs.existsSync(path.join('public', url))) {
+      throw new Error(`Missing brand asset ${url}. Run npm run brand:assets.`);
+    }
+  }
   for (const project of WORK_INDEX) {
     if (!project.shareSubtitle || !fs.existsSync(path.join('public', caseCardPath(project.id)))) {
       throw new Error(`Missing share copy or artwork for ${project.id}. Run npm run share:images.`);

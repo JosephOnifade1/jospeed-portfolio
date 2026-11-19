@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { profile } from '../data/profile.js';
+import BrandLockup from './BrandLockup.jsx';
 import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from './BrandIcons.jsx';
 
 const socials = [
@@ -13,8 +14,8 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="wrap footer-layout">
         <div>
-          <Link className="footer-brand" to="/">
-            JOspeed
+          <Link className="brand-link" to="/">
+            <BrandLockup />
           </Link>
           <p>© {profile.name}</p>
         </div>

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { brand } from '../src/data/brand.js';
 
 const blogDir = path.resolve('content/blog');
 
@@ -36,7 +37,7 @@ function readPost(file) {
     category: data.category,
     tags,
     readingTime: data.readingTime || `${Math.ceil(content.trim().split(/\s+/).length / 200)} min read`,
-    coverImage: data.coverImage || '/og-image.png',
+    coverImage: data.coverImage || brand.shareImage,
     featured: data.featured === true,
     relatedProject: data.relatedProject || null,
     content,
