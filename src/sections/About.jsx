@@ -1,3 +1,4 @@
+import { locationLabel, profile } from '../data/profile.js';
 import Skills from './Skills.jsx';
 
 export default function About() {
@@ -10,13 +11,13 @@ export default function About() {
             <img src="/profile.jpg" width="88" height="88" loading="lazy" alt="JOspeed’s astronaut avatar" />
             <div>
               <h2 id="about-title" className="support-title" data-section-title tabIndex={-1}>
-                Joseph Onifade
+                {profile.name}
               </h2>
-              <span className="quiet-label">Lagos, Nigeria</span>
+              <span className="quiet-label">{locationLabel}</span>
             </div>
           </div>
           <p className="support-copy">
-            I’m a full-stack developer and AI engineer. I build tools for the moments when work changes hands:
+            I’m a full-stack software engineer and AI engineer. I build tools for the moments when work changes hands:
             a player reaching event staff, or a reader tracing an answer to its source.
           </p>
           <p className="learning-line">Currently exploring blockchain and 3D with Blender.</p>

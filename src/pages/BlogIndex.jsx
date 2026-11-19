@@ -84,6 +84,7 @@ export default function BlogIndex() {
 
           {/* Search & Category Filter Toolbar */}
           <div
+            data-needs-js
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -258,7 +259,7 @@ export default function BlogIndex() {
                     >
                       <span style={{ color: 'var(--citron)' }}>{featuredPost.category}</span>
                       <span>•</span>
-                      <span>{featuredPost.date}</span>
+                      <time dateTime={featuredPost.date}>{featuredPost.date}</time>
                       <span>•</span>
                       <span>{featuredPost.readingTime}</span>
                     </div>
@@ -393,12 +394,12 @@ export default function BlogIndex() {
                         marginBottom: 10,
                       }}
                     >
-                      <span>{post.date}</span>
+                      <time dateTime={post.date}>{post.date}</time>
                       <span>•</span>
                       <span>{post.readingTime}</span>
                     </div>
 
-                    <h3
+                    <h2
                       style={{
                         fontFamily: 'var(--font-ui)',
                         fontWeight: 700,
@@ -410,7 +411,7 @@ export default function BlogIndex() {
                       }}
                     >
                       {post.title}
-                    </h3>
+                    </h2>
 
                     <p
                       style={{

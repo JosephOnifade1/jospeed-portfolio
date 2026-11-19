@@ -20,10 +20,16 @@ export default function ReviveTouchDemo() {
       <h2 className="support-title" id="demo-title" data-section-title tabIndex={-1}>
         Try a table request.
       </h2>
-      <p className="demo-intro">
+      <p data-needs-js className="demo-intro">
         Play both sides: send a table-side massage request, then acknowledge it as event staff.
       </p>
-      <div className="demo-board">
+      <noscript>
+        <p className="demo-intro">
+          In the sample workflow, a player sends a massage request from Table 14. It appears as New in the
+          staff queue, then changes to Seen when staff acknowledge it. Enable JavaScript to try both sides.
+        </p>
+      </noscript>
+      <div data-needs-js className="demo-board">
         <div className="demo-player" role="group" aria-label="Player view">
           <div className="demo-panel-heading">
             <Smartphone size={16} aria-hidden="true" /> Player view
@@ -84,13 +90,13 @@ export default function ReviveTouchDemo() {
           )}
         </div>
       </div>
-      <div className="demo-foot">
+      <div data-needs-js className="demo-foot">
         <p>Sample data only. No real service request is sent.</p>
         <button type="button" onClick={reset} disabled={!queued}>
           <RotateCcw size={14} aria-hidden="true" /> Reset demo
         </button>
       </div>
-      <p className="demo-announcement" role="status" aria-atomic="true">
+      <p data-needs-js className="demo-announcement" role="status" aria-atomic="true">
         {seen
           ? 'Staff acknowledged the request from Table 14.'
           : queued

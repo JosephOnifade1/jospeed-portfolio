@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import PageHead from './components/PageHead.jsx';
@@ -37,21 +37,21 @@ function Portfolio() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <>
       <PageHead />
       <RouteNavigation />
       <Analytics />
       <Routes>
-        <Route path="/" element={<Portfolio />} />
-        <Route path="/work" element={<ProjectArchive />} />
-        <Route path="/gallery" element={<ProjectArchive gallery />} />
-        <Route path="/coverflow" element={<ProjectArchive gallery />} />
-        <Route path="/case-study/:id" element={<CaseStudy />} />
-        <Route path="/blog" element={<BlogIndex />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="*" element={<NotFound />} />
+        <Route caseSensitive path="/" element={<Portfolio />} />
+        <Route caseSensitive path="/work" element={<ProjectArchive />} />
+        <Route caseSensitive path="/gallery" element={<ProjectArchive gallery />} />
+        <Route caseSensitive path="/coverflow" element={<ProjectArchive gallery />} />
+        <Route caseSensitive path="/case-study/:id" element={<CaseStudy />} />
+        <Route caseSensitive path="/blog" element={<BlogIndex />} />
+        <Route caseSensitive path="/blog/:slug" element={<BlogPost />} />
+        <Route caseSensitive path="*" element={<NotFound />} />
       </Routes>
       <SpeedInsights />
-    </BrowserRouter>
+    </>
   );
 }

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://buildwithjospeed.vercel.app/sitemap.xml

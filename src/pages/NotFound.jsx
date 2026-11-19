@@ -72,6 +72,8 @@ export default function NotFound() {
         </div>
 
         <h1
+          data-route-title
+          tabIndex={-1}
           style={{
             fontFamily: 'var(--font-ui)',
             fontWeight: 700,

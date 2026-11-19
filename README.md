@@ -1,6 +1,6 @@
 # JOspeed portfolio
 
-Joseph Onifade’s React + Vite portfolio. The homepage leads from the original hero into three selected projects and the full work archive, a short bio and capabilities, four recent field notes, and a project inquiry form.
+Joseph Onifade’s React + Vite portfolio. The homepage leads from the original hero into three selected projects and the full work archive, a short bio and capabilities, four recent field notes, and an inquiry form for project work and engineering roles.
 
 ## Run and verify
 
@@ -12,9 +12,15 @@ npm run dev
 npm run build
 ```
 
-`npm run build` generates static HTML entry points for every case study and article, the archive, gallery and blog index, plus the sitemap and robots file. `npm run preview` serves the production output. When sharing a Vite preview through Arena, run `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=.e2b.app npm run preview -- --host 0.0.0.0`.
+`npm run build` renders the actual React routes to static HTML, including the Markdown bodies, case decisions, evidence and navigation. Vite builds the client and a build-only `StaticRouter` renderer (`src/entry-static.jsx`). Clean entries hydrate the existing DOM; links with a filter, fragment or saved navigation state start in the requested view. No production Node server or second, crawler-specific set of pages is required.
+
+Only deploy the **fresh `dist/`** from this command, not the historical checked-in output or the intermediate `dist-ssr/`. `scripts/generate-seo.js` derives `sitemap.xml` and `robots.txt` from the same published inventory; there are no hand-maintained copies in `public/`. The preferred origin is `https://buildwithjospeed.vercel.app`. `/coverflow` remains an alias for `/gallery`; query strings, aliases, drafts and the error page are not sitemap entries. Vercel’s `cleanUrls` / `trailingSlash` settings serve flat entries; don’t add a blanket 200 rewrite to `index.html`.
+
+`npm run preview` serves the build, including permanent redirects and a `404` for unknown pages. For an Arena preview use `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=.e2b.app npm run preview -- --host 0.0.0.0`. To check the first response yourself, turn off JavaScript, open `/blog/getting-started-with-rag-2025`, read **The Production Architecture**, then follow **See Quivellox in action** to its source passage.
 
 ```sh
+npm run lint
+npm run test:blog
 npx playwright install chromium
 npm run test:e2e
 ```
@@ -31,7 +37,7 @@ Edit `src/data/projects.js`. `selection` determines the order on the homepage; `
 - **Quivellox:** local capture of the [public inquiry desk UI](https://github.com/JosephOnifade1/quivellox), including its answer renderer and evidence inspector. The sample conversation uses the example escalation policy from the project's public preview; it is not a live model response. At `/case-study/quivellox#sample-answer`, follow **[1] View source** to focus and highlight the cited excerpt on page 12, then **Back to answer** to return to the citation. The document name, page and exact passage live in `visual.exchange.citation`; no PDF download or live inference is involved.
 - **Borynx:** local capture of the [public community app](https://github.com/JosephOnifade1/freelancer-s-hub)'s New Posts feed using its built-in demo mode. No production accounts, credentials or private posts were used.
 
-`Hero.jsx` and its artwork are unchanged. Hash destinations such as `/#projects`, `/#skills` and `/#contact` remain stable; the contact form posts to the existing Formspree endpoint. Contact also has a separate **Hire me on Upwork** card. Its destination is `UPWORK_PROFILE` in `src/components/UpworkProfileLink.jsx`; it is a plain external profile link, not a widget, and does not transmit the inquiry draft.
+The original hero design and artwork are retained; its case-study and field-note counts come from the published collections. Hash destinations such as `/#projects`, `/#skills` and `/#contact` remain stable; the contact form sends project **or** role inquiries to the existing Formspree endpoint. With JavaScript off it uses a native POST, never a query string. Contact also has a separate **Hire me on Upwork** card. Its destination is `UPWORK_PROFILE` in `src/components/UpworkProfileLink.jsx`; it is a plain external profile link, not a widget, and does not transmit the inquiry draft.
 
 **Client feedback:** Under “What shipped,” Revive Touch shows a factual project note (`#project-note`) alongside the sample workflow. To replace it with a testimonial, set `caseStudy.approvedTestimonial` in `src/data/projects.js` to `{ quote, credit }` using the exact wording and public credit the client has approved. Leave it `null` otherwise. These records are bundled into the site, so keep private drafts and permission correspondence out of them.
 
@@ -43,7 +49,7 @@ Edit `src/data/projects.js`. `selection` determines the order on the homepage; `
 
 ## Manage the blog
 
-The source of truth is `content/blog/*.md`. The filename is the `/blog/:slug` URL; editing a title need not break an existing link. Each build reads the same published collection for the homepage, index, article pages, share metadata and sitemap. Posts are ordered by date, then slug when dates match. If several posts are featured, the newest featured post leads the index.
+The source of truth is `content/blog/*.md`. The filename is the `/blog/:slug` URL; editing a title need not break an existing link. Each build reads the same published collection for the homepage, index, article pages, share metadata and sitemap. The template supplies the article H1 from `title`; start body sections at `##` instead of repeating the title. Posts are ordered by date, then slug when dates match. If several posts are featured, the newest featured post leads the index.
 
 **Optional editor dashboard:** `.pages.yml` configures [Pages CMS](https://app.pagescms.org) for this repository. No database migration, public `/admin` route, or client-side write credentials are required.
 
@@ -55,6 +61,10 @@ The source of truth is `content/blog/*.md`. The filename is the `/blog/:slug` UR
 A draft is excluded from generated HTML, navigation, sitemap and the production JS bundle. **It is not confidential:** anyone who can read the repository can read the Markdown, and files under `public/` are served regardless of draft status. Keep private material out of both. You can still edit posts by hand; use a plain YAML header, a `YYYY-MM-DD` date, and a boolean `draft` flag. Run `npm run test:blog` and `npm run build` to verify.
 
 The Field Notes illustrations are numbered 1200×630 JPEGs. To regenerate the series, run `node scripts/render-journal-covers.js`. The script renders only its named plates, not other covers uploaded through the editor.
+
+**Public facts:** Maintain the confirmed name, role, city and email in `src/data/profile.js`. Use a city and country, not a guessed pin, business address or operating hours. The existing `llms.txt` is a short directory until the dedicated discovery change.
+
+**Editorial TODO:** Before publishing conversion, ranking, latency or retention figures, confirm the measurement, date range and permission to publish. Until then describe what the reader can see or do. Keep private evidence out of this repository.
 
 ## Measure the journey
 

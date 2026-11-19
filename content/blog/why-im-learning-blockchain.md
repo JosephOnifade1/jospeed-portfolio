@@ -11,8 +11,6 @@ draft: false
 featured: false
 ---
 
-# Why I'm Learning Blockchain as an AI & Fullstack Developer
-
 As a developer building intelligent web applications and autonomous AI systems, people often ask me why I'm dedicating time to Solidity, smart contracts, and decentralized ledgers.
 
 Isn't crypto a different universe from AI engineering?

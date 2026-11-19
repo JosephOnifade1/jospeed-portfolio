@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
+import { WORK_INDEX } from '../../src/data/projects.js';
 import { readPublishedPosts } from '../../scripts/blog-content.js';
 import { mockExternalServices } from './support/network.js';
 
@@ -42,6 +43,15 @@ test.describe('crawler reads the built HTML', () => {
       expect((await page.goto(entry)).status()).toBe(200);
       await expect(page.locator('head title')).toHaveCount(1);
       await expect(page).toHaveTitle(title);
+      const project = WORK_INDEX.find((p) => p.id === id);
+      const article = page.locator('main article');
+      await expect(page.locator('h1')).toHaveCount(1);
+      await expect(article.locator('h1')).toHaveText(project.name);
+      await expect(article).toContainText(project.caseStudy.problem);
+      await expect(article).toContainText(project.caseStudy.approach);
+      await expect(article).toContainText(project.caseStudy.outcome);
+      await expect(article.locator('.case-decisions li')).toHaveText(project.caseStudy.decisions);
+      await expect(article.locator('.case-stack li')).toHaveText(project.stack);
       await expect(canonical(page)).toHaveAttribute('href', url);
       await expect(meta(page, 'og:url')).toHaveAttribute('content', url);
       const description = await meta(page, 'description').getAttribute('content');
@@ -79,8 +89,13 @@ test.describe('crawler reads the built HTML', () => {
     await page.goto(rag);
     await expect(canonical(page)).toHaveAttribute('href', origin + rag);
     expect(JSON.parse(await schema(page).textContent())['@type']).toBe('BlogPosting');
+    const guide = page.locator('main article');
+    await expect(guide.getByRole('heading', { name: '2. The Production Architecture' })).toBeVisible();
+    await expect(guide.locator('pre').first()).toContainText('Reciprocal Rank Fusion (RRF)');
+    await expect(guide.locator('pre').nth(1)).toContainText('FUNCTION hybrid_document_search');
     await page.getByRole('link', { name: 'See Quivellox in action' }).click();
     await expect(page.getByRole('link', { name: 'Read how I built this' })).toHaveAttribute('href', rag);
+    await expect(page.locator('#source-1 blockquote')).toContainText('within 15 minutes');
   });
 });
 

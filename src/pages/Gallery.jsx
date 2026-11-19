@@ -17,7 +17,7 @@ export default function Gallery({ projects, index, onSelect, category }) {
   const step = (by) => onSelect((index + by + projects.length) % projects.length);
 
   return (
-    <div className="archive-deck">
+    <div data-needs-js className="archive-deck">
       <div className="archive-stage">
         <Smooth3DSlideshow
           slides={slides}
