@@ -279,6 +279,62 @@
   margin-top: 5px;
 }
 
+.work-meta .work-demo-note {
+  padding-left: 9px;
+  border-left: 1px solid var(--folio-rule);
+  color: var(--citron);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.archive-invite {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 34px);
+  margin-top: 26px;
+  padding: 16px clamp(14px, 2.8vw, 32px);
+  background: #151b13;
+  border: 1px solid var(--folio-rule);
+  border-radius: 12px;
+}
+.archive-invite:hover {
+  border-color: var(--citron-border);
+}
+.archive-invite strong {
+  display: block;
+  color: var(--paper);
+  font: 600 clamp(19px, 2.2vw, 29px)/1.2 var(--font-ui);
+  letter-spacing: -0.04em;
+}
+.archive-invite .quiet-label {
+  display: block;
+  margin-bottom: 4px;
+}
+.archive-invite-arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--citron);
+}
+.archive-swatches {
+  display: flex;
+  align-items: center;
+  padding-inline: 4px;
+}
+.archive-swatches img {
+  width: clamp(32px, 4vw, 57px);
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid #69745a;
+  border-radius: 3px;
+  transform: rotate(-9deg);
+}
+.archive-swatches img + img {
+  margin-left: -18px;
+  transform: rotate(-2deg);
+}
+.archive-swatches img:last-child {
+  transform: rotate(7deg);
+}
+
 /* Figure plates hold actual UI captures; the client flow is a labeled illustration. */
 .project-figure {
   min-width: 0;

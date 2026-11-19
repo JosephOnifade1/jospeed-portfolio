@@ -1,20 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-// No real messages, analytics beacons or external services during the journey tests.
-test.beforeEach(async ({ page, baseURL }) => {
-  await page.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    return url.origin === new URL(baseURL).origin && !url.pathname.startsWith('/_vercel/')
-      ? route.continue()
-      : route.abort();
-  });
-  await page.addInitScript(() => {
-    window.folioEvents = [];
-    window.va = (type, event) => {
-      if (type === 'event') window.folioEvents.push(event);
-    };
-  });
-});
+import { mockExternalServices } from './support/network.js';
+
+test.beforeEach(mockExternalServices);
 
 test('featured work → case study → inquiry, with retry and attribution', async ({ page, isMobile }) => {
   await page.goto('/');

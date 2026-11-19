@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
         <nav aria-label="Footer navigation">
           {[
-            ['Work', '/#projects'],
+            ['All projects', '/work'],
             ['About', '/#about'],
             ['Notes', '/blog'],
             ['Contact', '/#contact'],

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { SELECTED_WORK } from '../data/projects.js';
+import { SELECTED_WORK, WORK_INDEX } from '../data/projects.js';
 import ProjectVisual from '../components/ProjectVisual.jsx';
 import { recordWorkView } from '../utils/portfolioAnalytics.js';
 
@@ -14,6 +14,7 @@ function WorkCard({ project, featured = false }) {
           <span>{String(project.selection).padStart(2, '0')}</span>
           <i aria-hidden="true" />
           {featured ? 'Featured client project' : project.discipline}
+          {project.demo && <span className="work-demo-note">Demo inside</span>}
         </div>
         <h3>{project.name}</h3>
         <p>{project.summary}</p>
@@ -80,6 +81,20 @@ export default function Projects() {
             <WorkCard key={project.id} project={project} />
           ))}
         </div>
+        <Link className="archive-invite" to="/work">
+          <span className="archive-swatches" aria-hidden="true">
+            {WORK_INDEX.filter((project) => !project.selection)
+              .slice(0, 3)
+              .map((project) => (
+                <img key={project.id} src={project.image} loading="lazy" alt="" />
+              ))}
+          </span>
+          <span>
+            <span className="quiet-label">The project archive</span>
+            <strong>Explore all {WORK_INDEX.length} projects</strong>
+          </span>
+          <ArrowRight className="archive-invite-arrow" size={23} aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

@@ -4,15 +4,18 @@ import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 // A hash in a client-side route doesn't cause a browser document load. Resolve it
 // after React has mounted its destination, including when arriving from a case study.
 export default function RouteNavigation() {
-  const { pathname, hash, key } = useLocation();
+  const { pathname, search, hash, key } = useLocation();
   const navigationType = useNavigationType();
   const navigate = useNavigate();
-  const previousPath = useRef(null);
+  const previous = useRef(null);
 
   useLayoutEffect(() => {
-    const samePage = previousPath.current === pathname;
-    previousPath.current = pathname;
-    const section = pathname === '/' && hash && document.getElementById(hash.slice(1));
+    const samePage = previous.current?.pathname === pathname;
+    const queryOnly = samePage && previous.current.hash === hash && previous.current.search !== search;
+    previous.current = { pathname, search, hash };
+    // A filter or a cover change updates the URL without moving the visitor.
+    if (queryOnly) return;
+    const section = hash && document.getElementById(hash.slice(1));
     if (section) {
       // A history traversal/native fragment jump restores its own focus and
       // scroll position after popstate. Apply our heading target on the next frame.
@@ -32,7 +35,7 @@ export default function RouteNavigation() {
       document.querySelector('[data-route-title]')?.focus({ preventScroll: true });
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [pathname, hash, key, navigationType]);
+  }, [pathname, search, hash, key, navigationType]);
 
   // Keep the hero's ordinary fragment links and router Links on the same history,
   // focus and scroll path. Leave modifier clicks and new-tab navigation native.
