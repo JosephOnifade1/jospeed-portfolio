@@ -96,9 +96,11 @@ test('compact supporting sections and legacy destinations still work', async ({ 
   await expect(page.locator('#case-title')).toHaveText('Revive Touch');
   await page.goBack();
   await expect(page.getByRole('heading', { name: 'Capabilities in practice' })).toBeFocused();
-  await expect(page.locator('.note-list a')).toHaveCount(2);
-  await page.locator('.note-list a').first().click();
-  await expect(page).toHaveURL(/\/blog\/getting-started-with-rag-2025$/);
+  const firstNote = page.locator('.note-list a').first();
+  const noteUrl = new URL(await firstNote.getAttribute('href'), page.url()).href;
+  await firstNote.click();
+  await expect(page).toHaveURL(noteUrl);
+  await expect(page.locator('h1')).toBeFocused();
   await page.goto('/case-study/fiverr-scout');
   await expect(page.locator('#case-title')).toHaveText('Fiverr Scout');
   await page.goto('/case-study/missing');

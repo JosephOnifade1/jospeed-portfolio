@@ -2,17 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { WORK_INDEX } from '../src/data/projects.js';
 import { companionFor } from '../src/utils/companionReading.js';
-import { parsePost } from '../src/utils/parsePost.js';
+import { readPublishedPosts } from './blog-content.js';
 import { caseCardPath, escapeHtml, pageFor, renderHead, siteUrl } from '../src/seo/pageHead.js';
 
-function readPosts() {
-  return fs
-    .readdirSync('content/blog')
-    .filter((file) => file.endsWith('.md'))
-    .sort()
-    .map((file) => parsePost(file.slice(0, -3), fs.readFileSync(path.join('content/blog', file), 'utf8')))
-    .sort((a, b) => b.date.localeCompare(a.date));
-}
 function routes(posts) {
   return [
     '/',
@@ -68,7 +60,7 @@ export function portfolioPages() {
     name: 'portfolio-static-pages',
     enforce: 'post',
     buildStart() {
-      const posts = readPosts();
+      const posts = readPublishedPosts();
       for (const project of WORK_INDEX) {
         if (!project.shareSubtitle || !fs.existsSync(path.join('public', caseCardPath(project.id)))) {
           throw new Error(
@@ -92,7 +84,7 @@ export function portfolioPages() {
       // keep the slot until Vite has finished resolving JS and CSS asset names.
       if (!ctx.server) return html;
       const { pathname } = new URL(ctx.originalUrl || ctx.path, 'http://vite.local');
-      return documentFor(html, pathname === '/index.html' ? '/' : pathname, readPosts());
+      return documentFor(html, pathname === '/index.html' ? '/' : pathname, readPublishedPosts());
     },
     generateBundle: {
       order: 'post',
@@ -101,7 +93,7 @@ export function portfolioPages() {
         if (!shell?.source.includes(marker))
           throw new Error('Cannot find the page-head slot in the built HTML.');
         const template = shell.source;
-        const posts = readPosts();
+        const posts = readPublishedPosts();
         const paths = [...routes(posts), '/coverflow', '/404'];
         for (const pathname of paths) {
           const source = documentFor(template, pathname, posts);
@@ -116,7 +108,7 @@ export function portfolioPages() {
     configurePreviewServer(server) {
       // Match Vercel's cleanUrls/trailingSlash policy: Vite normally looks for
       // /foo/index.html on a request for /foo/, missing the real /foo.html.
-      const pages = new Set([...routes(readPosts()), '/coverflow']);
+      const pages = new Set([...routes(readPublishedPosts()), '/coverflow']);
       server.middlewares.use((req, res, next) => {
         const url = new URL(req.url, 'http://vite.local');
         const clean = url.pathname.replace(/\/+$/, '');

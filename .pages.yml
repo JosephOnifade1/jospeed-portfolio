@@ -1,0 +1,55 @@
+# Optional owner/editor dashboard at https://app.pagescms.org. No CMS code or keys in the public app.
+media:
+  input: public/projects
+  output: /projects
+  path: public/projects/journal
+  extensions: [jpg, jpeg, png, webp, svg]
+  rename: safe
+
+content:
+  - name: posts
+    label: Blog posts
+    type: collection
+    path: content/blog
+    format: yaml-frontmatter
+    subfolders: false
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      rename: false # Existing filenames are public article URLs.
+    view:
+      primary: title
+      fields: [title, date, category, draft, featured]
+      sort: [date, title]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Summary and share description, type: text, required: true }
+      - name: date
+        label: Publication date
+        type: date
+        required: true
+        options: { format: yyyy-MM-dd }
+      - { name: author, label: Byline, type: string, default: Joseph Onifade }
+      - { name: category, label: Category, type: string, required: true }
+      - { name: tags, label: Search tags, type: string, list: true }
+      - { name: readingTime, label: Reading time, type: string, description: Leave blank to estimate from the body. }
+      - name: coverImage
+        label: Cover image
+        type: image
+        options: { path: public/projects/journal }
+      - { name: featured, label: Feature on the blog index, type: boolean, default: false }
+      - name: relatedProject
+        label: Companion case study (optional)
+        type: string
+        description: Use the case study slug only if this is its build guide. Otherwise leave blank.
+      - { name: body, label: Article, type: rich-text, options: { format: markdown, path: public/projects/journal } }
+      - name: draft
+        label: Draft — exclude from the site
+        type: boolean
+        default: true
+        description: Turn off when ready to publish. Files and media committed to a public repository are not private.
+
+settings:
+  content: { merge: true }

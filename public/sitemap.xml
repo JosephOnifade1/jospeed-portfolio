@@ -61,6 +61,30 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/a-table-request-in-three-states</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/checking-a-rag-citation</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/scoping-a-first-deliverable</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/testing-a-link-preview</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://buildwithjospeed.vercel.app/blog/getting-started-with-rag-2025</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>weekly</changefreq>

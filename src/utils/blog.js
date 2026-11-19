@@ -1,13 +1,4 @@
-import { parsePost } from './parsePost.js';
-
-const modules = import.meta.glob('../../content/blog/*.md', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-});
-const posts = Object.entries(modules)
-  .map(([path, raw]) => parsePost(path.split('/').pop().slice(0, -3), raw))
-  .sort((a, b) => b.date.localeCompare(a.date));
+import posts from 'virtual:published-blog-posts';
 
 export function getAllPosts() {
   return posts;

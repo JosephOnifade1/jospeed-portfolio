@@ -10,6 +10,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "postinstall": "chmod +x node_modules/.bin/vite || true",
+    "test:blog": "node --test tests/blog-content.test.js",
     "test:e2e": "playwright test"
   },
   "dependencies": {

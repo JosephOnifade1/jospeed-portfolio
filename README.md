@@ -1,6 +1,6 @@
 # JOspeed portfolio
 
-Joseph Onifade’s React + Vite portfolio. The homepage leads from the original hero into three selected projects and the full work archive, a short bio and capabilities, two field notes, and a project inquiry form.
+Joseph Onifade’s React + Vite portfolio. The homepage leads from the original hero into three selected projects and the full work archive, a short bio and capabilities, four recent field notes, and a project inquiry form.
 
 ## Run and verify
 
@@ -37,9 +37,24 @@ Edit `src/data/projects.js`. `selection` determines the order on the homepage; `
 
 **Upwork brief:** `/#upwork-brief` opens an optional local editor beneath the profile link. “Start a similar project” seeds the brief with that case’s public URL; opening Contact directly does not guess a project from analytics. Visitors can edit the deliverable, timeline and budget, and explicitly add the project note from the form without importing the name or email fields. **Copy brief** copies only the displayed text. If the clipboard is unavailable, the editor selects the text for manual copying. Neither action submits a message, opens Upwork, or stores the draft in browser storage. The separate **Open Upwork** link lets visitors choose when to leave, without adding the brief to the profile URL.
 
-**Blog:** “Field notes.” on the homepage previews the newest two Markdown posts from `content/blog/`. The Blog navigation leads to the searchable, category-filtered `/blog`; articles keep their `/blog/:slug` URLs. Set `relatedProject` in an article’s frontmatter only when it actually discusses that project. The RAG guide links to Quivellox’s sample conversation, and the case links back to the guide.
+**Blog:** “Field notes.” previews the four newest published articles. `/blog` shows every article once, with search, category filters and a featured story. The RAG guide and Quivellox case study remain linked in both directions.
 
 **Share previews:** Each `/case-study/:id` has its own title (`name` + `shareSubtitle`), description (`summary`) and 1200×630 JPEG in `public/share/cases/`. The three selected cards label the illustration or sample UI; the others diagram the components in the project record. After changing the work or its artwork, run `npm run share:images` and review the resulting images. These small static assets are served directly, not generated on a social crawler’s request. `src/seo/pageHead.js` owns the canonical origin and route metadata for both direct HTTP responses and client navigation. Vercel serves the built `.html` files with clean URLs; a catch-all rewrite to the homepage would hide them.
+
+## Manage the blog
+
+The source of truth is `content/blog/*.md`. The filename is the `/blog/:slug` URL; editing a title need not break an existing link. Each build reads the same published collection for the homepage, index, article pages, share metadata and sitemap. Posts are ordered by date, then slug when dates match. If several posts are featured, the newest featured post leads the index.
+
+**Optional editor dashboard:** `.pages.yml` configures [Pages CMS](https://app.pagescms.org) for this repository. No database migration, public `/admin` route, or client-side write credentials are required.
+
+1. Once the branch containing `.pages.yml` is on GitHub, sign in to Pages CMS with your GitHub account. Review the app's requested permissions and grant access to **only** `JosephOnifade1/jospeed-portfolio`.
+2. Select the repository **and the branch you intend to edit**. In **Blog posts**, create or edit the Markdown body, summary, date, category, search tags, cover and featured status. `relatedProject` is optional; reserve it for a project's companion build guide. Blog image uploads default to `public/projects/journal/`. Each post’s `coverImage` supplies its thumbnail and share image.
+3. New entries start with **Draft — exclude from the site** on. Turn it off to include an article on the next build, or back on to unpublish without deleting the file. Use a preview branch to review a change before merging it into your production branch. Saving in the editor is a Git commit, not a production deployment. Copies can persist in Git history, old deployments and preview caches.
+4. Delete an article through the collection only if you want its URL removed on the next build. Don't delete an image another article or case study still uses. Published filenames are not renamed by the editor.
+
+A draft is excluded from generated HTML, navigation, sitemap and the production JS bundle. **It is not confidential:** anyone who can read the repository can read the Markdown, and files under `public/` are served regardless of draft status. Keep private material out of both. You can still edit posts by hand; use a plain YAML header, a `YYYY-MM-DD` date, and a boolean `draft` flag. Run `npm run test:blog` and `npm run build` to verify.
+
+The Field Notes illustrations are numbered 1200×630 JPEGs. To regenerate the series, run `node scripts/render-journal-covers.js`. The script renders only its named plates, not other covers uploaded through the editor.
 
 ## Measure the journey
 
