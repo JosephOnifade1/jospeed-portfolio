@@ -2,11 +2,28 @@ export const PROJECTS = [
   {
     id: 'quivellox',
     name: 'Quivellox',
+    selection: 2,
+    discipline: 'Document AI',
+    role: 'Full-stack developer',
+    delivery: 'Knowledge workspace',
+    summary: 'Ask a question about your documents and check the answer against the original PDF passage.',
+    visual: {
+      kind: 'screenshot', theme: 'paper', label: 'Evidence desk', note: 'Sample data',
+      src: '/projects/work/quivellox-desk.webp',
+      alt: 'Quivellox’s inquiry desk displays an escalation question, its cited answer and the passage from page 12 in the evidence inspector.',
+      caption: 'Quivellox’s inquiry desk, shown with a sample conversation. The evidence inspector keeps the cited passage beside the answer.',
+      exchange: {
+        question: 'What is the incident escalation timeline?',
+        answer: 'Complete initial triage within 15 minutes. Escalate to the security team within one hour. [1]',
+        source: 'Sample policy · Security incident response.pdf, page 12',
+        passage: 'The initial detection and triage must be completed within 15 minutes of alert identification. Escalation to the security team shall occur within 1 hour.',
+      },
+    },
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
     description: 'An AI-powered knowledge workspace built around retrieval-augmented generation (RAG). Upload documents, ask questions, and get accurate answers sourced from your own knowledge base.',
-    stack: ['React', 'LangChain', 'RAG', 'Supabase', 'OpenAI'],
-    github: 'https://github.com/JosephOnifade1',
+    stack: ['Next.js', 'TypeScript', 'Supabase', 'pgvector'],
+    github: 'https://github.com/JosephOnifade1/quivellox',
     live: null,
     image: '/projects/quivellox.svg',
     gradient: 'linear-gradient(145deg, #0a1a12 0%, #0e2a1a 60%, #1a3d28 100%)',
@@ -15,32 +32,43 @@ export const PROJECTS = [
       metric: 'Source-grounded Q&A from uploaded documents',
       badge: 'RAG + VECTOR SEARCH',
       nodes: [
-        { role: 'Document Ingestion', tech: 'LangChain + PDF Parser', desc: 'Chunks and embeds uploaded documents into a vector store' },
+        { role: 'Document Ingestion', tech: 'Document parser + embeddings', desc: 'Chunks and embeds uploaded documents into a vector store' },
         { role: 'Vector Search', tech: 'Supabase pgvector', desc: 'Semantic similarity search over document embeddings' },
         { role: 'Answer Generation', tech: 'OpenAI GPT', desc: 'Generates grounded answers with source attribution' },
       ],
-      tradeoff: 'RAG over fine-tuning: better accuracy on private documents without retraining costs or hallucination risk.',
+      tradeoff: 'Retrieving passages at query time keeps answers traceable to the current documents without retraining the model for every upload.',
     },
     caseStudy: {
       problem: 'Knowledge workers spend hours searching through documents, wikis, and notes for answers that should take seconds to find.',
       approach: 'Built a RAG pipeline: documents are chunked, embedded, and stored in a vector database. Queries retrieve the most relevant chunks, which are passed to an LLM that generates an answer with source citations.',
       decisions: [
         'Supabase pgvector over Pinecone — keeping vector data in the same Postgres instance simplified auth and reduced latency',
-        'LangChain for orchestration — well-documented RAG pipelines with built-in chunking strategies',
+        'Show the evidence beside the answer so a reader can inspect the source without losing their place in the conversation.',
         'Source citations in every response — users need to verify AI answers against original documents',
       ],
-      outcome: 'Working RAG pipeline that retrieves and answers questions from uploaded PDFs. Source grounding prevents hallucinations.',
+      outcome: 'Readers can ask questions about uploaded PDFs and verify a cited answer against the passage it came from.',
       retrospective: 'Chunk size tuning was harder than expected — different document types need different strategies. Would build an evaluation harness from day one.',
     },
   },
   {
     id: 'revive-touch',
     name: 'Revive Touch',
-    category: 'Web Apps',
-    tag: 'WEB APPS',
+    selection: 1,
+    discipline: 'Mobile apps',
+    role: 'Mobile developer',
+    delivery: 'Android delivered',
+    summary: 'Players request a massage from the poker table. Event staff see each request in a live queue.',
+    visual: {
+      kind: 'workflow', label: 'Workflow illustration',
+      src: '/projects/work/revive-table.webp',
+      alt: 'Illustrated player request: a massage at table 14 appears as a new request in the staff queue.',
+      caption: 'Illustrated request flow using an example table. No client screens or player information are shown.',
+    },
+    category: 'Mobile apps',
+    tag: 'CLIENT PROJECT',
     description: 'A massage-request app designed for poker events — built for a Fiverr client. Players can request on-site massages during events. Android support is live; iOS is in progress.',
     stack: ['React Native', 'Supabase', 'Expo'],
-    github: 'https://github.com/JosephOnifade1',
+    github: null,
     live: null,
     image: '/projects/revive-touch.svg',
     gradient: 'linear-gradient(145deg, #1a0a14 0%, #2d0f20 60%, #3f1830 100%)',
@@ -63,7 +91,7 @@ export const PROJECTS = [
         'Supabase Realtime for live queue — staff need instant visibility of new requests, not polling',
         'Expo managed workflow — faster client delivery; bare workflow not needed for this scope',
       ],
-      outcome: 'Android version delivered and deployed for client. iOS development in progress pending App Store configuration.',
+      outcome: 'Delivered the Android app to the client. Staff can see incoming requests by table instead of keeping track of verbal requests. The iOS release is still in progress.',
       retrospective: 'Would clarify iOS submission requirements with the client earlier — App Store provisioning added unexpected timeline for the iOS release.',
     },
   },
@@ -71,6 +99,17 @@ export const PROJECTS = [
   {
     id: 'borynx',
     name: 'Borynx',
+    selection: 3,
+    discipline: 'Community platforms',
+    role: 'Full-stack developer',
+    delivery: 'Community web app',
+    summary: 'Freelancers share practical advice in topic feeds and vote useful posts to the top.',
+    visual: {
+      kind: 'screenshot', theme: 'slate', label: 'Community feed', note: 'Sample data',
+      src: '/projects/work/borynx-feed.webp',
+      alt: 'A Borynx demo post about freelance pricing shows its community, upvotes, discussion and topic tags.',
+      caption: 'The community feed running with the project’s built-in demo posts. Votes and handles are sample data.',
+    },
     category: 'Web Apps',
     tag: 'WEB APPS',
     description: 'A high-signal freelancer community to share insights, track trends and grow a solo business — built for serious freelancers, not race-to-the-bottom bidding.',
@@ -99,7 +138,7 @@ export const PROJECTS = [
         'Built custom auth with Supabase Auth rather than Clerk to avoid vendor lock-in',
         'Used optimistic UI updates so voting felt instant — users never wait for a network round-trip',
       ],
-      outcome: 'Delivered in 3 weeks solo. Core upvoting, category filtering, and user profiles fully functional. Designed to handle 10k+ concurrent users on Supabase free tier with proper indexing.',
+      outcome: 'Delivered a working community feed with voting, topic filters and freelancer profiles. Members can find discussions by topic and surface useful posts.',
       retrospective: 'Would add server-side rendering via Next.js from the start — SEO for freelancer content is valuable and Vite SPAs struggle with it.',
     },
   },
@@ -145,7 +184,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Auto-SMS follow-up system for dental clinics that captures every missed lead and logs it to CRM in under 60 seconds.',
     stack: ['n8n', 'Twilio', 'GoHighLevel'],
-    github: 'https://github.com/JosephOnifade1',
+    github: null,
     live: null,
     image: '/projects/ai-missed-call.svg',
     // Warm amber-brown — urgency, healthcare
@@ -180,7 +219,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Telegram bot that finds freelance leads daily using AI, with full free / paid / VIP plan tier enforcement.',
     stack: ['n8n', 'Groq', 'Supabase'],
-    github: 'https://github.com/JosephOnifade1',
+    github: null,
     live: null,
     image: '/projects/ai-client-finder.svg',
     // Dark slate-brown — automation, precision
@@ -215,7 +254,7 @@ export const PROJECTS = [
     tag: 'WEB APPS',
     description: 'Marketplace connecting home cooks to buyers, with multi-gateway African payment routing.',
     stack: ['React', 'Supabase', 'Paystack'],
-    github: 'https://github.com/JosephOnifade1',
+    github: null,
     live: null,
     image: '/projects/homeplate.svg',
     // Warm terracotta-brown — food, warmth, Africa
@@ -250,7 +289,7 @@ export const PROJECTS = [
     tag: 'AI / AUTOMATION',
     description: 'Lovable-built coaching app integrated with Claude API for personalized business strategy sessions.',
     stack: ['Lovable', 'Claude API', 'React'],
-    github: 'https://github.com/JosephOnifade1',
+    github: null,
     live: 'https://boldcaster.com/',
     image: '/projects/boldcaster.png',
     // Dark charcoal-brown — strategy, depth, clarity
@@ -280,4 +319,8 @@ export const PROJECTS = [
   },
 ];
 
-export const FILTERS = ['All', 'Web Apps', 'AI / Automation', '3D / Design'];
+export const FILTERS = ['All', 'Web Apps', 'Mobile apps', 'AI / Automation', '3D / Design'];
+
+// The homepage, capability links and case studies use the same project records.
+export const SELECTED_WORK = PROJECTS.filter(project => project.selection)
+  .sort((a, b) => a.selection - b.selection);

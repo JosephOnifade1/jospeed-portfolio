@@ -28,3 +28,7 @@ dist-ssr
 .env.*
 !.env.example
 .originkit/
+
+# Browser test output
+/test-results/
+/playwright-report/
