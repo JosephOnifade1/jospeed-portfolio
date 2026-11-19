@@ -57,12 +57,20 @@ test.describe('public blog export', () => {
     const indexLinks = await page
       .locator('main a')
       .evaluateAll((items) => items.map((a) => a.getAttribute('href')));
-    expect(indexLinks).toEqual(posts.map(href));
+    // The static page is the real index: featured story first, then the dated grid.
+    const featured = posts.find((post) => post.featured) || posts[0];
+    expect(indexLinks).toEqual([featured, ...posts.filter((p) => p !== featured)].filter(Boolean).map(href));
     for (const post of posts) {
       const url = SITE_ORIGIN + href(post);
       expect(sitemap).toContain(`<loc>${url}</loc>`);
       expect((await page.goto(href(post))).status()).toBe(200);
       await expect(page).toHaveTitle(`${post.title} | JOspeed Blog`);
+      const article = page.locator('main article');
+      await expect(page.locator('h1')).toHaveCount(1);
+      await expect(article.getByRole('heading', { level: 1 })).toHaveText(post.title);
+      await expect(article.locator('.blog-prose')).not.toBeEmpty();
+      await expect(article.locator('time')).toHaveAttribute('datetime', post.date);
+      await expect(article.getByRole('navigation', { name: 'Breadcrumb' })).toContainText(post.title);
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', url);
       const shareImage = SITE_ORIGIN + post.coverImage;
       await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', shareImage);

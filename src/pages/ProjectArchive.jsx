@@ -69,14 +69,14 @@ export default function ProjectArchive({ gallery = false }) {
                 <span className="folio-dot">.</span>
               </h1>
             </div>
-            <p>
+            <p data-needs-js={gallery || undefined}>
               {gallery
                 ? 'Pick a cover or use the arrow keys, then open its case study.'
                 : 'Client projects and independent builds. Pick a discipline, or browse the full collection.'}
             </p>
           </div>
           <div className="archive-toolbar">
-            <nav className="archive-filters" aria-label="Filter by discipline">
+            <nav data-needs-js className="archive-filters" aria-label="Filter by discipline">
               {WORK_FILTERS.map(({ key, label, category }) => (
                 <Link
                   key={key}
@@ -102,6 +102,22 @@ export default function ProjectArchive({ gallery = false }) {
           <p className="archive-count quiet-label" role="status">
             Showing {results.length} of {WORK_INDEX.length} projects
           </p>
+          {gallery && (
+            <noscript>
+              <nav aria-label="Gallery case studies">
+                <p>Choose a case study below. The 3D cover controls require JavaScript.</p>
+                <ul>
+                  {results.map((project) => (
+                    <li key={project.id}>
+                      <Link className="text-link" to={`/case-study/${project.id}`}>
+                        {project.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </noscript>
+          )}
           {!results.length ? (
             <p>
               No projects in this discipline yet.{' '}

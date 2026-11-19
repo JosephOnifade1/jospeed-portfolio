@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { profile } from '../data/profile.js';
 import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from './BrandIcons.jsx';
 
 const socials = [
@@ -15,7 +16,7 @@ export default function Footer() {
           <Link className="footer-brand" to="/">
             JOspeed
           </Link>
-          <p>© {new Date().getFullYear()} Joseph Onifade</p>
+          <p>© {profile.name}</p>
         </div>
         <nav aria-label="Footer navigation">
           {[

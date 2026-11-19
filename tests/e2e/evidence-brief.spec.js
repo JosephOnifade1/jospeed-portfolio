@@ -69,7 +69,7 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   const note = 'Build a document desk for our team. Keep the $& marker.';
   await form.getByLabel('Your name').fill('Private Name');
   await form.getByLabel('Email address').fill('private@example.com');
-  await form.getByLabel('About your project').fill(note);
+  await form.getByLabel('About your project or role', { exact: true }).fill(note);
 
   const toggle = page.locator('summary', { hasText: 'Prepare an Upwork brief' });
   const editor = page.getByRole('textbox', { name: 'Your project brief' });
@@ -92,7 +92,7 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   await copy.press('Enter');
   await expect(page.getByText('Copied. Your brief is ready to paste on Upwork.')).toBeVisible();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(reviewed);
-  await expect(form.getByLabel('About your project')).toHaveValue(note);
+  await expect(form.getByLabel('About your project or role', { exact: true })).toHaveValue(note);
   await expect(form.getByLabel('Your name')).toHaveValue('Private Name');
   await expect(form.getByLabel('Email address')).toHaveValue('private@example.com');
   await toggle.press('Enter');
@@ -118,7 +118,7 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   expect(await profile.evaluate(() => window.opener === null)).toBe(true);
   await profile.close();
   await expect(editor).toHaveValue(reviewed);
-  await expect(form.getByLabel('About your project')).toHaveValue(note);
+  await expect(form.getByLabel('About your project or role', { exact: true })).toHaveValue(note);
 });
 
 test('a blocked clipboard offers manual copying; a direct visit starts with a clean brief', async ({

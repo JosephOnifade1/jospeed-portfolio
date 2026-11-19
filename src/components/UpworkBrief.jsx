@@ -69,7 +69,7 @@ export default function UpworkBrief({ projectId, projectNote, linked }) {
   }
 
   return (
-    <details className="brief-tool" ref={disclosure}>
+    <details data-needs-js className="brief-tool" ref={disclosure}>
       <summary id="upwork-brief" tabIndex={0}>
         <FilePenLine size={17} aria-hidden="true" /> Prepare an Upwork brief
         <ChevronDown className="brief-chevron" size={16} aria-hidden="true" />

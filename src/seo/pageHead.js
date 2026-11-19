@@ -1,3 +1,4 @@
+import { locationLabel, profile, profileSummary } from '../data/profile.js';
 import { WORK_INDEX } from '../data/projects.js';
 import { homeSchema } from './homeSchema.js';
 
@@ -9,7 +10,7 @@ export const cardSize = { width: 1200, height: 630 };
 export const evidenceLabel = ({ visual }) =>
   visual ? [visual.label, visual.note].filter(Boolean).join(' / ') : 'Architecture diagram';
 
-const homeTitle = 'Joseph Onifade — Full-Stack Developer & AI Engineer';
+const homeTitle = `${profile.name} — ${profile.role}`;
 const sections = {
   '/blog': [
     'Engineering blog',
@@ -29,16 +30,8 @@ export function pageFor(pathname, posts) {
   if (path === '/') {
     return {
       path,
-      title: `${homeTitle} | Build With JOspeed`,
-      shareTitle: homeTitle,
-      description:
-        'Joseph Onifade is a top full-stack developer and AI engineer from Lagos, Nigeria. He builds React, Supabase, n8n and AI-powered products for startups and businesses across the US, UK, Canada, EU and UAE. Available for hire on Upwork.',
-      shareDescription:
-        'Top full-stack developer and AI engineer from Lagos, Nigeria. Building React, Supabase and n8n products for startups and businesses globally. Hire on Upwork.',
-      twitterDescription:
-        'Top full-stack developer and AI engineer. React, Supabase, n8n, Voiceflow. Serving clients in US, UK, Canada, EU and UAE.',
-      keywords:
-        'Joseph Onifade, JOspeed, Jospeed, Build with JOspeed, buildwithjospeed, full stack developer Nigeria, top full stack developer, AI automation specialist, React developer, Supabase developer, n8n automation, freelance developer Nigeria, fullstack web developer, hire full stack developer, web developer Nigeria, AI chatbot developer, no-code developer, Voiceflow developer, top developer Africa, best freelance developer, full stack developer for hire, React Supabase developer, automation engineer Nigeria, Lagos developer, hire developer Lagos',
+      title: homeTitle,
+      description: profileSummary,
       schema: homeSchema(SITE_ORIGIN),
     };
   }
@@ -137,13 +130,13 @@ export function renderHead(page) {
     meta('og:type', page.type || 'website'),
     meta('og:url', siteUrl(page.path)),
     meta('og:title', title),
-    meta('og:description', page.shareDescription || page.description),
+    meta('og:description', page.description),
     meta('og:image', image),
     meta('og:image:secure_url', image),
     meta('og:image:alt', alt),
     meta('twitter:card', 'summary_large_image'),
     meta('twitter:title', title),
-    meta('twitter:description', page.twitterDescription || page.description),
+    meta('twitter:description', page.description),
     meta('twitter:image', image),
     meta('twitter:image:alt', alt)
   );
@@ -152,16 +145,7 @@ export function renderHead(page) {
   if (image.endsWith('.png')) tags.push(meta('og:image:type', 'image/png'));
   if (image.endsWith('.jpg')) tags.push(meta('og:image:type', 'image/jpeg'));
   if (page.path === '/') {
-    tags.push(
-      meta('keywords', page.keywords),
-      meta('twitter:label1', 'Available for'),
-      meta('twitter:data1', 'Freelance & Contract Work'),
-      meta('twitter:label2', 'Response time'),
-      meta('twitter:data2', 'Within 2 hours')
-    );
-    for (const lang of ['en', 'en-US', 'en-GB', 'x-default']) {
-      tags.push(`<link data-page-head rel="alternate" hreflang="${lang}" href="${canonical}">`);
-    }
+    tags.push(meta('geo.placename', locationLabel));
   }
   if (page.schema) {
     const json = JSON.stringify(page.schema).replaceAll('<', '\\u003c');
