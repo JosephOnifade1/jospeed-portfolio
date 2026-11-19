@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { portfolioPages } from './scripts/generate-seo.js';
 
-// https://vite.dev/config/
 export default defineConfig({
   base: '/',
-  plugins: [react()],
-})
+  plugins: [react(), portfolioPages()],
+});

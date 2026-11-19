@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import CustomCursor from '../components/CustomCursor.jsx';
 import { getAllPosts, getAllCategories } from '../utils/blog.js';
-import { Search, Calendar, Clock, ArrowRight, Tag, Sparkles } from 'lucide-react';
+import { Search, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function BlogIndex() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -50,6 +50,8 @@ export default function BlogIndex() {
               Engineering &amp; Insights
             </div>
             <h1
+              data-route-title
+              tabIndex={-1}
               style={{
                 fontFamily: 'var(--font-ui)',
                 fontWeight: 800,

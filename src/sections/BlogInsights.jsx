@@ -14,7 +14,7 @@ export default function BlogInsights() {
             Field notes.
           </h2>
           <Link className="text-link" to="/blog">
-            All notes <ArrowRight size={16} aria-hidden="true" />
+            All blog posts <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
         <ul className="note-list">

@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Mail } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CheckCircle2, Mail } from 'lucide-react';
+import { UpworkIcon } from './BrandIcons.jsx';
+import UpworkBrief from './UpworkBrief.jsx';
+import UpworkProfileLink from './UpworkProfileLink.jsx';
 import { recordInquiry } from '../utils/portfolioAnalytics.js';
 
 const EMAIL = 'josephonifade21@gmail.com';
 
 export default function Contact() {
-  const { hash } = useLocation();
+  const { hash, state } = useLocation();
+  const [projectNote, setProjectNote] = useState('');
   const [status, setStatus] = useState('idle');
   const confirmation = useRef(null);
   useEffect(() => {
@@ -31,6 +35,7 @@ export default function Contact() {
       return;
     }
     form.reset();
+    setProjectNote('');
     setStatus('done');
     recordInquiry();
   }
@@ -79,7 +84,15 @@ export default function Contact() {
               </div>
               <label htmlFor="message">
                 About your project
-                <textarea id="message" name="message" rows={4} required placeholder="I’d like to build…" />
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  required
+                  placeholder="I’d like to build…"
+                  value={projectNote}
+                  onChange={(event) => setProjectNote(event.target.value)}
+                />
               </label>
               {status === 'error' && (
                 <p className="message-error" role="alert">
@@ -98,6 +111,28 @@ export default function Contact() {
               Prefer email? <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </span>
           </p>
+        </div>
+        <div className="upwork-handoff">
+          <UpworkProfileLink
+            className="upwork-card"
+            aria-label="Hire me on Upwork (opens in a new tab)"
+            aria-describedby="upwork-invite"
+          >
+            <span className="upwork-mark">
+              <UpworkIcon size={28} />
+            </span>
+            <span className="upwork-copy">
+              <span className="quiet-label">Freelance profile</span>
+              <strong>Hire me on Upwork</strong>
+              <span id="upwork-invite">Have a job post? Send me an invitation.</span>
+            </span>
+            <ArrowUpRight size={20} aria-hidden="true" />
+          </UpworkProfileLink>
+          <UpworkBrief
+            projectId={state?.briefProject}
+            projectNote={projectNote}
+            linked={hash === '#upwork-brief'}
+          />
         </div>
       </div>
     </section>

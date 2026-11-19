@@ -12,7 +12,7 @@ export default defineConfig({
   webServer: process.env.PORTFOLIO_TEST_URL
     ? undefined
     : {
-        command: 'npm run dev -- --host 0.0.0.0 --port 4180 --strictPort',
+        command: 'npm run build && npm run preview -- --host 0.0.0.0 --port 4180 --strictPort',
         url: baseURL,
         reuseExistingServer: !process.env.CI,
       },

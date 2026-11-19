@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react';
 const links = [
   ['Selected work', '/#projects'],
   ['About', '/#about'],
-  ['Notes', '/blog'],
+  ['Blog', '/blog'],
 ];
 
 export default function Navbar() {

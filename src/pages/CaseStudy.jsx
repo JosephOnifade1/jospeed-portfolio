@@ -5,25 +5,23 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import CustomCursor from '../components/CustomCursor.jsx';
 import ProjectVisual from '../components/ProjectVisual.jsx';
+import CitedAnswer from '../components/CitedAnswer.jsx';
+import CaseStudyNote from '../components/CaseStudyNote.jsx';
 import ReviveTouchDemo from '../components/ReviveTouchDemo.jsx';
 import { WORK_INDEX } from '../data/projects.js';
+import { companionFor } from '../utils/companionReading.js';
+import { getAllPosts } from '../utils/blog.js';
 import { archiveSearch } from '../utils/workArchive.js';
 import { recordCaseView } from '../utils/portfolioAnalytics.js';
 
 export default function CaseStudy() {
   const { id } = useParams();
-  const { state } = useLocation();
+  const { search, state } = useLocation();
   const index = WORK_INDEX.findIndex((record) => record.id === id);
   const project = WORK_INDEX[index];
   const next = WORK_INDEX[(index + 1) % WORK_INDEX.length];
   useEffect(() => {
-    if (!project?.caseStudy) return;
-    const previous = document.title;
-    document.title = `${project.name} — Case study | JOspeed`;
-    recordCaseView(project.id, state?.entry);
-    return () => {
-      document.title = previous;
-    };
+    if (project?.caseStudy) recordCaseView(project.id, state?.entry);
   }, [project, state?.entry]);
 
   if (!project?.caseStudy)
@@ -48,6 +46,7 @@ export default function CaseStudy() {
   const returnPath = fromArchive
     ? `${fromGallery ? '/gallery' : '/work'}${archiveSearch(state.category, fromGallery ? project.id : null)}`
     : '/#projects';
+  const buildNote = companionFor(`/case-study/${id}`, getAllPosts());
   const hasDemo = project.demo === 'table-request';
   return (
     <>
@@ -95,8 +94,13 @@ export default function CaseStudy() {
                     Try the sample workflow <ArrowDown size={16} aria-hidden="true" />
                   </Link>
                 )}
-                {(project.live || project.github) && (
+                {(buildNote || project.live || project.github) && (
                   <div className="case-resources">
+                    {buildNote && (
+                      <Link className="text-link build-note-link" to={buildNote.href}>
+                        {buildNote.label} <ArrowRight size={16} aria-hidden="true" />
+                      </Link>
+                    )}
                     {project.live && (
                       <a className="text-link" href={project.live} target="_blank" rel="noreferrer">
                         Visit product <ArrowUpRight size={15} />
@@ -111,24 +115,25 @@ export default function CaseStudy() {
                 )}
               </div>
               <div className="case-media">
-                <ProjectVisual project={project} detailed />
+                <ProjectVisual project={project} detailed>
+                  {visual?.exchange && (
+                    <Link className="figure-trace" to={{ search, hash: '#sample-answer' }} state={state}>
+                      Trace the sample citation <ArrowDown size={14} aria-hidden="true" />
+                    </Link>
+                  )}
+                </ProjectVisual>
               </div>
             </div>
-            {visual?.exchange && (
-              <div className="sample-exchange">
-                <div>
-                  <span className="quiet-label">Sample question &amp; answer</span>
-                  <h2>{visual.exchange.question}</h2>
-                  <p>{visual.exchange.answer}</p>
-                </div>
-                <blockquote>
-                  “{visual.exchange.passage}”<cite>[1] {visual.exchange.source}</cite>
-                </blockquote>
-              </div>
-            )}
+            {visual?.exchange && <CitedAnswer exchange={visual.exchange} />}
             <div className="case-result">
               <h2 className="quiet-label">What shipped</h2>
-              <p>{study.outcome}</p>
+              <div>
+                <p className="case-outcome">{study.outcome}</p>
+                <CaseStudyNote
+                  projectNote={study.projectNote}
+                  approvedTestimonial={study.approvedTestimonial}
+                />
+              </div>
             </div>
             {hasDemo && <ReviveTouchDemo />}
             <div className="case-body">
@@ -169,7 +174,7 @@ export default function CaseStudy() {
               <div className="folio-kicker">Work with Joseph</div>
               <h2>Have a similar project?</h2>
             </div>
-            <Link className="btn-citron-pill" to="/#contact">
+            <Link className="btn-citron-pill" to="/#contact" state={{ briefProject: project.id }}>
               Start a similar project <ArrowRight size={17} />
             </Link>
           </div>

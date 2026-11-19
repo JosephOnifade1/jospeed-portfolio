@@ -1,24 +1,17 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useMemo } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import CustomCursor from '../components/CustomCursor.jsx';
 import { getPostBySlug, getAllPosts } from '../utils/blog.js';
-import {
-  Calendar,
-  Clock,
-  ArrowLeft,
-  Share2,
-  Check,
-  ChevronRight,
-  BookOpen,
-} from 'lucide-react';
+import { ArrowRight, Share2, Check } from 'lucide-react';
+import { companionFor } from '../utils/companionReading.js';
+import { siteUrl } from '../seo/pageHead.js';
 import { XIcon, LinkedinIcon } from '../components/BrandIcons.jsx';
 
 export default function BlogPost() {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
   const post = useMemo(() => getPostBySlug(slug), [slug]);
@@ -33,114 +26,12 @@ export default function BlogPost() {
     return { prevPost: prev, nextPost: next };
   }, [allPosts, post]);
 
-  // Dynamic SEO Metadata & JSON-LD injection
-  useEffect(() => {
-    if (!post) return;
-
-    // Document title
-    document.title = `${post.title} | JOspeed Blog`;
-
-    // Dynamic canonical
-    const canonicalUrl = `https://jospeedtech.vercel.app/blog/${post.slug}`;
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement('link');
-      linkCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(linkCanonical);
-    }
-    linkCanonical.setAttribute('href', canonicalUrl);
-
-    // Meta Description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', post.description);
-
-    // OpenGraph & Twitter tags
-    const metaTags = [
-      { property: 'og:title', content: post.title },
-      { property: 'og:description', content: post.description },
-      { property: 'og:type', content: 'article' },
-      { property: 'og:url', content: canonicalUrl },
-      { property: 'og:image', content: `https://jospeedtech.vercel.app${post.coverImage}` },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: post.title },
-      { name: 'twitter:description', content: post.description },
-      { name: 'twitter:image', content: `https://jospeedtech.vercel.app${post.coverImage}` },
-      { name: 'twitter:creator', content: '@buildwithjospeed' },
-    ];
-
-    metaTags.forEach(({ property, name, content }) => {
-      const selector = property ? `meta[property="${property}"]` : `meta[name="${name}"]`;
-      let tag = document.querySelector(selector);
-      if (!tag) {
-        tag = document.createElement('meta');
-        if (property) tag.setAttribute('property', property);
-        if (name) tag.setAttribute('name', name);
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('content', content);
-    });
-
-    // Inject JSON-LD Schema.org Structured Data
-    const schemaData = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: post.title,
-      description: post.description,
-      image: `https://jospeedtech.vercel.app${post.coverImage}`,
-      datePublished: post.date,
-      dateModified: post.date,
-      author: {
-        '@type': 'Person',
-        name: post.author,
-        url: 'https://jospeedtech.vercel.app/',
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: 'JOspeed',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://jospeedtech.vercel.app/apple-touch-icon.png',
-        },
-      },
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': canonicalUrl,
-      },
-    };
-
-    let scriptLd = document.getElementById('jsonld-blog-post');
-    if (!scriptLd) {
-      scriptLd = document.createElement('script');
-      scriptLd.id = 'jsonld-blog-post';
-      scriptLd.type = 'application/ld+json';
-      document.head.appendChild(scriptLd);
-    }
-    scriptLd.textContent = JSON.stringify(schemaData);
-
-    return () => {
-      // Cleanup script on unmount
-      const s = document.getElementById('jsonld-blog-post');
-      if (s) s.remove();
-    };
-  }, [post]);
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   if (!post) {
     return (
       <div style={{ background: '#070906', minHeight: '100vh', color: '#F5F4EE', paddingTop: 140 }}>
         <Navbar />
         <div className="wrap" style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <h1 style={{ fontFamily: 'var(--font-ui)', fontSize: 32, marginBottom: 16 }}>Article Not Found</h1>
+          <h1 data-route-title tabIndex={-1} style={{ fontFamily: 'var(--font-ui)', fontSize: 32, marginBottom: 16 }}>Article Not Found</h1>
           <p style={{ color: 'rgba(245,244,238,0.6)', marginBottom: 28 }}>The article you are looking for does not exist or has been relocated.</p>
           <Link to="/blog" className="btn-citron-pill">
             ← Back to Blog
@@ -151,7 +42,20 @@ export default function BlogPost() {
     );
   }
 
-  const shareUrl = encodeURIComponent(window.location.href);
+  const path = `/blog/${post.slug}`;
+  const companion = companionFor(path, allPosts);
+  const canonical = siteUrl(path);
+  const shareUrl = encodeURIComponent(canonical);
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(canonical);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // The browser may not grant clipboard access. Leave the link available to copy.
+      window.prompt('Copy the article link:', canonical);
+    }
+  };
   const shareTitle = encodeURIComponent(post.title);
 
   return (
@@ -230,6 +134,8 @@ export default function BlogPost() {
 
             {/* Headline */}
             <h1
+              data-route-title
+              tabIndex={-1}
               style={{
                 fontFamily: 'var(--font-ui)',
                 fontWeight: 800,
@@ -376,6 +282,16 @@ export default function BlogPost() {
               </div>
             </div>
           </header>
+
+          {companion && (
+            <aside className="article-companion" aria-label="Companion case study">
+              <span className="quiet-label">Companion case study</span>
+              <Link className="text-link" to={companion.href} state={{ entry: 'blog_post' }}>
+                {companion.label} <ArrowRight size={17} aria-hidden="true" />
+              </Link>
+              <p>{companion.detail}</p>
+            </aside>
+          )}
 
           {/* Article Main Markdown Content */}
           <div className="blog-prose" style={{ lineHeight: 1.8, fontSize: 17, color: 'rgba(245, 244, 238, 0.85)' }}>

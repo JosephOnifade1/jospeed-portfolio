@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-seo.js",
+    "build": "vite build",
+    "share:images": "node scripts/render-case-cards.js",
     "lint": "oxlint",
     "preview": "vite preview",
     "postinstall": "chmod +x node_modules/.bin/vite || true",

@@ -7,6 +7,7 @@ category: "AI & Data"
 tags: ["AI", "RAG", "LangChain", "Vector Databases", "Supabase"]
 readingTime: "6 min read"
 coverImage: "/projects/quivellox-preview.png"
+relatedProject: quivellox
 featured: true
 ---
 
