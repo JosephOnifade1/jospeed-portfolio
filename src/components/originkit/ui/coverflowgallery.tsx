@@ -12,7 +12,8 @@ import {
 const useIsStaticRenderer = () => false
 
 interface Slide {
-    image?: { src?: string; srcSet?: string; alt?: string }
+    image?: { src?: string; srcSet?: string; alt?: string; fit?: CSSProperties["objectFit"] }
+    background?: string
     title?: string
 }
 
@@ -21,6 +22,9 @@ type TitleCorner = "topLeft" | "topRight" | "bottomLeft" | "bottomRight"
 
 interface Smooth3DSlideshowProps {
     slides?: Slide[]
+    activeIndex?: number
+    onActiveChange?: (index: number) => void
+    label?: string
     cardWidth?: number
     cardHeight?: number
     radius?: number
@@ -109,6 +113,9 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
     props = { ...COMPONENT_DEFAULTS, ...props }
     const {
         slides = DEFAULT_SLIDES,
+        activeIndex,
+        onActiveChange,
+        label,
         cardWidth = 557,
         cardHeight = 420,
         radius = 0,
@@ -141,11 +148,16 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
 
     // Loop is always on.
     const loop = true
-    const [active, setActive] = useState(0)
+    const [localIndex, setLocalIndex] = useState(0)
+    const active = Math.max(0, Math.min(activeIndex ?? localIndex, n - 1))
+    const select = useCallback((next: number) => {
+        if (activeIndex === undefined) setLocalIndex(next)
+        onActiveChange?.(next)
+    }, [activeIndex, onActiveChange])
 
     // Keep active valid if the slide list changes.
     useEffect(() => {
-        setActive((a) => Math.max(0, Math.min(n - 1, a)))
+        setLocalIndex((a) => Math.max(0, Math.min(n - 1, a)))
     }, [n])
 
     // Lock input while a card is mid-move; release once it settles, so rapid
@@ -168,20 +180,20 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
 
     const step = useCallback(
         (dir: number) => {
-            if (lockRef.current) return
-            lock()
-            setActive((a) => (((a + dir) % n) + n) % n)
+            if (n < 2 || lockRef.current) return
+            if (activeIndex === undefined) lock()
+            select((active + dir + n) % n)
         },
-        [n, lock]
+        [n, lock, active, activeIndex, select]
     )
 
     const handleCardClick = useCallback(
         (i: number) => {
             if (isStatic || autoplay || lockRef.current) return
-            lock()
-            setActive((a) => (i === a ? (a + 1) % n : i))
+            if (activeIndex === undefined) lock()
+            select(i === active ? (active + 1) % n : i)
         },
-        [isStatic, autoplay, n, lock]
+        [isStatic, autoplay, n, lock, active, activeIndex, select]
     )
 
     // Autoplay — the transition's Delay drives the time each card holds.
@@ -225,8 +237,8 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
         position: "relative",
         width: "100%",
         height: "100%",
-        minWidth: 320,
-        minHeight: 360,
+        minWidth: 0,
+        minHeight: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -241,13 +253,14 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
             tabIndex={0}
             role="group"
             aria-roledescription="carousel"
+            aria-label={label}
             onKeyDown={isStatic ? undefined : onKeyDown}
         >
             <div
                 style={{
                     position: "relative",
-                    width: cardWidth,
-                    height: cardHeight,
+                    width: `var(--coverflow-width, ${cardWidth}px)`,
+                    height: `var(--coverflow-height, ${cardHeight}px)`,
                     transformStyle: "preserve-3d",
                 }}
             >
@@ -262,7 +275,7 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
                     const isActive = rel === 0
                     const sc = Math.max(0.4, 1 - ax * SCALE_STEP)
                     // Gap 0–20 → spacing 0 (stacked) to ~600px (far apart).
-                    const tx = rel * (gap * 30)
+                    const tx = `calc(${rel} * var(--coverflow-spacing, ${gap * 30}px))`
                     const tz = -ax * DEPTH
                     const ry = -rel * tilt
                     const rz = rel * sideTilt
@@ -272,19 +285,19 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
                         position: "absolute",
                         left: "50%",
                         top: "50%",
-                        width: cardWidth,
-                        height: cardHeight,
+                        width: "100%",
+                        height: "100%",
                         borderRadius: effectiveRadius,
                         overflow: "hidden",
                         transformStyle: "preserve-3d",
                         transformOrigin: "center center",
-                        transform: `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`,
+                        transform: `translate(-50%, -50%) translateX(${tx}) translateZ(${tz}px) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`,
                         transition: transitionCss,
                         opacity: visible ? 1 : 0,
                         cursor: autoplay || isActive ? "default" : "pointer",
                         pointerEvents:
                             visible && !isStatic && !autoplay ? "auto" : "none",
-                        backgroundColor: "#1a1a1a",
+                        background: slide.background || "#1a1a1a",
                     }
 
                     return (
@@ -307,7 +320,7 @@ function __OriginkitBase_Smooth3DSlideshow(props: Smooth3DSlideshowProps) {
                                         inset: 0,
                                         width: "100%",
                                         height: "100%",
-                                        objectFit: "cover",
+                                        objectFit: slide.image?.fit ?? "cover",
                                         display: "block",
                                         userSelect: "none",
                                     }}

@@ -33,6 +33,7 @@ function generateSitemap(posts) {
   const staticRoutes = [
     { loc: '/', changefreq: 'daily', priority: '1.0' },
     { loc: '/blog', changefreq: 'daily', priority: '0.9' },
+    { loc: '/work', changefreq: 'weekly', priority: '0.8' },
     { loc: '/gallery', changefreq: 'weekly', priority: '0.7' },
   ];
 

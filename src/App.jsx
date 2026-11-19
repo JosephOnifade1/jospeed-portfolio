@@ -10,7 +10,7 @@ import About from './sections/About.jsx';
 import Projects from './sections/Projects.jsx';
 import BlogInsights from './sections/BlogInsights.jsx';
 import CaseStudy from './pages/CaseStudy.jsx';
-import Gallery from './pages/Gallery.jsx';
+import ProjectArchive from './pages/ProjectArchive.jsx';
 import BlogIndex from './pages/BlogIndex.jsx';
 import BlogPost from './pages/BlogPost.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -41,8 +41,9 @@ export default function App() {
       <Analytics />
       <Routes>
         <Route path="/" element={<Portfolio />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/coverflow" element={<Gallery />} />
+        <Route path="/work" element={<ProjectArchive />} />
+        <Route path="/gallery" element={<ProjectArchive gallery />} />
+        <Route path="/coverflow" element={<ProjectArchive gallery />} />
         <Route path="/case-study/:id" element={<CaseStudy />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />

@@ -29,7 +29,11 @@ export function recordWorkView() {
   once('viewed', 'selected_work_viewed');
 }
 export function recordCaseView(project, entry) {
-  const source = ['selected_work', 'capabilities', 'next_case'].includes(entry) ? entry : 'direct';
+  const source = ['selected_work', 'capabilities', 'next_case', 'work_archive', 'work_gallery'].includes(
+    entry
+  )
+    ? entry
+    : 'direct';
   remember('last_case', project);
   once(`case:${project}:${source}`, 'case_study_opened', { project, source });
 }

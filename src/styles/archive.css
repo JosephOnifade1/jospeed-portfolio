@@ -1,0 +1,325 @@
+/* The full index is a destination, not another long section ahead of the form. */
+.archive-page {
+  min-height: 85vh;
+  padding: 94px 0 clamp(56px, 6vw, 88px);
+  background: #0b0f0a;
+}
+.archive-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--paper-dim);
+  font-size: 14px;
+}
+.archive-back:hover {
+  color: var(--citron);
+}
+.archive-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 26px;
+  margin: clamp(18px, 2.5vw, 36px) 0 clamp(22px, 3vw, 40px);
+}
+.archive-heading .folio-kicker {
+  margin-bottom: 9px;
+}
+.archive-heading h1 {
+  font-size: clamp(42px, 5.9vw, 82px);
+  letter-spacing: -0.065em;
+  line-height: 1.02;
+}
+.archive-heading > p {
+  max-width: 37ch;
+  color: var(--paper-dim);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.archive-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 12px 0;
+  border-block: 1px solid var(--folio-rule);
+}
+.archive-filters,
+.archive-views {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.archive-toolbar a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 7px 14px;
+  color: var(--paper-dim);
+  font: 550 14px/1.25 var(--font-ui);
+  border-radius: 7px;
+}
+.archive-toolbar a:hover {
+  color: var(--paper);
+  background: var(--ink-surface-2);
+}
+.archive-filters a[aria-current] {
+  background: var(--citron);
+  color: var(--ink);
+}
+.archive-filters small {
+  font: 500 10px var(--font-mono);
+}
+.archive-views {
+  gap: 0;
+  padding: 2px;
+  border-radius: 9px;
+  border: 1px solid var(--folio-rule);
+}
+.archive-views a[aria-current] {
+  background: #2a3224;
+  color: var(--paper);
+}
+.archive-count {
+  margin: 17px 0;
+}
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 26px);
+}
+.archive-card > a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #141a12;
+  border: 1px solid var(--folio-rule);
+  border-radius: 12px;
+}
+.archive-card > a:hover {
+  border-color: #677851;
+}
+.archive-cover {
+  position: relative;
+  aspect-ratio: 1.8;
+  overflow: hidden;
+  border-radius: 11px 11px 0 0;
+}
+.archive-cover .project-figure,
+.archive-cover .project-plate {
+  height: 100%;
+  width: 100%;
+}
+.archive-cover .project-plate {
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+.archive-cover .plate-label {
+  top: 10px;
+  left: 12px;
+}
+.archive-cover .plate-screen {
+  padding: 34px 12px 12px;
+}
+.archive-cover .dispatch-ticket {
+  left: 7%;
+  bottom: 8%;
+  width: 43%;
+  padding: 9px 12px;
+}
+.archive-cover .dispatch-top {
+  font-size: 8px;
+  margin-bottom: 4px;
+}
+.archive-cover .dispatch-table {
+  font-size: clamp(22px, 2.2vw, 32px);
+}
+.archive-cover .dispatch-service {
+  font-size: 11px;
+}
+.archive-cover .dispatch-queue {
+  font-size: 9px;
+  margin-top: 6px;
+  padding-top: 4px;
+}
+.archive-cover-art .project-figure {
+  display: grid;
+  place-items: center;
+}
+.archive-cover-art .archive-art {
+  width: 82%;
+  height: 93%;
+  object-fit: contain;
+}
+.cover-caption {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font-size: 9px;
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: var(--paper);
+  background: #11180fdf;
+}
+.archive-card-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px 20px 10px;
+}
+.archive-card-copy h2,
+.deck-caption h2 {
+  margin: 7px 0;
+  font-size: clamp(24px, 2.3vw, 34px);
+  line-height: 1.06;
+  letter-spacing: -0.05em;
+}
+.archive-card-copy p,
+.deck-caption p {
+  color: var(--paper-dim);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.archive-card-copy .text-link {
+  margin-top: auto;
+  padding-top: 6px;
+}
+.archive-card a:hover .text-link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Preserve the original angled covers, with the active story linked on its cover. */
+.archive-deck {
+  overflow: hidden;
+  border: 1px solid var(--folio-rule);
+  border-radius: 14px;
+  background: #131a12;
+}
+.archive-stage {
+  position: relative;
+  --coverflow-width: min(70vw, 390px);
+  --coverflow-height: min(51vw, 284px);
+  --coverflow-spacing: clamp(119px, 25vw, 264px);
+  height: clamp(202px, 67vw, 344px);
+  background: radial-gradient(ellipse at 50% 95%, #35432b, #111a11 72%);
+}
+.archive-stage [aria-roledescription='carousel']:focus-visible {
+  outline: 2px solid var(--citron) !important;
+  outline-offset: -5px;
+}
+.deck-case-link {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--coverflow-width);
+  height: var(--coverflow-height);
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  background: linear-gradient(0deg, #0a0d09c9, transparent 34%);
+}
+.deck-case-link:focus-visible {
+  outline-offset: -3px;
+}
+.deck-medium {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-size: 9px;
+  color: var(--paper);
+  background: #121b13e6;
+}
+.deck-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--citron);
+  font: 650 14px var(--font-ui);
+}
+.deck-case-link:hover .deck-open {
+  background: var(--citron-light);
+}
+.deck-caption {
+  padding: 18px clamp(18px, 3vw, 32px) 20px;
+  border-top: 1px solid var(--folio-rule);
+}
+.deck-caption h2 {
+  margin-top: 4px;
+}
+.deck-caption p {
+  max-width: 64ch;
+}
+.deck-controls {
+  position: absolute;
+  inset: 50% clamp(6px, 2vw, 24px) auto;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.deck-controls button {
+  pointer-events: auto;
+  background: #111b12f5;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--folio-rule);
+  border-radius: 50%;
+  color: var(--citron);
+}
+.deck-controls button:hover {
+  background: var(--ink-surface-3);
+}
+
+@media (max-width: 960px) {
+  .archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 680px) {
+  .archive-page {
+    padding-top: 82px;
+  }
+  .archive-heading {
+    display: block;
+  }
+  .archive-heading > p {
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  .archive-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .archive-toolbar {
+    gap: 8px;
+  }
+  .archive-toolbar a {
+    padding-inline: 10px;
+  }
+  .archive-filters {
+    gap: 2px;
+  }
+  .archive-count {
+    margin-block: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-stage * {
+    transition: none !important;
+  }
+}

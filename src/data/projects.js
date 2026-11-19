@@ -54,6 +54,7 @@ export const PROJECTS = [
     id: 'revive-touch',
     name: 'Revive Touch',
     selection: 1,
+    demo: 'table-request',
     discipline: 'Mobile apps',
     role: 'Mobile developer',
     delivery: 'Android delivered',
@@ -145,6 +146,7 @@ export const PROJECTS = [
   {
     id: 'fiverr-scout',
     name: 'Fiverr Scout',
+    summary: 'Compare freelance niches using demand signals and competition data.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
     description: 'A niche arbitrage terminal that deep-scrapes Fiverr competition density, order queue depth and review velocity — scoring every niche 0–100 to surface 5:1 demand gaps.',
@@ -180,6 +182,7 @@ export const PROJECTS = [
   {
     id: 'ai-missed-call',
     name: 'AI Missed-Call Recovery',
+    summary: 'Follow up on a missed clinic call by text and log the conversation in the CRM.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
     description: 'Auto-SMS follow-up system for dental clinics that captures every missed lead and logs it to CRM in under 60 seconds.',
@@ -215,6 +218,7 @@ export const PROJECTS = [
   {
     id: 'ai-client-finder',
     name: 'AI Client Finder Bot',
+    summary: 'Review a digest of freelance opportunities inside Telegram.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
     description: 'Telegram bot that finds freelance leads daily using AI, with full free / paid / VIP plan tier enforcement.',
@@ -250,6 +254,7 @@ export const PROJECTS = [
   {
     id: 'homeplate',
     name: 'HomePlate',
+    summary: 'Find a home cook, order a meal and follow its progress from the kitchen.',
     category: 'Web Apps',
     tag: 'WEB APPS',
     description: 'Marketplace connecting home cooks to buyers, with multi-gateway African payment routing.',
@@ -285,6 +290,7 @@ export const PROJECTS = [
   {
     id: 'ai-strategy-coach',
     name: 'AI Strategy Coach',
+    summary: 'Talk through a business decision with a conversational strategy coach.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
     description: 'Lovable-built coaching app integrated with Claude API for personalized business strategy sessions.',
@@ -319,8 +325,15 @@ export const PROJECTS = [
   },
 ];
 
-export const FILTERS = ['All', 'Web Apps', 'Mobile apps', 'AI / Automation', '3D / Design'];
-
 // The homepage, capability links and case studies use the same project records.
 export const SELECTED_WORK = PROJECTS.filter(project => project.selection)
   .sort((a, b) => a.selection - b.selection);
+
+export const WORK_INDEX = [...SELECTED_WORK, ...PROJECTS.filter(project => !project.selection)];
+
+export const WORK_FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 'mobile', label: 'Mobile', category: 'Mobile apps' },
+  { key: 'web', label: 'Web', category: 'Web Apps' },
+  { key: 'ai', label: 'AI & automation', category: 'AI / Automation' },
+];

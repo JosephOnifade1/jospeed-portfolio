@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import CustomCursor from '../components/CustomCursor.jsx';
 import ProjectVisual from '../components/ProjectVisual.jsx';
-import { PROJECTS, SELECTED_WORK } from '../data/projects.js';
+import ReviveTouchDemo from '../components/ReviveTouchDemo.jsx';
+import { WORK_INDEX } from '../data/projects.js';
+import { archiveSearch } from '../utils/workArchive.js';
 import { recordCaseView } from '../utils/portfolioAnalytics.js';
-
-const readingOrder = [...SELECTED_WORK, ...PROJECTS.filter((project) => !project.selection)];
 
 export default function CaseStudy() {
   const { id } = useParams();
   const { state } = useLocation();
-  const index = readingOrder.findIndex((record) => record.id === id);
-  const project = readingOrder[index];
-  const next = readingOrder[(index + 1) % readingOrder.length];
+  const index = WORK_INDEX.findIndex((record) => record.id === id);
+  const project = WORK_INDEX[index];
+  const next = WORK_INDEX[(index + 1) % WORK_INDEX.length];
   useEffect(() => {
     if (!project?.caseStudy) return;
     const previous = document.title;
@@ -43,6 +43,12 @@ export default function CaseStudy() {
       </>
     );
   const { name, caseStudy: study, visual } = project;
+  const fromGallery = state?.entry === 'work_gallery';
+  const fromArchive = state?.entry === 'work_archive' || fromGallery;
+  const returnPath = fromArchive
+    ? `${fromGallery ? '/gallery' : '/work'}${archiveSearch(state.category, fromGallery ? project.id : null)}`
+    : '/#projects';
+  const hasDemo = project.demo === 'table-request';
   return (
     <>
       <CustomCursor />
@@ -50,8 +56,13 @@ export default function CaseStudy() {
       <main className="case-page">
         <div className="wrap">
           <div className="case-breadcrumb">
-            <Link to="/#projects">
-              <ArrowLeft size={16} /> Back to selected work
+            <Link to={returnPath}>
+              <ArrowLeft size={16} />{' '}
+              {fromGallery
+                ? 'Back to 3D gallery'
+                : fromArchive
+                  ? 'Back to project archive'
+                  : 'Back to selected work'}
             </Link>
             <span className="quiet-label">JOspeed / Case study</span>
           </div>
@@ -78,6 +89,11 @@ export default function CaseStudy() {
                       </div>
                     )}
                   </dl>
+                )}
+                {hasDemo && (
+                  <Link to="#demo" state={state} className="text-link demo-jump">
+                    Try the sample workflow <ArrowDown size={16} aria-hidden="true" />
+                  </Link>
                 )}
                 {(project.live || project.github) && (
                   <div className="case-resources">
@@ -114,6 +130,7 @@ export default function CaseStudy() {
               <h2 className="quiet-label">What shipped</h2>
               <p>{study.outcome}</p>
             </div>
+            {hasDemo && <ReviveTouchDemo />}
             <div className="case-body">
               <div className="case-narrative">
                 <div>
