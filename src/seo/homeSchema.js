@@ -1,3 +1,4 @@
+import { brand, brandLogo, cardSize } from '../data/brand.js';
 import { profile, profileSummary } from '../data/profile.js';
 
 // The homepage graph belongs only to the portfolio landing page.
@@ -86,6 +87,7 @@ export const homeSchema = (origin) => ({
       '@id': `${origin}/#service`,
       name: 'JOspeed — Full-Stack Development & AI Engineering',
       url: origin,
+      logo: brandLogo(origin),
       description:
         'Professional full-stack web development and AI engineering services for startups and businesses. Specializing in React, Supabase, n8n workflows, AI chatbots and voice agents.',
       provider: { '@id': `${origin}/#person` },
@@ -110,9 +112,9 @@ export const homeSchema = (origin) => ({
       },
       primaryImageOfPage: {
         '@type': 'ImageObject',
-        url: `${origin}/og-image.png`,
-        width: 1847,
-        height: 851,
+        url: `${origin}${brand.shareImage}`,
+        ...cardSize,
+        caption: brand.shareAlt,
       },
     },
   ],

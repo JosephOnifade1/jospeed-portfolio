@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import BrandLockup from './BrandLockup.jsx';
 
 const links = [
   ['Selected work', '/#projects'],
@@ -48,12 +49,7 @@ export default function Navbar() {
     >
       <div className="wrap masthead">
         <Link className="brand-link" to="/" onClick={() => setOpen(false)} aria-label="JOspeed home">
-          <span className="brand-mark" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z" />
-            </svg>
-          </span>
-          JOspeed
+          <BrandLockup />
         </Link>
         <nav className="mast-nav" aria-label="Primary navigation">
           {links.map(([label, url]) => (

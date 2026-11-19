@@ -4,7 +4,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { WORK_INDEX } from '../src/data/projects.js';
-import { cardSize, caseCardPath, escapeHtml as esc, evidenceLabel } from '../src/seo/pageHead.js';
+import { brand, cardSize } from '../src/data/brand.js';
+import { caseCardPath, escapeHtml as esc, evidenceLabel } from '../src/seo/pageHead.js';
+import { monogram } from './brand-mark.js';
 
 const svg = (w, h, body) =>
   Buffer.from(
@@ -83,9 +85,8 @@ for (const [i, project] of WORK_INDEX.entries()) {
     cardSize.height,
     `
     <rect width="1200" height="630" fill="#111710"/>
-    <rect x="56" y="43" width="40" height="40" rx="10" fill="#d8f36a"/>
-    <path transform="translate(63 48) scale(1.2)" fill="#182014" d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z"/>
-    ${text(111, 74, 'JOspeed', 33, '#f5f4ee', 700)}
+    ${monogram(56, 47, 49)}
+    ${text(117, 74, brand.name, 33, '#f5f4ee', 700)}
     ${mono(890, 72, `WORK INDEX  /  ${number}—${folio(WORK_INDEX.length)}`)}
     <path d="M56 113h1088 M56 531h1088" stroke="#49513f"/>
     <path d="M56 175h31" stroke="#d8f36a" stroke-width="3"/>

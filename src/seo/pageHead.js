@@ -1,3 +1,4 @@
+import { brand, brandLogo, cardSize } from '../data/brand.js';
 import { locationLabel, profile, profileSummary } from '../data/profile.js';
 import { WORK_INDEX } from '../data/projects.js';
 import { homeSchema } from './homeSchema.js';
@@ -6,7 +7,6 @@ import { homeSchema } from './homeSchema.js';
 export const SITE_ORIGIN = 'https://buildwithjospeed.vercel.app';
 export const siteUrl = (path) => new URL(path, SITE_ORIGIN).href;
 export const caseCardPath = (id) => `/share/cases/${id}.jpg`;
-export const cardSize = { width: 1200, height: 630 };
 export const evidenceLabel = ({ visual }) =>
   visual ? [visual.label, visual.note].filter(Boolean).join(' / ') : 'Architecture diagram';
 
@@ -83,8 +83,8 @@ export function pageFor(pathname, posts) {
         author: { '@type': 'Person', name: post.author, url: siteUrl('/') },
         publisher: {
           '@type': 'Organization',
-          name: 'JOspeed',
-          logo: { '@type': 'ImageObject', url: siteUrl('/apple-touch-icon.png') },
+          name: brand.name,
+          logo: brandLogo(SITE_ORIGIN),
         },
         mainEntityOfPage: { '@type': 'WebPage', '@id': siteUrl(path) },
       },
@@ -122,8 +122,10 @@ export function renderHead(page) {
   ];
   if (page.noindex) return tags.join('\n');
   const canonical = escapeHtml(siteUrl(page.path));
-  const image = siteUrl(page.image || '/og-image.png');
-  const alt = page.imageAlt || 'JOspeed — Joseph Onifade’s developer portfolio';
+  const imagePath = page.image || brand.shareImage;
+  const isBrandCard = imagePath === brand.shareImage;
+  const image = siteUrl(imagePath);
+  const alt = isBrandCard ? brand.shareAlt : page.imageAlt || page.title;
   const title = page.shareTitle || page.title;
   tags.push(
     `<link data-page-head rel="canonical" href="${canonical}">`,
@@ -140,7 +142,7 @@ export function renderHead(page) {
     meta('twitter:image', image),
     meta('twitter:image:alt', alt)
   );
-  const size = page.imageSize || (!page.image && { width: 1847, height: 851 });
+  const size = page.imageSize || (isBrandCard && cardSize);
   if (size) tags.push(meta('og:image:width', size.width), meta('og:image:height', size.height));
   if (image.endsWith('.png')) tags.push(meta('og:image:type', 'image/png'));
   if (image.endsWith('.jpg')) tags.push(meta('og:image:type', 'image/jpeg'));

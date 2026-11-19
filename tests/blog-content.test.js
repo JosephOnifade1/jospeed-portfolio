@@ -40,6 +40,7 @@ test('CMS-style block lists, folded text and unquoted dates survive a save', (t)
   assert.deepEqual(post.tags, ['Two words', 'A, B']);
   assert.equal(post.featured, false);
   assert.equal(post.readingTime, '1 min read');
+  assert.equal(post.coverImage, '/share/jospeed-portfolio.jpg');
   assert.equal(post.content.trim(), 'Keep the **body** intact.');
 });
 
