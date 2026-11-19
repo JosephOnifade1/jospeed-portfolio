@@ -1,40 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jospeedtech.vercel.app/</loc>
+    <loc>https://buildwithjospeed.vercel.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/blog</loc>
+    <loc>https://buildwithjospeed.vercel.app/blog</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/work</loc>
+    <loc>https://buildwithjospeed.vercel.app/work</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/gallery</loc>
+    <loc>https://buildwithjospeed.vercel.app/gallery</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/blog/creative-workflows-with-blender</loc>
-    <lastmod>2025-10-10</lastmod>
+    <loc>https://buildwithjospeed.vercel.app/case-study/revive-touch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/blog/getting-started-with-rag-2025</loc>
+    <loc>https://buildwithjospeed.vercel.app/case-study/quivellox</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/borynx</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/fiverr-scout</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/ai-missed-call</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/ai-client-finder</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/homeplate</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/case-study/ai-strategy-coach</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/getting-started-with-rag-2025</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jospeedtech.vercel.app/blog/why-im-learning-blockchain</loc>
+    <loc>https://buildwithjospeed.vercel.app/blog/why-im-learning-blockchain</loc>
     <lastmod>2025-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://buildwithjospeed.vercel.app/blog/creative-workflows-with-blender</loc>
+    <lastmod>2025-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

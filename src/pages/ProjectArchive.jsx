@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, GalleryHorizontalEnd, LayoutGrid } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
@@ -52,13 +51,6 @@ export default function ProjectArchive({ gallery = false }) {
     results.findIndex((p) => p.id === params.get('project'))
   );
   const search = archiveSearch(filter.key);
-  useEffect(() => {
-    const previous = document.title;
-    document.title = `${gallery ? '3D gallery' : 'Project archive'} | JOspeed`;
-    return () => {
-      document.title = previous;
-    };
-  }, [gallery]);
 
   return (
     <>

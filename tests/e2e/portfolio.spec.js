@@ -127,3 +127,44 @@ test('navigation reaches the form from another page and the mobile disclosure is
   await expect(page.locator('#contact-title')).toBeFocused();
   await expect(page.getByLabel('Your name')).toBeInViewport({ ratio: 1 });
 });
+
+test('Upwork is a separate hiring option that leaves the inquiry draft on the portfolio', async ({
+  page,
+  context,
+  isMobile,
+}) => {
+  const profileURL = 'https://www.upwork.com/freelancers/~01a476791ed9f8b084?mp_source=share';
+  // Intercept at the context level: the external anchor opens a new tab.
+  await context.route('https://www.upwork.com/**', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<title>Mock freelance profile</title>' })
+  );
+  await page.goto('/case-study/revive-touch');
+  await page.getByRole('link', { name: 'Start a similar project' }).click();
+  const card = page.locator('#contact').getByRole('link', { name: /Hire me on Upwork/ });
+  const send = page.getByRole('button', { name: 'Send message' });
+  await expect(card).toHaveAttribute('href', profileURL);
+  if (isMobile) {
+    const submitBox = await send.boundingBox();
+    expect((await card.boundingBox()).y).toBeGreaterThan(submitBox.y + submitBox.height);
+  }
+
+  const message = page.getByLabel('About your project');
+  await message.fill('An unsent inquiry.');
+  await page.keyboard.press('Tab');
+  await expect(send).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'josephonifade21@gmail.com' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(card).toBeFocused();
+  const [profile] = await Promise.all([context.waitForEvent('page'), page.keyboard.press('Enter')]);
+  await expect(profile).toHaveURL(profileURL);
+  expect(await profile.evaluate(() => window.opener === null)).toBe(true);
+  await profile.close();
+
+  await expect(page).toHaveURL(/\/#contact$/);
+  await expect(message).toHaveValue('An unsent inquiry.');
+  expect(await page.evaluate(() => window.folioEvents.map(({ name, data }) => ({ name, data })))).toEqual([
+    { name: 'case_study_opened', data: { project: 'revive-touch', source: 'direct' } },
+    { name: 'upwork_profile_clicked', data: { last_case: 'revive-touch' } },
+  ]);
+});

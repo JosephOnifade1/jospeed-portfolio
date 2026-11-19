@@ -2,7 +2,7 @@ import { ArrowUpRight, CornerDownRight, Layers2 } from 'lucide-react';
 
 // Evidence is shared between the work index and the case study. An approved
 // client capture can replace an illustration through the project's visual record.
-export default function ProjectVisual({ project, detailed = false }) {
+export default function ProjectVisual({ project, detailed = false, children }) {
   const { visual, image, name } = project;
   if (!visual)
     return image ? (
@@ -64,12 +64,12 @@ export default function ProjectVisual({ project, detailed = false }) {
         <figcaption>
           {visual.caption}
           {!workflow && (
-            <>
-              <br />
+            <div className="figure-actions">
+              {children}
               <a className="figure-zoom" href={visual.src} target="_blank" rel="noreferrer">
                 View full-size capture <ArrowUpRight size={13} aria-hidden="true" />
               </a>
-            </>
+            </div>
           )}
         </figcaption>
       )}

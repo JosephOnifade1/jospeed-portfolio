@@ -21,7 +21,7 @@ export default function Footer() {
           {[
             ['All projects', '/work'],
             ['About', '/#about'],
-            ['Notes', '/blog'],
+            ['Blog', '/blog'],
             ['Contact', '/#contact'],
           ].map(([label, url]) => (
             <Link key={url} to={url}>

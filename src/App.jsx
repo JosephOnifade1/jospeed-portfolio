@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import PageHead from './components/PageHead.jsx';
 import RouteNavigation from './components/RouteNavigation.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import Navbar from './components/Navbar.jsx';
@@ -37,6 +38,7 @@ function Portfolio() {
 export default function App() {
   return (
     <BrowserRouter>
+      <PageHead />
       <RouteNavigation />
       <Analytics />
       <Routes>

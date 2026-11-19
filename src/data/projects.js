@@ -2,6 +2,7 @@ export const PROJECTS = [
   {
     id: 'quivellox',
     name: 'Quivellox',
+    shareSubtitle: 'Document Q&A with PDF citations',
     selection: 2,
     discipline: 'Document AI',
     role: 'Full-stack developer',
@@ -14,9 +15,13 @@ export const PROJECTS = [
       caption: 'Quivellox’s inquiry desk, shown with a sample conversation. The evidence inspector keeps the cited passage beside the answer.',
       exchange: {
         question: 'What is the incident escalation timeline?',
-        answer: 'Complete initial triage within 15 minutes. Escalate to the security team within one hour. [1]',
-        source: 'Sample policy · Security incident response.pdf, page 12',
-        passage: 'The initial detection and triage must be completed within 15 minutes of alert identification. Escalation to the security team shall occur within 1 hour.',
+        answer: 'Complete initial triage within 15 minutes. Escalate to the security team within one hour.',
+        citation: {
+          number: 1,
+          document: 'Security incident response.pdf',
+          page: 12,
+          passage: 'The initial detection and triage must be completed within 15 minutes of alert identification. Escalation to the security team shall occur within 1 hour.',
+        },
       },
     },
     category: 'AI / Automation',
@@ -53,6 +58,7 @@ export const PROJECTS = [
   {
     id: 'revive-touch',
     name: 'Revive Touch',
+    shareSubtitle: 'Android app for poker-event staff',
     selection: 1,
     demo: 'table-request',
     discipline: 'Mobile apps',
@@ -93,6 +99,11 @@ export const PROJECTS = [
         'Expo managed workflow — faster client delivery; bare workflow not needed for this scope',
       ],
       outcome: 'Delivered the Android app to the client. Staff can see incoming requests by table instead of keeping track of verbal requests. The iOS release is still in progress.',
+      projectNote: {
+        title: 'The table number stays on the ticket.',
+        text: 'Staff need to know where to go as well as what the player requested. In the sample below, acknowledge the massage request for Table 14. Its status changes from New to Seen; the table number stays in view.',
+      },
+      approvedTestimonial: null,
       retrospective: 'Would clarify iOS submission requirements with the client earlier — App Store provisioning added unexpected timeline for the iOS release.',
     },
   },
@@ -100,6 +111,7 @@ export const PROJECTS = [
   {
     id: 'borynx',
     name: 'Borynx',
+    shareSubtitle: 'A topic feed for freelancers',
     selection: 3,
     discipline: 'Community platforms',
     role: 'Full-stack developer',
@@ -146,6 +158,7 @@ export const PROJECTS = [
   {
     id: 'fiverr-scout',
     name: 'Fiverr Scout',
+    shareSubtitle: 'Freelance niche research',
     summary: 'Compare freelance niches using demand signals and competition data.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
@@ -182,6 +195,7 @@ export const PROJECTS = [
   {
     id: 'ai-missed-call',
     name: 'AI Missed-Call Recovery',
+    shareSubtitle: 'SMS follow-up for dental clinics',
     summary: 'Follow up on a missed clinic call by text and log the conversation in the CRM.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
@@ -218,6 +232,7 @@ export const PROJECTS = [
   {
     id: 'ai-client-finder',
     name: 'AI Client Finder Bot',
+    shareSubtitle: 'Freelance leads in Telegram',
     summary: 'Review a digest of freelance opportunities inside Telegram.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',
@@ -254,6 +269,7 @@ export const PROJECTS = [
   {
     id: 'homeplate',
     name: 'HomePlate',
+    shareSubtitle: 'A marketplace for home-cooked meals',
     summary: 'Find a home cook, order a meal and follow its progress from the kitchen.',
     category: 'Web Apps',
     tag: 'WEB APPS',
@@ -290,6 +306,7 @@ export const PROJECTS = [
   {
     id: 'ai-strategy-coach',
     name: 'AI Strategy Coach',
+    shareSubtitle: 'Conversational business coaching',
     summary: 'Talk through a business decision with a conversational strategy coach.',
     category: 'AI / Automation',
     tag: 'AI / AUTOMATION',

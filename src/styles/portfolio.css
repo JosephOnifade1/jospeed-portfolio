@@ -607,7 +607,8 @@
   font-weight: 550;
   color: var(--paper);
 }
-.contact-fields :is(input, textarea) {
+.contact-fields :is(input, textarea),
+.brief-editor textarea {
   min-width: 0;
   width: 100%;
   color: var(--paper);
@@ -618,14 +619,16 @@
   font: 400 16px/1.45 var(--font-body);
   cursor: text;
 }
-.contact-fields textarea {
+.contact-fields textarea,
+.brief-editor textarea {
   resize: vertical;
   min-height: 104px;
 }
 .contact-fields :is(input, textarea)::placeholder {
   color: #96a18d;
 }
-.contact-fields :is(input, textarea):focus {
+.contact-fields :is(input, textarea):focus,
+.brief-editor textarea:focus {
   border-color: var(--citron);
   outline: 1px solid var(--citron);
   outline-offset: 0;
@@ -638,7 +641,7 @@
   opacity: 0.7;
   cursor: wait;
 }
-body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trail) {
+body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot, .custom-cursor-trail) {
   visibility: hidden;
 }
 .email-fallback {
@@ -658,6 +661,164 @@ body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trai
   text-decoration: underline;
   text-underline-offset: 3px;
   overflow-wrap: anywhere;
+}
+/* The profile link and local brief editor are siblings, both after the form. */
+.upwork-handoff {
+  width: 100%;
+  max-width: 28rem;
+  min-width: 0;
+}
+.upwork-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: clamp(14px, 2vw, 21px);
+  border: 1px solid #486447;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(115deg, #203823, #17251a);
+  color: #cdeac0;
+}
+.upwork-card:is(:hover, :focus-visible) {
+  border-color: #9bd684;
+}
+.upwork-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  color: #163418;
+  background: #b6e6a2;
+}
+.upwork-copy {
+  display: grid;
+  gap: 3px;
+  color: #c1cebc;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.upwork-copy .quiet-label {
+  color: #b1d5a6;
+  font-size: 10px;
+}
+.upwork-copy strong {
+  font: 650 clamp(19px, 2vw, 24px)/1.2 var(--font-ui);
+  letter-spacing: -0.035em;
+  color: var(--paper);
+}
+.brief-tool {
+  border: 1px solid #486447;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  background: #131f15;
+}
+.brief-tool summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 10px clamp(14px, 2vw, 21px);
+  list-style: none;
+  color: #cfdfc7;
+  cursor: pointer;
+  font: 600 14px/1.4 var(--font-ui);
+  scroll-margin-top: var(--anchor-gap);
+}
+.brief-tool summary::-webkit-details-marker {
+  display: none;
+}
+.brief-tool summary:hover {
+  color: #fff;
+}
+.brief-chevron {
+  margin-left: auto;
+}
+.brief-tool[open] .brief-chevron {
+  transform: rotate(180deg);
+}
+.brief-editor {
+  min-width: 0;
+  padding: 0 clamp(14px, 2vw, 21px) 16px;
+  cursor: auto;
+}
+.brief-editor p {
+  color: #c1cebc;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.brief-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 9px;
+  flex-wrap: wrap;
+  margin: 12px 0 6px;
+}
+.brief-editor label {
+  font: 600 14px/1.4 var(--font-ui);
+}
+.brief-editor textarea {
+  display: block;
+  field-sizing: content;
+  min-height: 10em;
+  max-height: 20em;
+}
+.brief-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 14px;
+  margin-top: 12px;
+}
+.brief-copy,
+.brief-next,
+.brief-add,
+.brief-included {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  font: 600 14px/1.35 var(--font-ui);
+}
+.brief-copy {
+  padding: 8px 14px;
+  border-radius: 7px;
+  background: #c4e2b7;
+  color: #162618;
+}
+.brief-add,
+.brief-included {
+  color: #c4e2b7;
+  font-size: 13px;
+}
+.brief-next,
+.brief-add {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.brief-copy:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+#brief-feedback:not(:empty) {
+  margin-top: 10px;
+}
+@media (min-width: 681px) {
+  .contact-layout {
+    grid-template-rows: auto 1fr;
+    row-gap: 24px;
+  }
+  .contact-fields {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .upwork-handoff {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }
 .message-error {
   color: #ffc8ad;
@@ -761,6 +922,41 @@ body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trai
   gap: 16px;
   margin-top: 12px;
 }
+.build-note-link {
+  border: 1px solid var(--citron-border);
+  border-radius: 100px;
+  background: var(--citron-subtle);
+  padding: 0 16px;
+}
+.static-summary {
+  max-width: 64ch;
+  padding-block: clamp(40px, 8vw, 100px);
+}
+.static-summary p,
+.static-summary nav {
+  margin-top: 16px;
+}
+.static-summary a {
+  color: var(--citron);
+  text-decoration: underline;
+}
+.article-companion {
+  margin: 24px 0 36px;
+  padding: 16px 22px;
+  border-left: 3px solid var(--citron);
+  border-radius: 0 10px 10px 0;
+  background: var(--ink-surface);
+}
+.article-companion .quiet-label {
+  display: block;
+}
+.article-companion .text-link {
+  font-size: clamp(17px, 2vw, 21px);
+}
+.article-companion p {
+  color: var(--paper-dim);
+  font-size: 15px;
+}
 .case-media {
   min-width: 0;
 }
@@ -773,6 +969,13 @@ body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trai
   margin: auto;
   border-radius: 12px;
 }
+.figure-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 18px;
+}
+.figure-trace,
 .figure-zoom {
   display: inline-flex;
   min-height: 44px;
@@ -782,33 +985,117 @@ body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trai
   text-underline-offset: 3px;
   color: var(--paper-dim);
 }
+.figure-trace {
+  color: var(--citron);
+}
 .sample-exchange {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: clamp(20px, 4vw, 50px);
   margin-top: 28px;
-  padding: 20px 0;
+  padding: 24px 0 0;
   border-top: 1px solid var(--folio-rule);
 }
+.sample-exchange .folio-kicker {
+  margin-bottom: 8px;
+}
 .sample-exchange h2 {
-  margin: 6px 0;
-  font-size: 21px;
+  margin-bottom: 10px;
+  font-size: clamp(21px, 2vw, 28px);
 }
-.sample-exchange p,
-.sample-exchange blockquote {
-  font-size: 15px;
-  line-height: 1.6;
+.exchange-answer p {
   color: var(--paper-dim);
+  font-size: 16px;
+  line-height: 1.6;
 }
-.sample-exchange blockquote {
-  padding-left: 16px;
-  border-left: 2px solid #929f71;
+.citation-link,
+.source-slip {
+  scroll-margin-top: var(--anchor-gap);
 }
-.sample-exchange cite {
-  display: block;
-  margin-top: 6px;
-  color: var(--folio-muted);
-  font: 500 12px/1.5 var(--font-mono);
+.citation-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 4px 11px;
+  vertical-align: middle;
+  border: 1px solid var(--citron-border);
+  border-radius: 6px;
+  background: var(--citron-subtle);
+  color: var(--citron);
+  font: 600 14px/1.3 var(--font-ui);
+}
+.citation-link span {
+  font-family: var(--font-mono);
+}
+.citation-link:is(:hover, :focus-visible) {
+  border-color: var(--citron);
+}
+.source-slip {
+  padding: clamp(14px, 2vw, 22px) clamp(16px, 2.2vw, 26px) 3px;
+  border: 1px solid #b4bba5;
+  border-radius: 9px;
+  background: #e6e8da;
+  color: #232c21;
+}
+.source-slip figcaption,
+.source-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.source-file,
+.source-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.source-file cite {
+  overflow-wrap: anywhere;
+  font: 650 15px/1.4 var(--font-ui);
+}
+.source-page,
+.source-foot span {
+  color: #475340;
+  font: 500 11px/1.4 var(--font-mono);
+}
+.source-page {
+  padding: 3px 7px;
+  border: 1px solid #afb7a3;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.source-slip blockquote {
+  margin: 16px 0;
+  font: 450 clamp(17px, 1.5vw, 21px)/1.5 var(--font-editorial);
+}
+.source-slip mark {
+  color: inherit;
+  background: transparent;
+}
+.source-slip[data-selected] mark {
+  background: #d1e88c;
+}
+.source-slip:focus-visible {
+  outline: 2px solid var(--citron);
+  outline-offset: 4px;
+}
+.source-foot {
+  border-top: 1px dashed #acb3a0;
+}
+.source-foot a {
+  min-height: 44px;
+  color: #29452a;
+  font: 600 13px/1.4 var(--font-ui);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.source-foot a:focus-visible {
+  outline-color: #34513a;
+  outline-offset: 0;
 }
 .case-result {
   display: grid;
@@ -822,10 +1109,37 @@ body:has(.contact-fields form:hover) :is(.custom-cursor-dot, .custom-cursor-trai
 .case-result h2 {
   color: var(--citron);
 }
-.case-result p {
+.case-outcome {
   max-width: 60ch;
   font: 550 clamp(18px, 1.9vw, 26px)/1.45 var(--font-ui);
   letter-spacing: -0.024em;
+}
+.case-note {
+  max-width: 68ch;
+  margin-top: 20px;
+  padding: 16px clamp(16px, 2vw, 26px);
+  border-inline-start: 2px solid #84976e;
+  border-radius: 0 8px 8px 0;
+  background: #161d14;
+  overflow-wrap: anywhere;
+}
+.case-note .folio-kicker {
+  margin-bottom: 9px;
+}
+.case-note-title,
+.case-note blockquote {
+  color: var(--paper);
+  font: 500 clamp(20px, 2vw, 27px)/1.3 var(--font-editorial);
+}
+.case-note blockquote {
+  white-space: pre-line;
+}
+.case-note-text,
+.case-note figcaption {
+  margin-top: 8px;
+  color: var(--paper-dim);
+  font-size: 15px;
+  line-height: 1.55;
 }
 .case-body {
   display: grid;

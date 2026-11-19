@@ -29,7 +29,7 @@ export function recordWorkView() {
   once('viewed', 'selected_work_viewed');
 }
 export function recordCaseView(project, entry) {
-  const source = ['selected_work', 'capabilities', 'next_case', 'work_archive', 'work_gallery'].includes(
+  const source = ['selected_work', 'capabilities', 'next_case', 'work_archive', 'work_gallery', 'blog_post'].includes(
     entry
   )
     ? entry
@@ -39,4 +39,9 @@ export function recordCaseView(project, entry) {
 }
 export function recordInquiry() {
   track('inquiry_sent', { last_case: read('last_case') || 'none' });
+}
+
+// An outbound profile visit is not a submitted inquiry or a confirmed hire.
+export function recordUpworkClick() {
+  track('upwork_profile_clicked', { last_case: read('last_case') || 'none' });
 }
