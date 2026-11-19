@@ -6,7 +6,8 @@ author: "Joseph Onifade"
 category: "3D Design"
 tags: ["Blender", "Three.js", "WebGL", "Creative Dev", "3D Modeling"]
 readingTime: "5 min read"
-coverImage: "/projects/art-lab-preview.png"
+coverImage: "/projects/journal/mesh-study.jpg"
+draft: false
 featured: false
 ---
 

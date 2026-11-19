@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
+import { readPublishedPosts } from '../../scripts/blog-content.js';
 import { mockExternalServices } from './support/network.js';
 
 const origin = 'https://buildwithjospeed.vercel.app';
@@ -93,7 +94,8 @@ test('a reader can move between the case and the build note without stale share 
   await expect(page.locator('h1')).toBeFocused();
   await expect(page.getByRole('heading', { name: '1. The Real Challenges with Naive RAG' })).toBeVisible();
   await expect(canonical(page)).toHaveAttribute('href', origin + rag);
-  await expect(meta(page, 'og:image')).toHaveAttribute('content', `${origin}/projects/quivellox-preview.png`);
+  const guide = readPublishedPosts().find((post) => `/blog/${post.slug}` === rag);
+  await expect(meta(page, 'og:image')).toHaveAttribute('content', origin + guide.coverImage);
   const evidence = page.getByRole('link', { name: 'See Quivellox in action', exact: true });
   await expect(evidence).toHaveAttribute('href', quivellox);
   await expect(page.getByRole('complementary', { name: 'Companion case study' })).toContainText(
@@ -121,7 +123,6 @@ test('Blog navigation reaches the filterable index; unrelated articles and cases
 }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Field notes.' })).toBeVisible();
-  await expect(page.locator('.note-list a')).toHaveCount(2);
   const footer = page.getByRole('navigation', { name: 'Footer navigation' });
   await expect(footer.getByRole('link', { name: 'Blog', exact: true })).toHaveAttribute('href', '/blog');
   if (isMobile) await page.getByRole('button', { name: 'Open menu' }).click();

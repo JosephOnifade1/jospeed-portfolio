@@ -297,6 +297,7 @@ export default function BlogPost() {
           <div className="blog-prose" style={{ lineHeight: 1.8, fontSize: 17, color: 'rgba(245, 244, 238, 0.85)' }}>
             <Markdown
               options={{
+                disableParsingRawHTML: true,
                 overrides: {
                   h1: {
                     component: ({ children }) => (

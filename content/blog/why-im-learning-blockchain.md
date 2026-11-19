@@ -6,7 +6,8 @@ author: "Joseph Onifade"
 category: "Web3"
 tags: ["Blockchain", "Solidity", "Web3", "AI Agents", "Ethereum"]
 readingTime: "5 min read"
-coverImage: "/projects/borynx.svg"
+coverImage: "/projects/journal/escrow-envelope.jpg"
+draft: false
 featured: false
 ---
 

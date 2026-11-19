@@ -13,7 +13,7 @@ const homeTitle = 'Joseph Onifade — Full-Stack Developer & AI Engineer';
 const sections = {
   '/blog': [
     'Engineering blog',
-    'Build notes on RAG systems, smart contracts and creative engineering by Joseph Onifade.',
+    'Field notes by Joseph Onifade on mobile workflows, verifiable AI answers, web development and scoping freelance projects.',
   ],
   '/work': [
     'Project archive',

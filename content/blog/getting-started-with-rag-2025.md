@@ -6,8 +6,9 @@ author: "Joseph Onifade"
 category: "AI & Data"
 tags: ["AI", "RAG", "LangChain", "Vector Databases", "Supabase"]
 readingTime: "6 min read"
-coverImage: "/projects/quivellox-preview.png"
+coverImage: "/projects/journal/hybrid-index.jpg"
 relatedProject: quivellox
+draft: false
 featured: true
 ---
 

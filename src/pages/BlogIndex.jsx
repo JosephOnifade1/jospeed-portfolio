@@ -13,19 +13,22 @@ export default function BlogIndex() {
   const allPosts = useMemo(() => getAllPosts(), []);
   const categories = useMemo(() => getAllCategories(), []);
 
+  const query = searchQuery.trim().toLowerCase();
   const filteredPosts = useMemo(() => {
     return allPosts.filter((post) => {
       const matchesCategory =
         selectedCategory === 'All' || post.category === selectedCategory;
       const matchesSearch =
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+        post.title.toLowerCase().includes(query) ||
+        post.description.toLowerCase().includes(query) ||
+        post.tags.some((t) => t.toLowerCase().includes(query));
       return matchesCategory && matchesSearch;
     });
-  }, [allPosts, selectedCategory, searchQuery]);
+  }, [allPosts, selectedCategory, query]);
 
   const featuredPost = allPosts.find((p) => p.featured) || allPosts[0];
+  const showFeatured = selectedCategory === 'All' && !query && Boolean(featuredPost);
+  const gridPosts = showFeatured ? filteredPosts.filter((p) => p !== featuredPost) : filteredPosts;
 
   return (
     <div style={{ background: '#070906', minHeight: '100vh', color: '#F5F4EE' }}>
@@ -47,7 +50,7 @@ export default function BlogIndex() {
                 fontWeight: 600,
               }}
             >
-              Engineering &amp; Insights
+              Journal / {allPosts.length} articles
             </div>
             <h1
               data-route-title
@@ -74,8 +77,8 @@ export default function BlogIndex() {
                 margin: 0,
               }}
             >
-              Deep dives on AI agent architectures, Retrieval-Augmented Generation, smart contract
-              mechanics, and creative engineering workflows.
+              Build notes on the work behind the demos: how a staff ticket changes hands, what an AI citation
+              actually proves, and how to turn a project idea into a first delivery.
             </p>
           </div>
 
@@ -99,6 +102,7 @@ export default function BlogIndex() {
                 return (
                   <button
                     key={cat}
+                    aria-pressed={active}
                     onClick={() => setSelectedCategory(cat)}
                     style={{
                       fontFamily: 'var(--font-ui)',
@@ -138,7 +142,8 @@ export default function BlogIndex() {
                 }}
               />
               <input
-                type="text"
+                type="search"
+                aria-label="Search articles and tags"
                 placeholder="Search articles & tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -162,7 +167,7 @@ export default function BlogIndex() {
           </div>
 
           {/* Featured Hero Article (when showing all and no search query) */}
-          {selectedCategory === 'All' && !searchQuery && featuredPost && (
+          {showFeatured && (
             <div style={{ marginBottom: 48 }}>
               <Link
                 to={`/blog/${featuredPost.slug}`}
@@ -269,7 +274,7 @@ export default function BlogIndex() {
                         gap: 6,
                       }}
                     >
-                      Read Full Deep-Dive <ArrowRight size={15} />
+                      Read featured article <ArrowRight size={15} />
                     </div>
                   </div>
 
@@ -285,7 +290,7 @@ export default function BlogIndex() {
                   >
                     <img
                       src={featuredPost.coverImage}
-                      alt={featuredPost.title}
+                      alt=""
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
@@ -303,7 +308,7 @@ export default function BlogIndex() {
               gap: 28,
             }}
           >
-            {filteredPosts.map((post) => (
+            {gridPosts.map((post) => (
               <Link
                 key={post.slug}
                 to={`/blog/${post.slug}`}
@@ -342,7 +347,9 @@ export default function BlogIndex() {
                   >
                     <img
                       src={post.coverImage}
-                      alt={post.title}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
@@ -467,7 +474,7 @@ export default function BlogIndex() {
                 fontFamily: 'var(--font-ui)',
               }}
             >
-              No articles found matching "{searchQuery}". Try searching for another keyword.
+              {!allPosts.length ? 'No articles are published yet.' : 'No articles match these filters. Try another category or search term.'}
             </div>
           )}
         </div>
