@@ -1,11 +1,13 @@
+import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { profile } from '../data/profile.js';
+import { locationLabel, profile } from '../data/profile.js';
 import { WORK_INDEX } from '../data/projects.js';
 import { getAllPosts } from '../utils/blog.js';
 
 const STATS = [
   { value: WORK_INDEX.length, label: 'Case studies' },
-  { value: getAllPosts().length, label: 'Field notes' },
+  { value: getAllPosts().length, label: 'Field notes', to: '/blog' },
   { value: '∞', label: 'Curiosity' },
 ];
 
@@ -91,22 +93,19 @@ export default function Hero() {
             <span style={{ color: 'var(--citron)' }}>Create More.</span>
           </h1>
 
-          {/* Subtitle / Positioning */}
-          <p
-            id="hero-sub"
-            className="hero-anim-3"
-            style={{
-              fontSize: 'clamp(14.5px, 1.25vw, 16px)',
-              color: 'rgba(245, 244, 238, 0.72)',
-              lineHeight: 1.65,
-              maxWidth: 490,
-              marginBottom: 34,
-              fontWeight: 400,
-            }}
-          >
-            {profile.role} exploring Blockchain and 3D tools like Blender.
-            Designing and building intelligent web applications, automated workflows, and production systems.
-          </p>
+          <div id="hero-sub" className="hero-intro hero-anim-3">
+            <p className="hero-identity">
+              {profile.role} · <span>{locationLabel}</span>
+            </p>
+            <p>
+              I build tools like{' '}
+              <Link to="/case-study/quivellox" state={{ entry: 'hero' }} aria-label="Quivellox case study">
+                Quivellox
+              </Link>
+              , where readers can check an AI answer against the passage it came from. I’m open to client
+              projects and engineering roles.
+            </p>
+          </div>
 
           {/* Action Buttons */}
           <div
@@ -180,43 +179,18 @@ export default function Hero() {
 
           {/* Stats Dock */}
           <div className="hero-stats-dock hero-anim-5">
-            {STATS.map(({ value, label }, idx) => (
-              <div key={label} style={{ display: 'contents' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-ui)',
-                      fontWeight: 800,
-                      fontSize: 20,
-                      color: '#FFFFFF',
-                      letterSpacing: '-0.02em',
-                      lineHeight: 1,
-                    }}
-                  >
-                    {value}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: 10.5,
-                      color: 'rgba(245,244,238,0.5)',
-                      letterSpacing: '0.04em',
-                    }}
-                  >
-                    {label}
-                  </span>
-                </div>
-                {idx < STATS.length - 1 && (
-                  <div
-                    style={{
-                      width: 1,
-                      height: 26,
-                      background: 'rgba(255,255,255,0.1)',
-                    }}
-                  />
-                )}
-              </div>
-            ))}
+            {STATS.map(({ value, label, to }, idx) => {
+              const Item = to ? Link : 'div';
+              return (
+                <Fragment key={label}>
+                  <Item to={to} className="hero-stat">
+                    <span className="hero-stat-value">{value}</span>
+                    <span className="hero-stat-label">{label}</span>
+                  </Item>
+                  {idx < STATS.length - 1 && <span className="hero-stat-rule" aria-hidden="true" />}
+                </Fragment>
+              );
+            })}
           </div>
 
         </div>
@@ -279,6 +253,28 @@ export default function Hero() {
           max-width: 560px;
         }
 
+        .hero-intro {
+          max-width: 490px;
+          margin-bottom: 34px;
+          font-size: clamp(14.5px, 1.25vw, 16px);
+          line-height: 1.65;
+          color: rgba(245, 244, 238, 0.86);
+          text-shadow: 0 1px 3px var(--ink);
+        }
+        .hero-identity {
+          margin-bottom: 6px;
+          font: 600 1em/1.45 var(--font-ui);
+          color: var(--paper);
+          text-wrap: balance;
+        }
+        .hero-identity span { white-space: nowrap; }
+        .hero-intro a, a.hero-stat .hero-stat-label {
+          color: var(--citron);
+          text-decoration: underline;
+          text-underline-offset: 0.2em;
+        }
+        .hero-intro a:hover, a.hero-stat:hover .hero-stat-label { color: var(--citron-light); }
+
         /* Stats Dock Styling */
         .hero-stats-dock {
           display: inline-flex;
@@ -291,6 +287,29 @@ export default function Hero() {
           -webkit-backdrop-filter: blur(16px);
           gap: 24px;
           box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-stat {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 2px;
+          min-height: 44px;
+        }
+        .hero-stat-value {
+          font: 800 20px/1 var(--font-ui);
+          letter-spacing: -0.02em;
+          color: #fff;
+        }
+        .hero-stat-label {
+          font: 10.5px/1.6 var(--font-mono);
+          letter-spacing: 0.04em;
+          color: rgba(245, 244, 238, 0.5);
+        }
+        .hero-stat-rule {
+          width: 1px;
+          height: 26px;
+          background: rgba(255, 255, 255, 0.1);
         }
 
         .hero-mobile-artwork {

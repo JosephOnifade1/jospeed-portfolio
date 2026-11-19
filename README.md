@@ -37,7 +37,9 @@ Edit `src/data/projects.js`. `selection` determines the order on the homepage; `
 - **Quivellox:** local capture of the [public inquiry desk UI](https://github.com/JosephOnifade1/quivellox), including its answer renderer and evidence inspector. The sample conversation uses the example escalation policy from the project's public preview; it is not a live model response. At `/case-study/quivellox#sample-answer`, follow **[1] View source** to focus and highlight the cited excerpt on page 12, then **Back to answer** to return to the citation. The document name, page and exact passage live in `visual.exchange.citation`; no PDF download or live inference is involved.
 - **Borynx:** local capture of the [public community app](https://github.com/JosephOnifade1/freelancer-s-hub)'s New Posts feed using its built-in demo mode. No production accounts, credentials or private posts were used.
 
-The original hero design and artwork are retained; its case-study and field-note counts come from the published collections. Hash destinations such as `/#projects`, `/#skills` and `/#contact` remain stable; the contact form sends project **or** role inquiries to the existing Formspree endpoint. With JavaScript off it uses a native POST, never a query string. Contact also has a separate **Hire me on Upwork** card. Its destination is `UPWORK_PROFILE` in `src/components/UpworkProfileLink.jsx`; it is a plain external profile link, not a widget, and does not transmit the inquiry draft.
+The hero keeps its original headline and artwork. The introduction uses the shared role and location, links Quivellox to its case study and invites both project and role inquiries. Its counts come from the published collections; the **Field notes** count opens `/blog`.
+
+Hash destinations such as `/#projects`, `/#skills` and `/#contact` remain stable; the contact form sends project **or** role inquiries to the existing Formspree endpoint. With JavaScript off it uses a native POST, never a query string. Contact also has a separate **Hire me on Upwork** card. Its destination is `UPWORK_PROFILE` in `src/components/UpworkProfileLink.jsx`; it is a plain external profile link, not a widget, and does not transmit the inquiry draft.
 
 **Client feedback:** Under “What shipped,” Revive Touch shows a factual project note (`#project-note`) alongside the sample workflow. To replace it with a testimonial, set `caseStudy.approvedTestimonial` in `src/data/projects.js` to `{ quote, credit }` using the exact wording and public credit the client has approved. Leave it `null` otherwise. These records are bundled into the site, so keep private drafts and permission correspondence out of them.
 
@@ -73,7 +75,7 @@ With Vercel Web Analytics custom events enabled on the deployment, compare these
 | Event | Meaning |
 | --- | --- |
 | `selected_work_viewed` | Selected Work appeared in view; counted once per tab session. |
-| `case_study_opened` | A case study rendered. Properties: project slug and source (`selected_work`, `capabilities`, `work_archive`, `work_gallery`, `next_case`, `blog_post`, or `direct`). Deduplicated per project/source per tab session. |
+| `case_study_opened` | A case study rendered. Properties: project slug and source (`hero`, `selected_work`, `capabilities`, `work_archive`, `work_gallery`, `next_case`, `blog_post`, or `direct`). Deduplicated per project/source per tab session. |
 | `inquiry_sent` | Formspree accepted a submission. `last_case` is the last case-study slug viewed in this tab, or `none`. |
 | `upwork_profile_clicked` | Visitor activated the Upwork profile link (card or brief handoff), with the same `last_case` attribution. Count separately from inquiries: the portfolio cannot tell whether an invitation or a hire followed. |
 
