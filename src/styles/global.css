@@ -65,8 +65,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (hover: hover) {
-  body { cursor: none; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  body:has(.custom-cursor-dot) { cursor: none; }
 }
 
 ::selection {
@@ -303,12 +303,4 @@ h1, h2, h3, h4 {
     rgba(216, 243, 106, 0.12) 80%,
     transparent 100%
   );
-}
-
-/* ── Form Inputs Cursor Override ────────────────────────── */
-@media (hover: hover) {
-  form, form input, form textarea, form select, form button,
-  [data-form-cursor], [data-form-cursor] * {
-    cursor: none !important;
-  }
 }

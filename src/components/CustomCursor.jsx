@@ -7,7 +7,7 @@ export default function CustomCursor() {
   const trailRef = useRef([]);
 
   useEffect(() => {
-    if (window.matchMedia('(hover: none)').matches) return;
+    if (window.matchMedia('(hover: none), (prefers-reduced-motion: reduce)').matches) return;
 
     const dot = dotRef.current;
     const trails = trailRef.current;
@@ -104,7 +104,7 @@ export default function CustomCursor() {
         />
       ))}
       <style>{`
-        @media (hover: none) {
+        @media (hover: none), (prefers-reduced-motion: reduce) {
           .custom-cursor-dot, .custom-cursor-trail { display: none !important; }
         }
       `}</style>

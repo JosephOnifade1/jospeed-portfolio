@@ -8,14 +8,14 @@
     "build": "vite build && node scripts/generate-seo.js",
     "lint": "oxlint",
     "preview": "vite preview",
-    "postinstall": "chmod +x node_modules/.bin/vite || true"
+    "postinstall": "chmod +x node_modules/.bin/vite || true",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "framer-motion": "^12.42.0",
     "gray-matter": "^4.0.3",
-    "lenis": "^1.3.27",
     "lucide-react": "^1.22.0",
     "markdown-to-jsx": "^9.10.4",
     "motion": "^14.5.0",
@@ -25,6 +25,7 @@
     "three": "^0.185.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.186.0",
