@@ -1,3 +1,5 @@
+import { brand } from '../src/data/brand.js';
+
 // Optical drawing of the selected JO mark. The cut J terminal and the O's
 // flat inner shoulder share a seam. Give that seam an extra pixel at tab size.
 const j = 'M30.65 1h14.25v41.5c0 14.8-9.28 25.05-23.55 25.05C11.83 67.55 3.95 61.85 0 54.08l11.81-11.84c.3 6.41 4 10.89 9.63 10.89 5.81 0 9.21-3.82 9.21-10.89Z';
@@ -13,4 +15,13 @@ export function monogram(x, y, width, micro = false) {
   return `<g fill="${citron}" transform="translate(${x} ${y}) scale(${scale(width, micro)})">
     <path d="${j}"/><path fill-rule="evenodd" transform="translate(${spacing(micro)})" d="${o}"/>
   </g>`;
+}
+
+// The mark supplies the capitals; only the suffix is typeset. Use the
+// masthead's cap-height, optical baseline and tracking at social-card scale.
+export function wordmark(x, baseline, em) {
+  const height = 0.76 * em;
+  const width = height / markHeight(1);
+  return `${monogram(x, baseline - height + 0.02 * em, width)}
+    <text x="${x + width}" y="${baseline}" font-family="DejaVu Sans, sans-serif" font-size="${em}" font-weight="700" letter-spacing="${-0.045 * em}" fill="#F5F4EE">${brand.wordmarkSuffix}</text>`;
 }

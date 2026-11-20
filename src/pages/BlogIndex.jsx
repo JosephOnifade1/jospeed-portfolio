@@ -77,7 +77,7 @@ export default function BlogIndex() {
                 margin: 0,
               }}
             >
-              Build notes on the work behind the demos: how a staff ticket changes hands, what an AI citation
+              Build notes on the work behind the demos: how an available time becomes a booking, what an AI citation
               actually proves, and how to turn a project idea into a first delivery.
             </p>
           </div>

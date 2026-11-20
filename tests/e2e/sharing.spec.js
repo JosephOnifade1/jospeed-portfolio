@@ -11,7 +11,7 @@ const publisherLogo = { url: `${origin}/brand/jospeed-logo.png`, width: 512, hei
 const rag = '/blog/getting-started-with-rag-2025';
 const quivellox = '/case-study/quivellox';
 const caseTitles = {
-  'revive-touch': 'Revive Touch — Android app for poker-event staff',
+  'revive-touch': 'Revive Touch — Massage bookings at poker tournaments',
   quivellox: 'Quivellox — Document Q&A with PDF citations',
   borynx: 'Borynx — A topic feed for freelancers',
   'fiverr-scout': 'Fiverr Scout — Freelance niche research',
@@ -52,7 +52,7 @@ test.describe('crawler reads the built HTML', () => {
       await expect(meta(page, key)).toHaveAttribute('content', portfolioCard);
     }
     const alt = await meta(page, 'og:image:alt').getAttribute('content');
-    expect(alt).toMatch(/Joseph Onifade.*Ibadan, Nigeria.*monogram.*visor/);
+    expect(alt).toMatch(/Joseph Onifade.*Ibadan, Nigeria.*wordmark.*visor/);
     await expect(meta(page, 'twitter:image:alt')).toHaveAttribute('content', alt);
     await expect(meta(page, 'og:image:type')).toHaveAttribute('content', 'image/jpeg');
     await expect(meta(page, 'og:image:width')).toHaveAttribute('content', '1200');

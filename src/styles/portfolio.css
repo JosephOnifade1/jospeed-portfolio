@@ -233,7 +233,7 @@
   font-weight: 550;
   font-size: 14px;
 }
-.work-feature .work-link {
+.work-feature .work-actions {
   margin-top: 20px;
 }
 .work-feature .work-facts {
@@ -247,7 +247,7 @@
   min-height: 44px;
   box-shadow: none;
 }
-/* One native link per story, with a hit area that also covers the preview. */
+/* Keep the primary link’s full-card hit area behind the separate sample link. */
 .work-link::after {
   content: '';
   position: absolute;
@@ -281,16 +281,21 @@
   font-size: 16px;
   max-width: 50ch;
 }
-.work-secondary .work-link {
+.work-secondary .work-actions {
   margin-top: 5px;
 }
 
-.work-meta .work-demo-note {
-  padding-left: 9px;
-  border-left: 1px solid var(--folio-rule);
-  color: var(--citron);
-  text-transform: none;
-  letter-spacing: 0;
+.work-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+}
+.work-sample {
+  position: relative;
+  z-index: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .archive-invite {
   display: flex;
@@ -383,7 +388,7 @@
   border-radius: 3px;
   padding: 4px 8px;
 }
-.dispatch-ticket {
+.booking-slip {
   position: absolute;
   left: 9%;
   bottom: 10%;
@@ -397,13 +402,13 @@
     3px 22px 35px #111c1755;
   transform: rotate(-5deg);
 }
-.dispatch-top,
-.dispatch-queue {
+.slip-heading,
+.slip-status {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.dispatch-top {
+.slip-heading {
   justify-content: space-between;
   margin-bottom: 8px;
   color: #4c5949;
@@ -411,33 +416,19 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
-.dispatch-table {
+.slip-time {
   font: 550 clamp(28px, 3vw, 42px)/1 var(--font-ui);
   letter-spacing: -0.055em;
 }
-.dispatch-service {
+.slip-service {
   font: 500 13px/1.4 var(--font-ui);
   margin-top: 4px;
 }
-.dispatch-queue {
+.slip-status {
   margin-top: 13px;
   border-top: 1px dashed #879782;
   padding-top: 9px;
   font: 550 11px/1.4 var(--font-mono);
-}
-.dispatch-queue b {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #335338;
-}
-.dispatch-queue b::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #507b45;
 }
 .plate-screen {
   display: flex;
@@ -513,6 +504,18 @@
   font-size: 14px;
   color: var(--folio-muted);
 }
+.about-resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 8px;
+  color: var(--paper);
+  font: 600 14px/1.4 var(--font-ui);
+}
+.about-resume span { text-decoration: underline; text-underline-offset: 4px; }
+.about-resume:is(:hover, :focus-visible) { color: var(--citron); }
+.about-resume small { color: var(--folio-muted); font: 500 11px/1.4 var(--font-mono); }
 .capabilities {
   align-self: center;
 }
@@ -680,7 +683,7 @@
   font-weight: 550;
   color: var(--paper);
 }
-.contact-fields :is(input, textarea),
+.contact-fields :is(input:not([type="checkbox"]), textarea),
 .brief-editor textarea {
   min-width: 0;
   width: 100%;
@@ -697,10 +700,10 @@
   resize: vertical;
   min-height: 104px;
 }
-.contact-fields :is(input, textarea)::placeholder {
+.contact-fields :is(input:not([type="checkbox"]), textarea)::placeholder {
   color: #96a18d;
 }
-.contact-fields :is(input, textarea):focus,
+.contact-fields :is(input:not([type="checkbox"]), textarea):focus,
 .brief-editor textarea:focus {
   border-color: var(--citron);
   outline: 1px solid var(--citron);
@@ -717,6 +720,27 @@
 body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot, .custom-cursor-trail) {
   visibility: hidden;
 }
+.inquiry-reference, .contact-fields label.native-reference {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  gap: 8px;
+  padding: 0 5px 0 12px;
+  border: 1px solid #4d624a;
+  border-radius: 8px;
+  background: #203121;
+  color: #e4efda;
+  font-size: 14px;
+}
+.inquiry-reference button {
+  display: grid;
+  min-width: 44px;
+  place-items: center;
+  color: #e4efda;
+}
+.contact-fields label.native-reference { min-height: 44px; padding-right: 12px; }
+.case-native-inquiry { min-width: 0; max-width: 34rem; }
+.case-native-inquiry summary { padding: 10px 0; color: var(--citron); cursor: pointer; }
 .email-fallback {
   display: flex;
   align-items: baseline;
@@ -1046,6 +1070,7 @@ body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot
   color: var(--citron);
 }
 .sample-exchange {
+  scroll-margin-top: var(--anchor-gap);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
@@ -1346,7 +1371,7 @@ body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot
   .work-feature h3 {
     margin: 8px 0;
   }
-  .work-feature .work-link {
+  .work-feature .work-actions {
     margin-top: 14px;
   }
   .work-feature .work-facts {
@@ -1361,20 +1386,20 @@ body:has(.contact-fields form:hover, .brief-editor:hover) :is(.custom-cursor-dot
     top: 10px;
     font-size: 9px;
   }
-  .dispatch-ticket {
+  .booking-slip {
     left: 7%;
     bottom: 9%;
     width: clamp(155px, 44%, 215px);
     padding: 11px 13px 9px;
   }
-  .dispatch-top {
+  .slip-heading {
     font-size: 8px;
     margin-bottom: 4px;
   }
-  .dispatch-service {
+  .slip-service {
     font-size: 11px;
   }
-  .dispatch-queue {
+  .slip-status {
     margin-top: 7px;
     padding-top: 5px;
     font-size: 10px;

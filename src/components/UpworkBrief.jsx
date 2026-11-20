@@ -1,13 +1,11 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Check, ChevronDown, Clipboard, FilePenLine } from 'lucide-react';
 import UpworkProfileLink from './UpworkProfileLink.jsx';
-import { WORK_INDEX } from '../data/projects.js';
 import { siteUrl } from '../seo/pageHead.js';
 
 const IDEA_PROMPT = '[what you want to build and who it’s for]';
-function starterBrief(projectId) {
+function starterBrief(project) {
   // Only the explicit “Start a similar project” handoff contributes a reference.
-  const project = WORK_INDEX.find((p) => p.id === projectId);
   return [
     'Hi Joseph,',
     '',
@@ -19,8 +17,8 @@ function starterBrief(projectId) {
   ].join('\n');
 }
 
-export default function UpworkBrief({ projectId, projectNote, linked }) {
-  const [draft, setDraft] = useState(() => starterBrief(projectId));
+export default function UpworkBrief({ project, projectNote, linked }) {
+  const [draft, setDraft] = useState(() => starterBrief(project));
   const [status, setStatus] = useState('idle');
   const disclosure = useRef(null);
   const editor = useRef(null);

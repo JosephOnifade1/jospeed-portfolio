@@ -32,18 +32,18 @@ const plates = [
     number: '01',
     desk: '#bbc89d',
     ink: '#203c33',
-    name: 'SERVICE DESK',
+    name: 'BOOKING DESK',
     art: `<g transform="translate(278 116) rotate(5 320 175)">
       <rect x="14" y="18" width="643" height="343" rx="6" fill="#6d826a"/>
       <rect width="643" height="343" rx="6" fill="#e6a465"/>
-      ${label(22, 315, 'QUEUE COPY   /   001', 18)}
+      ${label(22, 315, 'SAMPLE SESSION   /   001', 18)}
     </g>
     <g transform="translate(228 149) rotate(-9 362 150)">
       <path d="M0 0H742V127a26 26 0 0 0 0 52v126H0V179a26 26 0 0 0 0-52z" fill="#f8f0d8" stroke="#315446" stroke-width="3"/>
       <path d="M541 1v303" stroke="#637961" stroke-width="3" stroke-dasharray="9 9"/>
-      ${label(51, 55, 'TABLE-SIDE SERVICE', 24)}${rule('M51 74H482')}
-      ${display(47, 244, '14', 188)}${label(301, 227, 'TABLE', 28)}
-      ${label(573, 62, 'STAFF', 23)}${label(573, 95, 'COPY', 23)}
+      ${label(51, 55, 'ON-SITE MASSAGE', 24)}${rule('M51 74H482')}
+      ${display(47, 215, '14:30', 125)}${label(54, 259, 'CONFIRMED', 22)}
+      ${label(563, 62, 'THERAPIST', 21)}${label(563, 95, 'COPY', 21)}
       <circle cx="641" cy="207" r="49" fill="#2f5547"/>
       <path d="m615 207 18 18 34-39" stroke="#eeedcd" stroke-width="10" fill="none"/>
     </g>`,

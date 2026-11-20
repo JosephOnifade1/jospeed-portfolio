@@ -1,3 +1,4 @@
+import { FileDown } from 'lucide-react';
 import { locationLabel, profile } from '../data/profile.js';
 import Skills from './Skills.jsx';
 
@@ -18,9 +19,14 @@ export default function About() {
           </div>
           <p className="support-copy">
             I’m a full-stack software engineer and AI engineer. I build tools for the moments when work changes hands:
-            a player reaching event staff, or a reader tracing an answer to its source.
+            a poker player booking a session with a therapist, or a reader tracing an answer to its source.
           </p>
           <p className="learning-line">Currently exploring blockchain and 3D with Blender.</p>
+          <a className="about-resume" href={profile.resume} download>
+            <FileDown size={16} aria-hidden="true" />
+            <span>Download résumé</span>
+            <small>PDF · 1 page</small>
+          </a>
         </div>
         <Skills />
       </div>

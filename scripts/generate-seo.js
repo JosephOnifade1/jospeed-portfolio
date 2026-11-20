@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { brand } from '../src/data/brand.js';
+import { profile } from '../src/data/profile.js';
 import { WORK_INDEX } from '../src/data/projects.js';
 import { readPublishedPosts } from './blog-content.js';
 import { caseCardPath, escapeHtml, pageFor, renderHead, siteUrl } from '../src/seo/pageHead.js';
@@ -43,6 +44,9 @@ function documentFor(template, pathname, posts, renderBody) {
 }
 
 function validateContent(posts) {
+  if (!fs.existsSync(path.join('public', profile.resume))) {
+    throw new Error(`Missing résumé at ${profile.resume}. Supply the PDF or run npm run resume:pdf.`);
+  }
   for (const url of [brand.mark, brand.logo, brand.shareImage]) {
     if (!fs.existsSync(path.join('public', url))) {
       throw new Error(`Missing brand asset ${url}. Run npm run brand:assets.`);
