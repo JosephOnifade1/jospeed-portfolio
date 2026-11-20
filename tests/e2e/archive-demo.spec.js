@@ -93,20 +93,33 @@ test('bookmarked gallery views have safe defaults and support a single cover', a
   await expect(page.locator('#case-title')).toHaveText('Revive Touch');
 });
 
-test('the two-sided table request demo works offline, acknowledges once, and resets', async ({
+test('a player books an available time; the therapist can manage only unbooked slots, offline', async ({
   page,
   context,
+  isMobile,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/case-study/revive-touch');
-  await page.getByRole('link', { name: 'Try the sample workflow' }).click();
+  await page.goto('/#projects');
+  const sample = page.getByRole('link', { name: 'Try a sample booking' });
+  await expect(sample).toHaveAttribute('href', '/case-study/revive-touch#demo');
+  // Real hit testing: the card also has a stretched “Read case study” link.
+  if (isMobile) await sample.tap();
+  else await sample.click();
   await expect(page).toHaveURL(/\/case-study\/revive-touch#demo$/);
-  const demo = page.getByRole('region', { name: 'Try a table request.' });
-  await expect(demo.getByRole('heading')).toBeFocused();
-  await expect(demo).toContainText('No real service request is sent');
-  const staff = demo.getByRole('group', { name: 'Staff queue' });
-  const request = demo.getByRole('button', { name: 'Request service at Table 14' });
-  await expect(staff).toContainText('Queue is empty');
+  const demo = page.getByRole('region', { name: 'Try a sample booking.' });
+  const title = demo.getByRole('heading', { level: 2 });
+  const player = demo.getByRole('group', { name: 'Player view' });
+  const schedule = demo.getByRole('group', { name: 'Therapist view' });
+  const slot = (time) => player.getByRole('radio', { name: new RegExp(`^${time}`) });
+  const row = (time) => schedule.getByRole('listitem').filter({ hasText: time });
+  const confirm = player.getByRole('button', { name: 'Confirm booking' });
+  await expect(title).toBeFocused();
+  await expect(demo).toContainText('no real booking is made');
+  await expect(confirm).toBeDisabled();
+  await expect(schedule.getByText('Open', { exact: true })).toHaveCount(3);
+  expect(await page.evaluate(() => window.folioEvents.at(-1)?.data)).toEqual({
+    project: 'revive-touch', source: 'selected_work',
+  });
   const writes = [];
   page.on('request', (r) => {
     if (!['GET', 'HEAD'].includes(r.method())) writes.push(r.method());
@@ -114,27 +127,40 @@ test('the two-sided table request demo works offline, acknowledges once, and res
   page.on('websocket', () => writes.push('websocket'));
   await context.setOffline(true);
   await page.keyboard.press('Tab');
-  await expect(request).toBeFocused();
-  await page.keyboard.press('Enter');
-  await expect(demo.getByRole('status')).toContainText('New request from Table 14');
-  await expect(staff).toContainText('Table-side massage');
-  await expect(demo.getByRole('button', { name: 'Request queued' })).toBeDisabled();
-  await page.keyboard.press('Tab');
-  await expect(staff.getByRole('button', { name: 'Acknowledge request' })).toBeFocused();
-  await page.keyboard.press('Enter');
-  await expect(demo.getByRole('button', { name: 'Seen by staff' })).toBeVisible();
-  await expect(staff.getByRole('button', { name: 'Acknowledged' })).toBeDisabled();
+  await expect(slot('14:00')).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(slot('14:30')).toBeChecked();
+  await expect(row('14:30')).toContainText('Open'); // selection isn't a booking
+  await expect(confirm).toBeEnabled();
+  await row('14:30').getByRole('button', { name: 'Close 14:30 slot' }).press('Enter');
+  await expect(slot('14:30')).toBeDisabled();
+  await expect(slot('14:30')).not.toBeChecked();
+  await expect(confirm).toBeDisabled();
+  await row('14:00').getByRole('button').click();
+  await row('15:00').getByRole('button').click();
+  await expect(player).toContainText('No times open');
+  await row('14:30').getByRole('button', { name: 'Reopen 14:30 slot' }).press('Enter');
+  await expect(slot('14:30')).toBeEnabled();
+  await slot('14:30').check();
+  await confirm.press('Enter');
+  await expect(player).toContainText('Session booked');
+  await expect(player).toContainText('14:30');
+  await expect(demo.getByRole('status')).toContainText('14:30 confirmed');
+  await expect(player.getByRole('button', { name: 'Booking confirmed' })).toBeDisabled();
+  await expect(row('14:30')).toContainText('Booked');
+  await expect(row('14:30').getByRole('button')).toHaveCount(0);
+  await row('14:00').getByRole('button').click(); // does not change the booking
+  await expect(row('14:30')).toContainText('Booked');
   await demo.getByRole('button', { name: 'Reset demo' }).click();
-  await expect(request).toBeFocused();
-  await expect(staff).toContainText('Queue is empty');
-  await request.click();
-  await expect(staff.getByText('New', { exact: true })).toHaveCount(1);
+  await expect(title).toBeFocused();
+  await expect(schedule.getByText('Open', { exact: true })).toHaveCount(3);
+  await expect(confirm).toBeDisabled();
+  await slot('15:00').check();
+  await confirm.click();
   expect(writes).toEqual([]);
   await context.setOffline(false);
   await page.reload();
-  await expect(demo.getByRole('heading')).toBeFocused();
-  await expect(request).toBeEnabled();
-  await expect(staff).toContainText('Queue is empty');
-  await page.getByRole('link', { name: 'Start a similar project' }).click();
-  await expect(page.locator('#contact-title')).toBeFocused();
+  await expect(title).toBeFocused();
+  await expect(schedule.getByText('Open', { exact: true })).toHaveCount(3);
+  await expect(confirm).toBeDisabled();
 });

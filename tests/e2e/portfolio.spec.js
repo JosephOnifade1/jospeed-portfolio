@@ -13,10 +13,13 @@ test('featured work → case study → inquiry, with retry and attribution', asy
   await expect(page.locator('#projects .work-link')).toHaveCount(3);
   const story = page.getByRole('link', { name: 'Read the Revive Touch case study' });
   await expect(story).toBeInViewport({ ratio: 1 });
-  await expect(page.locator('.work-feature .dispatch-ticket')).toBeInViewport();
+  await expect(page.locator('.work-feature .booking-slip')).toBeInViewport();
+  await expect(page.locator('.work-feature .work-facts dd')).toHaveText(['Solo full-stack developer', 'iOS and Android']);
   if (isMobile) await story.tap();
   else await story.click();
   await expect(page.getByRole('heading', { level: 1, name: 'Revive Touch' })).toBeFocused();
+  await expect(page.locator('.case-stack li')).toHaveText(['React Native', 'Expo', 'Convex', 'TypeScript']);
+  await expect(page.getByRole('link', { name: 'Try a sample booking' })).toHaveAttribute('href', '/case-study/revive-touch#demo');
   await expect(page.getByText('Efficiency gain', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Source code' })).toHaveCount(0);
   await page.getByRole('link', { name: 'Start a similar project' }).click();
@@ -29,6 +32,7 @@ test('featured work → case study → inquiry, with retry and attribution', asy
   await page.keyboard.press('Tab');
   await expect(page.getByLabel('Your name')).toBeFocused();
 
+  await expect(page.getByRole('form').getByText('Reference: Revive Touch', { exact: true })).toBeVisible();
   let attempts = 0;
   await page.route('https://formspree.io/f/xpwzrpdb', async (route) => {
     attempts++;
@@ -36,6 +40,7 @@ test('featured work → case study → inquiry, with retry and attribution', asy
       name: 'Example',
       email: 'qa@example.com',
       message: 'An engineering role on our team.',
+      reference: 'Revive Touch',
     });
     await route.fulfill({ status: attempts === 1 ? 503 : 200, json: { ok: attempts > 1 } });
   });
@@ -58,12 +63,55 @@ test('featured work → case study → inquiry, with retry and attribution', asy
   ]);
 });
 
+test('a removed reference or a general inquiry never submits the last case viewed', async ({ page }) => {
+  const endpoint = 'https://formspree.io/f/xpwzrpdb';
+  await page.route(endpoint, (route) => route.fulfill({ json: { ok: true } }));
+  for (const similar of [true, false]) {
+    await page.goto('/case-study/quivellox');
+    await page.getByRole('link', { name: similar ? 'Start a similar project' : 'Contact', exact: true }).click();
+    const form = page.getByRole('form');
+    const message = form.getByLabel('About your project or role');
+    const inquiry = { name: 'Example', email: 'qa@example.com', message: 'A separate project.' };
+    await form.getByLabel('Your name').fill(inquiry.name);
+    await form.getByLabel('Email address').fill(inquiry.email);
+    await message.fill(inquiry.message);
+    if (similar) {
+      await expect(form.getByText('Reference: Quivellox')).toBeVisible();
+      await form.getByRole('button', { name: 'Remove Quivellox reference' }).click();
+      await expect(message).toBeFocused();
+      await expect(message).toHaveValue(inquiry.message);
+    }
+    await expect(form.locator('[name="reference"]')).toHaveCount(0);
+    const [request] = await Promise.all([
+      page.waitForRequest(endpoint),
+      form.getByRole('button', { name: 'Send message' }).click(),
+    ]);
+    expect(request.method()).toBe('POST');
+    expect(request.postDataJSON()).toEqual(inquiry);
+    await expect(page.getByRole('status')).toContainText('Message sent');
+  }
+});
+
+test('a copied similar-project link carries only a known public case slug', async ({ page }) => {
+  await page.goto('/case-study/borynx');
+  const href = await page.getByRole('link', { name: 'Start a similar project' }).getAttribute('href');
+  expect(href).toBe('/?reference=borynx#contact');
+  await page.goto(href); // New document, without the router handoff state.
+  const form = page.getByRole('form');
+  await expect(form.getByText('Reference: Borynx')).toBeVisible();
+  await expect(form.getByLabel('About your project or role')).toHaveValue('');
+  await page.goto('/?reference=not-in-the-work-index#contact');
+  await expect(form.locator('[name="reference"]')).toHaveCount(0);
+});
+
 test('deep links, keyboard navigation and project evidence', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#projects');
   await expect(page.locator('#work-title')).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Read the Revive Touch case study' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Try a sample booking' })).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Read the Quivellox case study' })).toBeFocused();
   await page.keyboard.press('Enter');

@@ -1,4 +1,4 @@
-import { ArrowUpRight, CornerDownRight, Layers2 } from 'lucide-react';
+import { ArrowUpRight, CalendarCheck, Check } from 'lucide-react';
 
 // Evidence is shared between the work index and the case study. An approved
 // client capture can replace an illustration through the project's visual record.
@@ -24,21 +24,19 @@ export default function ProjectVisual({ project, detailed = false, children }) {
               </span>{' '}
               {visual.label}
             </div>
-            <div className="dispatch-ticket" role="img" aria-label={visual.alt}>
-              <div className="dispatch-top" aria-hidden="true">
-                <span>Player request</span>
-                <Layers2 size={15} />
+            <div className="booking-slip" role="img" aria-label={visual.alt}>
+              <div className="slip-heading" aria-hidden="true">
+                <span>Sample booking</span>
+                <CalendarCheck size={15} />
               </div>
-              <div className="dispatch-table" aria-hidden="true">
-                Table <b>14</b>
+              <div className="slip-time" aria-hidden="true">
+                <b>{project.sample.exampleTime}</b>
               </div>
-              <div className="dispatch-service" aria-hidden="true">
-                Table-side massage
+              <div className="slip-service" aria-hidden="true">
+                {project.sample.service}
               </div>
-              <div className="dispatch-queue" aria-hidden="true">
-                <CornerDownRight size={15} />
-                <span>Staff queue</span>
-                <b>New</b>
+              <div className="slip-status" aria-hidden="true">
+                <Check size={15} /> Booking confirmed
               </div>
             </div>
           </>

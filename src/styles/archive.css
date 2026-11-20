@@ -125,23 +125,23 @@
 .archive-cover .plate-screen {
   padding: 34px 12px 12px;
 }
-.archive-cover .dispatch-ticket {
+.archive-cover .booking-slip {
   left: 7%;
   bottom: 8%;
   width: 43%;
   padding: 9px 12px;
 }
-.archive-cover .dispatch-top {
+.archive-cover .slip-heading {
   font-size: 8px;
   margin-bottom: 4px;
 }
-.archive-cover .dispatch-table {
+.archive-cover .slip-time {
   font-size: clamp(22px, 2.2vw, 32px);
 }
-.archive-cover .dispatch-service {
+.archive-cover .slip-service {
   font-size: 11px;
 }
-.archive-cover .dispatch-queue {
+.archive-cover .slip-status {
   font-size: 9px;
   margin-top: 6px;
   padding-top: 4px;

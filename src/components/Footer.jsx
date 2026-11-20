@@ -4,8 +4,8 @@ import BrandLockup from './BrandLockup.jsx';
 import { GithubIcon, LinkedinIcon, XIcon, DiscordIcon } from './BrandIcons.jsx';
 
 const socials = [
-  ['GitHub', GithubIcon, 'https://github.com/JosephOnifade1'],
-  ['LinkedIn', LinkedinIcon, 'https://www.linkedin.com/in/joseph-onifade-ol'],
+  ['GitHub', GithubIcon, profile.github],
+  ['LinkedIn', LinkedinIcon, profile.linkedin],
   ['X', XIcon, 'https://x.com/buildwithjospeed'],
   ['Discord', DiscordIcon, 'https://discord.com/users/1278856822555414549'],
 ];

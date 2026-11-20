@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "resume:pdf": "node scripts/render-resume.js",
     "brand:assets": "node scripts/render-brand.js",
     "share:images": "npm run brand:assets && node scripts/render-case-cards.js",
     "lint": "oxlint",

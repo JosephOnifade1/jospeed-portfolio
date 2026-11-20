@@ -5,6 +5,9 @@ export const profile = {
   city: 'Ibadan',
   country: 'Nigeria',
   email: 'josephonifade21@gmail.com',
+  github: 'https://github.com/JosephOnifade1',
+  linkedin: 'https://www.linkedin.com/in/joseph-onifade-ol',
+  resume: '/resume/joseph-onifade-resume.pdf',
 };
 export const locationLabel = `${profile.city}, ${profile.country}`;
 export const profileSummary = `${profile.name} builds web and AI software in ${locationLabel}. Explore his case studies and engineering notes, or get in touch about a project or a role.`;

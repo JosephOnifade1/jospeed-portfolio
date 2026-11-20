@@ -5,7 +5,7 @@ import sharp from 'sharp';
 import { brand, cardSize } from '../src/data/brand.js';
 import { locationLabel, profile } from '../src/data/profile.js';
 import { escapeHtml as esc } from '../src/seo/pageHead.js';
-import { citron, ink, markHeight, monogram } from './brand-mark.js';
+import { citron, ink, markHeight, monogram, wordmark } from './brand-mark.js';
 
 const out = (url) => path.join('public', url);
 const svg = (w, h, content) =>
@@ -66,9 +66,8 @@ const overlay = svg(width, height, `
     <stop offset="0.67" stop-color="${ink}" stop-opacity="0"/>
   </linearGradient></defs>
   <rect width="100%" height="100%" fill="url(#shade)"/>
-  ${monogram(64, 50, 54)}
+  ${wordmark(64, 80, 40)}
   <g font-family="DejaVu Sans, sans-serif" fill="#F5F4EE">
-    <text x="132" y="79" font-size="31" font-weight="bold" letter-spacing="-1.6">${esc(brand.name)}</text>
     <path d="M64 158h29" stroke="${citron}" stroke-width="2"/>
     <text x="107" y="164" font-family="DejaVu Sans Mono, monospace" font-size="18" letter-spacing="2" fill="${citron}">ENGINEERING PORTFOLIO</text>
     <text x="60" y="266" font-size="106" font-weight="bold" letter-spacing="-6">${esc(given)}</text>
