@@ -72,6 +72,8 @@ test.describe('crawler reads the built HTML', () => {
     const footer = page.getByRole('contentinfo').getByRole('link', { name: 'JOspeed', exact: true });
     for (const link of [home, footer]) {
       await expect(link).toHaveAttribute('href', '/');
+      await expect(link).toHaveText('speed'); // The graphic supplies JO; don't spell it twice.
+      await expect(link.getByRole('img', { name: 'JOspeed', exact: true })).toBeVisible();
       await expect(link.locator('img')).toHaveAttribute('src', '/brand/jospeed-mark.svg');
       await expect(link.locator('img')).toHaveAttribute('alt', '');
     }
