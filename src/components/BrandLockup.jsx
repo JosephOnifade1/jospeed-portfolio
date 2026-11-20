@@ -2,9 +2,9 @@ import { brand } from '../data/brand.js';
 
 export default function BrandLockup() {
   return (
-    <>
-      <img src={brand.mark} width="39" height="25" alt="" />
-      {brand.name}
-    </>
+    <span className="brand-wordmark" role="img" aria-label={brand.name}>
+      <img src={brand.mark} width="29" height="19" alt="" />
+      speed
+    </span>
   );
 }
