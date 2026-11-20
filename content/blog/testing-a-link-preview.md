@@ -17,7 +17,7 @@ A React router can select the right project and update the document title *after
 
 ## Read what arrived before React
 
-Open a case study directly, then use **View Page Source**, not the Elements panel. Find `og:title`, `og:description`, `og:image` and the canonical link. On this portfolio, the Revive Touch title identifies an Android app for poker-event staff. The image URL points to that project's JPEG, not the general portfolio artwork.
+Open a case study directly, then use **View Page Source**, not the Elements panel. Find `og:title`, `og:description`, `og:image` and the canonical link. On this portfolio, the Revive Touch title describes massage bookings at poker tournaments. The image URL points to that project's JPEG, not the general portfolio artwork.
 
 Repeat the check on a second case. Two pages that each have “all the tags” can still have the *same* tags. Comparing the two responses catches a fallback serving the homepage for every URL.
 

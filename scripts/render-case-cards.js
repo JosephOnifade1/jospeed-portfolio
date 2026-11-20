@@ -4,9 +4,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { WORK_INDEX } from '../src/data/projects.js';
-import { brand, cardSize } from '../src/data/brand.js';
+import { cardSize } from '../src/data/brand.js';
 import { caseCardPath, escapeHtml as esc, evidenceLabel } from '../src/seo/pageHead.js';
-import { monogram } from './brand-mark.js';
+import { wordmark } from './brand-mark.js';
 
 const svg = (w, h, body) =>
   Buffer.from(
@@ -61,14 +61,15 @@ async function plate(project) {
     background: project.visual.theme === 'paper' ? '#e9e8de' : '#0f1317',
   });
   if (workflow) {
-    const ticket = svg(
+    const { exampleTime, service } = project.sample;
+    const slip = svg(
       236,
       128,
       `<rect width="236" height="128" rx="7" fill="#f3f1dc"/>
-      ${mono(17, 27, 'PLAYER REQUEST', '#46503b', 15)}${text(16, 69, 'Table 14', 37, '#172116', 700)}
-      <path d="M16 83h203" stroke="#bdc2ab"/>${text(16, 109, 'Staff queue  →  New', 18, '#283424')}`
+      ${mono(17, 27, 'SAMPLE BOOKING', '#46503b', 15)}${text(16, 69, exampleTime, 37, '#172116', 700)}
+      <path d="M16 83h203" stroke="#bdc2ab"/>${text(16, 109, `${service} · Booked`, 15, '#283424')}`
     );
-    artwork.composite([{ input: ticket, left: 24, top: 160 }]);
+    artwork.composite([{ input: slip, left: 24, top: 160 }]);
   }
   return artwork.png().toBuffer();
 }
@@ -85,8 +86,7 @@ for (const [i, project] of WORK_INDEX.entries()) {
     cardSize.height,
     `
     <rect width="1200" height="630" fill="#111710"/>
-    ${monogram(56, 47, 49)}
-    ${text(117, 74, brand.name, 33, '#f5f4ee', 700)}
+    ${wordmark(56, 76, 40)}
     ${mono(890, 72, `WORK INDEX  /  ${number}—${folio(WORK_INDEX.length)}`)}
     <path d="M56 113h1088 M56 531h1088" stroke="#49513f"/>
     <path d="M56 175h31" stroke="#d8f36a" stroke-width="3"/>

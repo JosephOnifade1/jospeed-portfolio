@@ -56,6 +56,7 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   page,
   context,
   baseURL,
+  isMobile,
 }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseURL).origin });
   // The test reads back the clipboard; the portfolio only ever writes, on request.
@@ -63,7 +64,14 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   page.on('request', (r) => {
     if (/formspree\.io|upwork\.com/.test(r.url())) outbound.push(r.url());
   });
-  await page.goto(study);
+  await page.goto('/#projects');
+  const sample = page.getByRole('link', { name: 'Check a sample citation' });
+  await expect(sample).toHaveAttribute('href', `${study}#sample-answer`);
+  if (isMobile) await sample.tap();
+  else await sample.click();
+  await expect(page.locator('#sample-question')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: referenceName })).toBeFocused();
   await page.getByRole('link', { name: 'Start a similar project' }).click();
   const form = page.getByRole('form');
   const note = 'Build a document desk for our team. Keep the $& marker.';
@@ -88,6 +96,11 @@ test('copy the reviewed Upwork brief, optionally including only the project note
   expect(reviewed).toContain(note);
   expect(reviewed).toContain('Timeline: Flexible, after a pilot');
   expect(reviewed).not.toMatch(/Private Name|private@example\.com/);
+  // Removing the form reference is not an edit to a separately reviewed brief.
+  await form.getByRole('button', { name: 'Remove Quivellox reference' }).press('Enter');
+  await expect(form.getByLabel('About your project or role', { exact: true })).toBeFocused();
+  await expect(form.locator('[name="reference"]')).toHaveCount(0);
+  await expect(editor).toHaveValue(reviewed);
   const copy = page.getByRole('button', { name: 'Copy brief', exact: true });
   await copy.press('Enter');
   await expect(page.getByText('Copied. Your brief is ready to paste on Upwork.')).toBeVisible();

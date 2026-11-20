@@ -60,8 +60,8 @@ export const homeSchema = (origin) => ({
       },
       email: profile.email,
       sameAs: [
-        'https://github.com/JosephOnifade1',
-        'https://www.linkedin.com/in/joseph-onifade-ol',
+        profile.github,
+        profile.linkedin,
         'https://x.com/buildwithjospeed',
         'https://www.upwork.com/freelancers/~01a476791ed9f8b084',
       ],

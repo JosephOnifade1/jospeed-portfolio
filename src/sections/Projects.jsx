@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowDownRight, ArrowRight } from 'lucide-react';
 import { SELECTED_WORK, WORK_INDEX } from '../data/projects.js';
 import ProjectVisual from '../components/ProjectVisual.jsx';
+import WorkFacts from '../components/WorkFacts.jsx';
 import { recordWorkView } from '../utils/portfolioAnalytics.js';
 
 function WorkCard({ project, featured = false }) {
+  const casePath = `/case-study/${project.id}`;
   return (
     <article className={`work-card ${featured ? 'work-feature' : 'work-secondary'}`}>
       <ProjectVisual project={project} />
@@ -14,30 +16,29 @@ function WorkCard({ project, featured = false }) {
           <span>{String(project.selection).padStart(2, '0')}</span>
           <i aria-hidden="true" />
           {featured ? 'Featured client project' : project.discipline}
-          {project.demo && <span className="work-demo-note">Demo inside</span>}
         </div>
         <h3>{project.name}</h3>
         <p>{project.summary}</p>
-        <Link
-          to={`/case-study/${project.id}`}
-          state={{ entry: 'selected_work' }}
-          className={`work-link ${featured ? 'btn-citron-pill' : 'text-link'}`}
-          aria-label={`Read the ${project.name} case study`}
-        >
-          Read case study <ArrowRight size={17} aria-hidden="true" />
-        </Link>
-        {featured && (
-          <dl className="work-facts">
-            <div>
-              <dt>My role</dt>
-              <dd>{project.role}</dd>
-            </div>
-            <div>
-              <dt>Delivery</dt>
-              <dd>{project.delivery}</dd>
-            </div>
-          </dl>
-        )}
+        <div className="work-actions">
+          <Link
+            to={casePath}
+            state={{ entry: 'selected_work' }}
+            className={`work-link ${featured ? 'btn-citron-pill' : 'text-link'}`}
+            aria-label={`Read the ${project.name} case study`}
+          >
+            Read case study <ArrowRight size={17} aria-hidden="true" />
+          </Link>
+          {project.sample && (
+            <Link
+              className="text-link work-sample"
+              to={casePath + project.sample.hash}
+              state={{ entry: 'selected_work' }}
+            >
+              {project.sample.label} <ArrowDownRight size={16} aria-hidden="true" />
+            </Link>
+          )}
+        </div>
+        {featured && <WorkFacts project={project} />}
       </div>
     </article>
   );

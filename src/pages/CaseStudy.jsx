@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLinkClickHandler, useLocation, useParams } from 'react-router-dom';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import CustomCursor from '../components/CustomCursor.jsx';
 import ProjectVisual from '../components/ProjectVisual.jsx';
+import WorkFacts from '../components/WorkFacts.jsx';
+import InquiryForm from '../components/InquiryForm.jsx';
 import CitedAnswer from '../components/CitedAnswer.jsx';
 import CaseStudyNote from '../components/CaseStudyNote.jsx';
 import ReviveTouchDemo from '../components/ReviveTouchDemo.jsx';
@@ -20,6 +22,9 @@ export default function CaseStudy() {
   const index = WORK_INDEX.findIndex((record) => record.id === id);
   const project = WORK_INDEX[index];
   const next = WORK_INDEX[(index + 1) % WORK_INDEX.length];
+  // Keep the existing /#contact handoff on a normal click. A copied link or
+  // modifier click can't carry history state, so its href carries the public slug.
+  const startSimilar = useLinkClickHandler('/#contact', { state: { briefProject: id } });
   useEffect(() => {
     if (project?.caseStudy) recordCaseView(project.id, state?.entry);
   }, [project, state?.entry]);
@@ -47,7 +52,9 @@ export default function CaseStudy() {
     ? `${fromGallery ? '/gallery' : '/work'}${archiveSearch(state.category, fromGallery ? project.id : null)}`
     : '/#projects';
   const buildNote = companionFor(`/case-study/${id}`, getAllPosts());
-  const hasDemo = project.demo === 'table-request';
+  const { sample } = project;
+  const hasBooking = sample?.kind === 'booking';
+  const citedExchange = sample?.kind === 'citation' && visual?.exchange;
   return (
     <>
       <CustomCursor />
@@ -73,25 +80,10 @@ export default function CaseStudy() {
                   {name}
                 </h1>
                 <p>{project.summary || project.description}</p>
-                {(project.role || project.delivery) && (
-                  <dl className="work-facts">
-                    {project.role && (
-                      <div>
-                        <dt>My role</dt>
-                        <dd>{project.role}</dd>
-                      </div>
-                    )}
-                    {project.delivery && (
-                      <div>
-                        <dt>Delivery</dt>
-                        <dd>{project.delivery}</dd>
-                      </div>
-                    )}
-                  </dl>
-                )}
-                {hasDemo && (
-                  <Link to="#demo" state={state} className="text-link demo-jump">
-                    Try the sample workflow <ArrowDown size={16} aria-hidden="true" />
+                <WorkFacts project={project} />
+                {hasBooking && (
+                  <Link to={{ search, hash: sample.hash }} state={state} className="text-link demo-jump">
+                    {sample.label} <ArrowDown size={16} aria-hidden="true" />
                   </Link>
                 )}
                 {(buildNote || project.live || project.github) && (
@@ -116,17 +108,17 @@ export default function CaseStudy() {
               </div>
               <div className="case-media">
                 <ProjectVisual project={project} detailed>
-                  {visual?.exchange && (
-                    <Link className="figure-trace" to={{ search, hash: '#sample-answer' }} state={state}>
+                  {citedExchange && (
+                    <Link className="figure-trace" to={{ search, hash: sample.hash }} state={state}>
                       Trace the sample citation <ArrowDown size={14} aria-hidden="true" />
                     </Link>
                   )}
                 </ProjectVisual>
               </div>
             </div>
-            {visual?.exchange && <CitedAnswer exchange={visual.exchange} />}
+            {citedExchange && <CitedAnswer exchange={citedExchange} />}
             <div className="case-result">
-              <h2 className="quiet-label">What shipped</h2>
+              <h2 className="quiet-label">{study.outcomeLabel || 'What shipped'}</h2>
               <div>
                 <p className="case-outcome">{study.outcome}</p>
                 <CaseStudyNote
@@ -135,7 +127,7 @@ export default function CaseStudy() {
                 />
               </div>
             </div>
-            {hasDemo && <ReviveTouchDemo />}
+            {hasBooking && <ReviveTouchDemo sample={sample} />}
             <div className="case-body">
               <div className="case-narrative">
                 <div>
@@ -154,10 +146,12 @@ export default function CaseStudy() {
                     ))}
                   </ol>
                 </div>
-                <div>
-                  <h2>What I’d change</h2>
-                  <p>{study.retrospective}</p>
-                </div>
+                {study.retrospective && (
+                  <div>
+                    <h2>What I’d change</h2>
+                    <p>{study.retrospective}</p>
+                  </div>
+                )}
               </div>
               <aside className="case-stack">
                 <h2 className="quiet-label">Built with</h2>
@@ -172,11 +166,23 @@ export default function CaseStudy() {
           <div className="case-handoff">
             <div>
               <div className="folio-kicker">Work with Joseph</div>
-              <h2>Have a similar project?</h2>
+              <h2 id="case-inquiry-title">Have a similar project?</h2>
             </div>
-            <Link className="btn-citron-pill" to="/#contact" state={{ briefProject: project.id }}>
-              Start a similar project <ArrowRight size={17} />
-            </Link>
+            <a
+              data-needs-js
+              className="btn-citron-pill"
+              href={`/?reference=${encodeURIComponent(project.id)}#contact`}
+              onClick={startSimilar}
+            >
+              Start a similar project <ArrowRight size={17} aria-hidden="true" />
+            </a>
+            <noscript>
+              <details className="case-native-inquiry contact-fields">
+                <summary>Start a similar project</summary>
+                <InquiryForm project={project} labelledBy="case-inquiry-title" native />
+                <a className="text-link" href="/#contact">Other contact options</a>
+              </details>
+            </noscript>
           </div>
           <Link className="next-story" to={`/case-study/${next.id}`} state={{ entry: 'next_case' }}>
             <span className="quiet-label">Next case study</span>

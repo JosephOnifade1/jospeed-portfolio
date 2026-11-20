@@ -72,6 +72,60 @@ test.describe('read and get in touch without JavaScript', () => {
     await expect(page.locator('main h1')).toHaveText('Quivellox');
   });
 
+  test('About downloads the résumé as a local PDF without leaving the portfolio', async ({ page, request }) => {
+    await page.goto('/#about');
+    const resume = page.locator('#about').getByRole('link', { name: /Download résumé.*PDF.*1 page/ });
+    const path = '/resume/joseph-onifade-resume.pdf';
+    await expect(resume).toBeVisible();
+    await expect(resume).toHaveAttribute('href', path);
+    await expect(resume).toHaveAttribute('download', '');
+    const file = await request.get(path);
+    expect(file.status()).toBe(200);
+    expect(file.headers()['content-type']).toMatch(/^application\/pdf\b/);
+    expect((await file.body()).subarray(0, 5).toString()).toBe('%PDF-');
+    const [download] = await Promise.all([page.waitForEvent('download'), resume.press('Enter')]);
+    expect(download.suggestedFilename()).toBe('joseph-onifade-resume.pdf');
+    expect(await download.failure()).toBeNull();
+    await expect(page).toHaveURL(/\/#about$/);
+  });
+
+  test('both sample links work without JS; the booking walkthrough offers a contextual native inquiry', async ({ page }) => {
+    await page.goto('/#projects');
+    await page.getByRole('link', { name: 'Check a sample citation' }).click();
+    await expect(page).toHaveURL(/\/case-study\/quivellox#sample-answer$/);
+    await expect(page.locator('#sample-question')).toBeInViewport();
+    await page.getByRole('link', { name: /View source: Security incident response/ }).click();
+    await expect(page.locator('#source-1 mark')).toContainText('15 minutes');
+    await page.goto('/#projects');
+    await page.getByRole('link', { name: 'Try a sample booking' }).click();
+    await expect(page).toHaveURL(/\/case-study\/revive-touch#demo$/);
+    const walkthrough = page.locator('#demo noscript p');
+    await expect(walkthrough).toBeVisible();
+    await expect(walkthrough).toContainText('Confirming it gives the player a 14:30 booking');
+    await expect(page.locator('#demo').getByRole('button')).toHaveCount(0);
+    const endpoint = 'https://formspree.io/f/xpwzrpdb';
+    await page.route(endpoint, (route) => route.fulfill({ contentType: 'text/html', body: 'Test receipt' }));
+    const inquiry = { name: 'Test Reader', email: 'reader@example.com', message: 'Another mobile app.' };
+    for (const include of [true, false]) {
+      if (!include) await page.goto('/case-study/revive-touch');
+      await page.getByText('Start a similar project', { exact: true }).filter({ visible: true }).click();
+      const form = page.getByRole('form', { name: 'Have a similar project?' });
+      const reference = form.getByRole('checkbox', { name: 'Include reference: Revive Touch' });
+      await expect(reference).toBeChecked();
+      if (!include) await reference.uncheck();
+      await form.getByLabel('Your name').fill(inquiry.name);
+      await form.getByLabel('Email address').fill(inquiry.email);
+      await form.getByLabel('About your project or role').fill(inquiry.message);
+      const [request] = await Promise.all([
+        page.waitForRequest(endpoint), form.getByRole('button', { name: 'Send message' }).click(),
+      ]);
+      expect(request.method()).toBe('POST');
+      expect(Object.fromEntries(new URLSearchParams(request.postData()))).toEqual(
+        include ? { ...inquiry, reference: 'Revive Touch' } : inquiry
+      );
+    }
+  });
+
   test('the native inquiry is a POST, not personal information in a URL', async ({ page }) => {
     const endpoint = 'https://formspree.io/f/xpwzrpdb';
     await page.route(endpoint, (route) =>

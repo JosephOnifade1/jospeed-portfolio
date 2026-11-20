@@ -1,34 +1,34 @@
 ---
-title: A table request in three states
-description: A player needs to know someone saw the request. Staff need to know where to go. One Table 14 ticket can answer both questions without promising the job is done.
+title: When is a massage slot actually booked?
+description: In the Revive Touch sample, choosing a time is a local decision. A confirmed booking is something both the player and the therapist can see.
 date: "2026-11-18"
 author: Joseph Onifade
 category: Product engineering
-tags: ["Mobile UX", "State machines", "React"]
+tags: ["Mobile UX", "Booking flows", "React"]
 readingTime: 2 min read
 coverImage: /projects/journal/table-ticket.jpg
 featured: false
 draft: false
 ---
 
-Imagine asking for a massage at a poker table. You tap once, the button says **Success**, and nothing else changes. Did your phone send the request? Did a member of staff see it? Should you tap again? The word is technically reassuring and practically useless.
+A player at a poker tournament wants an on-site massage. They can glance at their phone and pick 14:30. But if the interface says **Booked** the moment they touch the time, what does the therapist actually see?
 
-The Revive Touch portfolio demo lets you play both sides of that exchange. The interesting part isn't the tap. It's deciding what the interface is entitled to say *after* the tap.
+In the [Revive Touch portfolio sample](/case-study/revive-touch#demo), you can answer that question by looking at the same session from both sides. The times are fictional; you are not making an appointment.
 
-## Give each state a witness
+## Available, selected, confirmed
 
-- **Ready:** The player can request service. The staff queue is empty. There is nothing to acknowledge yet.
-- **Queued:** The player sees **Request queued**. Staff see a new ticket for a table-side massage at Table 14. The existence of that ticket is the evidence for the message on the player's side.
-- **Seen:** Staff choose **Acknowledge request**. The badge on the ticket changes from **New** to **Seen**; the player sees **Seen by staff**. Nobody has claimed that a massage has started.
+- **Available:** The therapist has an open time. The player can choose it.
+- **Selected:** The player has picked a time but has not confirmed. On the therapist’s schedule the slot is still open.
+- **Confirmed:** The player sees the booked time. That same time is marked **Booked** in the therapist’s view and can no longer be offered as an open slot.
 
-These aren't three independent switches. They are three positions along one path. If the player panel and the staff panel derive their labels from the same state, you can't accidentally show an empty queue alongside a message that says staff have seen the request.
+Selection belongs to the player. Availability belongs to the schedule. Keeping those two ideas separate lets the interface change its mind honestly when the schedule changes.
 
-## Keep the destination on the ticket
+## Try changing availability before confirmation
 
-Read the staff side without looking at the player side. After acknowledgment, could you still walk to the right table? If a green check replaces the *entire* ticket, the interface has discarded the information that makes the next step possible. Keep the table and service in place; change the badge.
+Select 14:30 as the player. Before confirming, close 14:30 in the therapist view. The player should no longer be able to book that time. Reopen it, select it again and confirm. Compare the time on the player’s confirmation with the one marked **Booked** on the schedule.
 
-## Try the awkward second tap
+That comparison is more useful than a generic success message: it tells the player which session they have and the therapist which time is taken. Reset the sample to start again.
 
-[Open the Table 14 demo](/case-study/revive-touch#demo). Request service twice before you acknowledge it. There should be one ticket, not two. Now acknowledge it twice. The second tap shouldn't imply a second visit. Reset the demo and check that the queue is empty again.
+## What the sample does not prove
 
-This is an in-memory example, not a test of a live network. For a connected app, I'd give each request a stable ID and have the server recognize a retry of that ID. Disabling a button helps on one phone; it doesn't tell a server what to do when the same request arrives twice.
+Both panels in this portfolio read from one in-memory schedule. The real mobile app uses React Native with Expo, TypeScript and a Convex backend. The sample explains the interaction; it is not a test of two phones booking at once, a live therapist calendar, or evidence that a session took place.

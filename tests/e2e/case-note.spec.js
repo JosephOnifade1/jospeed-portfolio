@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import CaseStudyNote from '../../src/components/CaseStudyNote.jsx';
 import { mockExternalServices } from './support/network.js';
 
-test('the Revive Touch note sits beneath the outcome and leads into the table request', async ({
+test('the Revive Touch note sits beneath the outcome and leads into the booking sample', async ({
   page,
   baseURL,
 }) => {
@@ -14,7 +14,7 @@ test('the Revive Touch note sits beneath the outcome and leads into the table re
   await expect(note.getByRole('heading')).toBeFocused();
   await expect(note).toBeInViewport({ ratio: 1 });
   await page.keyboard.press('Tab');
-  await expect(page.getByRole('button', { name: 'Request service at Table 14' })).toBeFocused();
+  await expect(page.getByRole('radio', { name: /^14:00/ })).toBeFocused();
   await page.getByRole('link', { name: /Next case study Quivellox/ }).click();
   await expect(page.locator('#case-title')).toHaveText('Quivellox');
   await expect(page.locator('#project-note')).toHaveCount(0);

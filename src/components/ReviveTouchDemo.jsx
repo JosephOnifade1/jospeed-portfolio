@@ -1,108 +1,152 @@
-import { useRef, useState } from 'react';
-import { ArrowRight, Check, Inbox, ListOrdered, RotateCcw, Smartphone } from 'lucide-react';
-import '../styles/request-demo.css';
+import { useReducer, useRef } from 'react';
+import { ArrowRight, CalendarDays, Check, RotateCcw, Smartphone } from 'lucide-react';
+import '../styles/booking-demo.css';
 
-// An illustrative, in-memory handoff. No client accounts, real requests or persistence.
-export default function ReviveTouchDemo() {
-  const [stage, setStage] = useState('ready');
-  const requestButton = useRef(null);
-  const queued = stage !== 'ready';
-  const seen = stage === 'seen';
+// Both views read one fictional schedule. Nothing is persisted or sent to Convex.
+const initial = { selected: null, booked: null, closed: [], notice: 'Choose an open time to get started.' };
+function update(schedule, { type, time }) {
+  const { selected, booked, closed } = schedule;
+  switch (type) {
+    case 'select':
+      if (booked || closed.includes(time)) return schedule;
+      return { ...schedule, selected: time, notice: `${time} selected. Confirm to book this session.` };
+    case 'confirm':
+      if (!selected || booked || closed.includes(selected)) return schedule;
+      return {
+        ...schedule,
+        booked: selected,
+        selected: null,
+        notice: `${selected} confirmed. The booking is on the therapist’s schedule.`,
+      };
+    case 'toggle': {
+      if (time === booked) return schedule;
+      const reopening = closed.includes(time);
+      return {
+        ...schedule,
+        closed: reopening ? closed.filter((t) => t !== time) : [...closed, time],
+        selected: selected === time ? null : selected,
+        notice: reopening ? `${time} is open again.` : `${time} is closed and cannot be booked.`,
+      };
+    }
+    case 'reset':
+      return initial;
+    default:
+      return schedule;
+  }
+}
+
+export default function ReviveTouchDemo({ sample }) {
+  const { service, times, exampleTime } = sample;
+  const [schedule, dispatch] = useReducer(update, initial);
+  const { selected, booked, closed, notice } = schedule;
+  const title = useRef(null);
 
   function reset() {
-    setStage('ready');
-    requestButton.current?.focus({ preventScroll: true });
+    dispatch({ type: 'reset' });
+    title.current?.focus({ preventScroll: true });
   }
 
   return (
-    <section className="request-demo" id="demo" aria-labelledby="demo-title">
-      <div className="folio-kicker">Interactive demo / Sample workflow</div>
-      <h2 className="support-title" id="demo-title" data-section-title tabIndex={-1}>
-        Try a table request.
+    <section className="booking-demo" id="demo" aria-labelledby="demo-title">
+      <div className="folio-kicker">Revive Touch / Interactive sample</div>
+      <h2 ref={title} id="demo-title" className="support-title" data-section-title tabIndex={-1}>
+        Try a sample booking.
       </h2>
-      <p data-needs-js className="demo-intro">
-        Play both sides: send a table-side massage request, then acknowledge it as event staff.
+      <p className="demo-intro">
+        Choose a massage time as a player, then check the therapist’s schedule. The times are fictional;
+        no real booking is made.
       </p>
       <noscript>
         <p className="demo-intro">
-          In the sample workflow, a player sends a massage request from Table 14. It appears as New in the
-          staff queue, then changes to Seen when staff acknowledge it. Enable JavaScript to try both sides.
+          For example, selecting {exampleTime} leaves the slot open. Confirming it gives the player a{' '}
+          {exampleTime} booking and marks that time as booked for the therapist. Enable JavaScript to try both views.
         </p>
       </noscript>
-      <div data-needs-js className="demo-board">
-        <div className="demo-player" role="group" aria-label="Player view">
-          <div className="demo-panel-heading">
-            <Smartphone size={16} aria-hidden="true" /> Player view
-          </div>
-          <div className="demo-seat">
-            <span>Table</span> 14
-          </div>
-          <p>Table-side massage</p>
+      <div data-needs-js className="booking-board">
+        <div className="booking-player" role="group" aria-label="Player view">
+          <div className="booking-kicker"><Smartphone size={16} aria-hidden="true" /> Player view</div>
+          <h3>{service}</h3>
+          {booked ? (
+            <div className="booking-receipt">
+              <span>Session booked</span>
+              <strong>{booked}</strong>
+              <span>Sample tournament · {service}</span>
+            </div>
+          ) : (
+            <fieldset className="booking-choices">
+              <legend>
+                {closed.length === times.length
+                  ? 'No times open — reopen a slot in the therapist view'
+                  : 'Choose a start time'}
+              </legend>
+              {times.map((time) => (
+                <label key={time}>
+                  <input
+                    type="radio"
+                    name="sample-time"
+                    value={time}
+                    checked={selected === time}
+                    disabled={closed.includes(time)}
+                    onChange={() => dispatch({ type: 'select', time })}
+                  />
+                  <span>
+                    {time}
+                    <small>{closed.includes(time) ? 'Closed' : selected === time ? 'Selected' : 'Open'}</small>
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+          )}
           <button
             type="button"
-            ref={requestButton}
-            className="demo-send"
-            aria-disabled={queued}
-            aria-controls="demo-queue"
-            onClick={() => {
-              if (!queued) setStage('queued');
-            }}
+            className="booking-confirm"
+            disabled={!selected && !booked}
+            aria-disabled={booked ? true : undefined}
+            aria-controls="therapist-schedule"
+            onClick={() => dispatch({ type: 'confirm' })}
           >
-            {queued ? (
-              <>
-                <Check size={16} aria-hidden="true" /> {seen ? 'Seen by staff' : 'Request queued'}
-              </>
+            {booked ? (
+              <><Check size={16} aria-hidden="true" /> Booking confirmed</>
             ) : (
-              <>
-                Request service at Table 14 <ArrowRight size={16} aria-hidden="true" />
-              </>
+              <>Confirm booking <ArrowRight size={16} aria-hidden="true" /></>
             )}
           </button>
         </div>
-        <div className="demo-staff" id="demo-queue" role="group" aria-label="Staff queue">
-          <div className="demo-panel-heading">
-            <ListOrdered size={17} aria-hidden="true" /> Staff queue <span>{queued ? '01' : '00'}</span>
-          </div>
-          {queued ? (
-            <div className="demo-ticket">
-              <div className="demo-ticket-top">
-                <span>Request / 001</span>
-                <b>{seen ? 'Seen' : 'New'}</b>
-              </div>
-              <strong>Table 14</strong>
-              <p>Table-side massage</p>
-              <button
-                type="button"
-                aria-disabled={seen}
-                onClick={() => {
-                  if (!seen) setStage('seen');
-                }}
-              >
-                <Check size={15} aria-hidden="true" /> {seen ? 'Acknowledged' : 'Acknowledge request'}
-              </button>
-            </div>
-          ) : (
-            <div className="demo-empty">
-              <Inbox size={24} aria-hidden="true" />
-              <strong>Queue is empty</strong>
-              <p>Your sample ticket will appear here.</p>
-            </div>
-          )}
+        <div className="booking-schedule" role="group" aria-label="Therapist view">
+          <div className="booking-kicker"><CalendarDays size={16} aria-hidden="true" /> Therapist view</div>
+          <h3>Session schedule</h3>
+          <p>Close or reopen an unbooked time.</p>
+          <ul id="therapist-schedule" aria-label="Sample session times">
+            {times.map((time) => {
+              const status = booked === time ? 'Booked' : closed.includes(time) ? 'Closed' : 'Open';
+              const action = status === 'Closed' ? 'Reopen' : 'Close';
+              return (
+                <li key={time}>
+                  <strong>{time}</strong>
+                  <span className={`slot-status is-${status.toLowerCase()}`}>{status}</span>
+                  {status === 'Booked' ? (
+                    <span className="slot-service"><Check size={14} aria-hidden="true" /> {service}</span>
+                  ) : (
+                    <button
+                      type="button"
+                      aria-label={`${action} ${time} slot`}
+                      onClick={() => dispatch({ type: 'toggle', time })}
+                    >
+                      {action}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
-      <div data-needs-js className="demo-foot">
-        <p>Sample data only. No real service request is sent.</p>
-        <button type="button" onClick={reset} disabled={!queued}>
+      <div data-needs-js className="booking-foot">
+        <p role="status" aria-atomic="true">{notice}</p>
+        <button type="button" disabled={schedule === initial} onClick={reset}>
           <RotateCcw size={14} aria-hidden="true" /> Reset demo
         </button>
       </div>
-      <p data-needs-js className="demo-announcement" role="status" aria-atomic="true">
-        {seen
-          ? 'Staff acknowledged the request from Table 14.'
-          : queued
-            ? 'New request from Table 14 added to the staff queue.'
-            : 'The sample staff queue is empty.'}
-      </p>
     </section>
   );
 }
