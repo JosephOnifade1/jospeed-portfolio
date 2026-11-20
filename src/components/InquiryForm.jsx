@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, CheckCircle2, X } from 'lucide-react';
 import { recordInquiry } from '../utils/portfolioAnalytics.js';
 
-const CONTACT_ENDPOINT = 'https://formspree.io/f/xpwzrpdb';
+const CONTACT_ENDPOINT = 'https://formspree.io/f/xwloqglp';
 
 // The same named controls feed the enhanced JSON request and the native POST.
 export default function InquiryForm({ project, labelledBy, native = false, onNoteChange }) {
