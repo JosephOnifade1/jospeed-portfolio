@@ -92,11 +92,23 @@
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 8px;
   min-height: 44px;
   color: var(--paper);
-  font: 700 20px/1 var(--font-ui);
-  letter-spacing: -0.05em;
+}
+.brand-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font: 700 1.625rem/1 var(--font-ui);
+  letter-spacing: -0.045em;
+}
+/* The mark is the first two letters, not a badge. Size its ink to the
+   font's capitals and let the round O sit just below the baseline. */
+.brand-wordmark img {
+  width: auto;
+  height: 0.75em;
+  height: 1.04cap;
+  transform: translateY(0.02em);
 }
 .mast-nav {
   display: flex;
